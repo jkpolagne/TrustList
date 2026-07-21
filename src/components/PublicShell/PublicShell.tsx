@@ -1,6 +1,7 @@
 import { ShieldCheck } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { APP_NAME } from "../../config";
+import { useCompare } from "../../context/CompareContext";
 import "./PublicShell.css";
 
 interface PublicNavItem {
@@ -11,10 +12,13 @@ interface PublicNavItem {
 
 const PUBLIC_NAV_ITEMS: PublicNavItem[] = [
   { label: "Browse Listings", path: "/" },
+  { label: "Loan Calculator", path: "/loan-calculator" },
   { label: "Sell Your Property", path: "/sell", comingSoon: true },
 ];
 
 export function PublicShell() {
+  const { compareIds } = useCompare();
+
   return (
     <div className="public-shell">
       <header className="public-shell__topnav">
@@ -46,6 +50,17 @@ export function PublicShell() {
               </NavLink>
             ),
           )}
+          {compareIds.length > 0 ? (
+            <NavLink
+              to="/compare"
+              className={({ isActive }) =>
+                `public-shell__nav-item${isActive ? " public-shell__nav-item--active" : ""}`
+              }
+            >
+              Compare
+              <span className="public-shell__compare-count">{compareIds.length}</span>
+            </NavLink>
+          ) : null}
         </nav>
 
         <NavLink to="/login" className="public-shell__login-link">

@@ -27,6 +27,7 @@ export interface Developer {
 export type ListingSource = "Developer" | "Individual Seller";
 export type VerificationStatus = "Pending Review" | "Verified" | "Rejected";
 export type PropertyStatus = "Available" | "Reserved" | "Sold";
+export type PropertyType = "Lot Only" | "House" | "Townhouse" | "Condominium";
 
 export interface Coordinates {
   lat: number;
@@ -38,6 +39,7 @@ export interface Property {
   companyId: string;
   developerId?: string;
   title: string;
+  propertyType: PropertyType;
   city: string;
   address: string;
   price: number;
@@ -52,6 +54,8 @@ export interface Property {
   verificationDocuments?: string[];
   description: string;
   coordinates: Coordinates;
+  turnover: string;
+  features: string[];
 }
 
 export type PrcLicenseStatus = "Verified" | "Pending" | "Unverified";
@@ -116,4 +120,32 @@ export interface Session {
   firmId?: string;
   consultantId?: string;
   displayName: string;
+}
+
+export interface LoanQuotation {
+  id: string;
+  developerId: string;
+  propertyId: string;
+  bankName: string;
+  listPrice: number;
+  downpaymentPercent: number;
+  downpaymentAmount: number;
+  loanableAmount: number;
+  interestRatePercent: number;
+  termYears: number;
+  monthlyAmortization: number;
+  miscFeesTotal: number;
+  totalContractPrice: number;
+}
+
+export interface VisitRequest {
+  id: string;
+  propertyId: string;
+  name: string;
+  email: string;
+  phone: string;
+  preferredDate: string;
+  preferredTime: string;
+  notes?: string;
+  submittedAt: string;
 }

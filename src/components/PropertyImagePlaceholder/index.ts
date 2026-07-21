@@ -1,0 +1,1 @@
+export { PropertyImagePlaceholder } from "./PropertyImagePlaceholder";

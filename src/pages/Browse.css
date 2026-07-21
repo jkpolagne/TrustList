@@ -1,0 +1,230 @@
+.browse-page__intro {
+  margin-bottom: 20px;
+}
+
+.browse-page--tray-visible {
+  padding-bottom: 56px;
+}
+
+.browse-page__intro h1 {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.browse-page__intro p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.browse-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.browse-layout--panel-open {
+  grid-template-columns: 1fr minmax(280px, 30%);
+}
+
+.browse-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.browse-filters-toggle {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.browse-filters-toggle__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-gold);
+}
+
+.browse-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.browse-filters {
+  flex: none;
+  width: 236px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+}
+
+.browse-filters__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.browse-filters__field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.browse-filters__field input,
+.browse-filters__field select {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  width: 100%;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.browse-filters__search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 10px;
+}
+
+.browse-filters__search svg {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
+.browse-filters__search input {
+  border: none;
+  padding: 8px 0;
+  flex: 1;
+  background: transparent;
+}
+
+.browse-filters__range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.browse-filters__range input {
+  width: 0;
+  flex: 1;
+}
+
+.browse-filters__clear {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.browse-filters__clear:hover {
+  color: var(--color-ink);
+}
+
+.browse-map {
+  flex: 1;
+  min-width: 0;
+  height: 420px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.browse-grid-section h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.browse-compare-tray {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-ink);
+  color: var(--color-text-on-ink);
+  padding: 10px 10px 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(16, 35, 63, 0.3);
+  z-index: 50;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.browse-compare-tray button {
+  background: var(--color-gold);
+  color: var(--color-ink);
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.browse-compare-tray button:hover {
+  background: var(--color-gold-hover);
+}
+
+@media (max-width: 860px) {
+  .browse-filters-toggle {
+    display: flex;
+  }
+
+  .browse-top {
+    flex-direction: column;
+  }
+
+  .browse-filters {
+    display: none;
+    width: 100%;
+  }
+
+  .browse-filters--open {
+    display: flex;
+  }
+
+  .browse-map {
+    height: 260px;
+    width: 100%;
+  }
+
+  .browse-layout--panel-open {
+    grid-template-columns: 1fr;
+  }
+}

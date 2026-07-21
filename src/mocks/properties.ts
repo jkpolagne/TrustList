@@ -6,6 +6,7 @@ export const properties: Property[] = [
     companyId: "firm-advench",
     developerId: "dev-goldenhorizon",
     title: "Lot 14, Greenview Estates",
+    propertyType: "Lot Only",
     city: "Pili",
     address: "Greenview Estates, Brgy. San Jose, Pili, Camarines Sur",
     price: 1500000,
@@ -16,12 +17,15 @@ export const properties: Property[] = [
     description:
       "A residential lot inside the gated Greenview Estates subdivision, a short drive from the Pili town center and the Bicol International Airport access road.",
     coordinates: { lat: 13.571, lng: 123.2801 },
+    turnover: "Titled, ready for construction",
+    features: ["Gated subdivision", "Concrete road access", "Near Pili town proper", "Titled lot"],
   },
   {
     id: "prop-riverside-4b",
     companyId: "firm-advench",
     developerId: "dev-goldenhorizon",
     title: "Unit 4B, Riverside Homes",
+    propertyType: "Townhouse",
     city: "Naga City",
     address: "Riverside Homes, Brgy. Triangulo, Naga City",
     price: 2300000,
@@ -35,11 +39,14 @@ export const properties: Property[] = [
     description:
       "A 3-bedroom townhouse unit in a riverside subdivision minutes from the Naga City Centrale Mall and Ateneo de Naga University.",
     coordinates: { lat: 13.6252, lng: 123.1912 },
+    turnover: "Ready for occupancy",
+    features: ["Covered carport", "2-storey layout", "Near Centrale Mall", "Perimeter fence"],
   },
   {
     id: "prop-casateresa",
     companyId: "firm-advench",
     title: "Casa Teresa Duplex",
+    propertyType: "House",
     city: "Naga City",
     address: "Brgy. Concepcion Pequeña, Naga City",
     price: 3200000,
@@ -58,12 +65,15 @@ export const properties: Property[] = [
     description:
       "A privately-owned duplex near the Naga City public market, sold directly by the titled owner. Ownership documents have been verified by Advench Realty.",
     coordinates: { lat: 13.6142, lng: 123.1866 },
+    turnover: "Ready for occupancy",
+    features: ["Duplex, dual entry", "Near public market", "Covered parking (2 cars)", "Own water pump"],
   },
   {
     id: "prop-sunrise-b7",
     companyId: "firm-bicolhomes",
     developerId: "dev-meridian",
     title: "Sunrise Townhomes Block 7",
+    propertyType: "Townhouse",
     city: "Pili",
     address: "Sunrise Townhomes, Brgy. Sta. Cruz Norte, Pili, Camarines Sur",
     price: 1850000,
@@ -77,11 +87,14 @@ export const properties: Property[] = [
     description:
       "A newly-built townhouse in Pili's growing Sunrise development, close to the Capitol Complex and provincial hospital.",
     coordinates: { lat: 13.5589, lng: 123.2732 },
+    turnover: "Pre-selling — turnover Q4 2026",
+    features: ["Near Capitol Complex", "Near provincial hospital", "Clubhouse access", "Gated subdivision"],
   },
   {
     id: "prop-emerald-lot22",
     companyId: "firm-bicolhomes",
     title: "Lot 22, Emerald Ridge",
+    propertyType: "Lot Only",
     city: "Naga City",
     address: "Emerald Ridge, Brgy. Pacol, Naga City",
     price: 980000,
@@ -94,12 +107,15 @@ export const properties: Property[] = [
     description:
       "An elevated residential lot listed directly by the owner. Ownership documents are currently under review by Bicol Homes Realty.",
     coordinates: { lat: 13.6486, lng: 123.2153 },
+    turnover: "Titled, ready for construction",
+    features: ["Elevated lot", "Mountain view", "Quiet residential street"],
   },
   {
     id: "prop-villacorazon",
     companyId: "firm-coastline",
     developerId: "dev-everstone",
     title: "Villa Corazon",
+    propertyType: "House",
     city: "Legazpi City",
     address: "Brgy. Bogtong, Legazpi City",
     price: 4500000,
@@ -113,12 +129,15 @@ export const properties: Property[] = [
     description:
       "A spacious single-detached home with a view of Mayon Volcano, part of the Everstone Bay master-planned community.",
     coordinates: { lat: 13.1204, lng: 123.7301 },
+    turnover: "Pre-selling — turnover Q2 2027",
+    features: ["Mayon Volcano view", "Single-detached", "Master-planned community", "2-car garage"],
   },
   {
     id: "prop-palm-12a",
     companyId: "firm-coastline",
     developerId: "dev-everstone",
     title: "Unit 12A, Palm Residences",
+    propertyType: "Condominium",
     city: "Legazpi City",
     address: "Palm Residences, Brgy. Rawis, Legazpi City",
     price: 1650000,
@@ -132,12 +151,15 @@ export const properties: Property[] = [
     description:
       "A compact 2-bedroom unit near the Legazpi Port area, ideal for young families and first-time homeowners.",
     coordinates: { lat: 13.1548, lng: 123.7513 },
+    turnover: "Ready for occupancy",
+    features: ["Near Legazpi Port", "Balcony", "Shared amenities", "24-hour security"],
   },
   {
     id: "prop-hillside-lot5",
     companyId: "firm-advench",
     developerId: "dev-goldenhorizon",
     title: "Lot 5, Hillside Meadows",
+    propertyType: "Lot Only",
     city: "Pili",
     address: "Hillside Meadows, Brgy. Cadlan, Pili, Camarines Sur",
     price: 750000,
@@ -148,5 +170,7 @@ export const properties: Property[] = [
     description:
       "A hillside residential lot with a north-facing view of the Pili valley, fully paid and turned over.",
     coordinates: { lat: 13.5432, lng: 123.2894 },
+    turnover: "Turned over",
+    features: ["Hillside view", "North-facing", "Titled lot"],
   },
 ];

@@ -13,3 +13,7 @@ export function getConsultantsByFirm(companyId: string): Promise<Consultant[]> {
 export function getConsultantById(id: string): Promise<Consultant | undefined> {
   return withDelay(consultants.find((c) => c.id === id));
 }
+
+export function getConsultantByLinkCode(linkCode: string): Promise<Consultant | undefined> {
+  return withDelay(consultants.find((c) => c.linkCode === linkCode));
+}
