@@ -9,6 +9,7 @@ import {
   Home,
   Inbox,
   LayoutDashboard,
+  Link2,
   ShieldQuestion,
   UserCheck,
   Users,
@@ -36,7 +37,8 @@ export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
     { label: "Properties", icon: Home, path: "/app/properties" },
     { label: "Loan Quotations", icon: Calculator, path: "/app/loan-quotations" },
     { label: "Visit Schedules", icon: CalendarClock, path: "/app/visits" },
-    { label: "Consultants", icon: Users, path: "/app/consultants", comingSoon: true },
+    { label: "Consultants", icon: Users, path: "/app/consultants" },
+    { label: "Consultant Links", icon: Link2, path: "/app/consultant-links" },
     { label: "Seller Inquiries", icon: Inbox, path: "/app/seller-inquiries" },
     {
       label: "Listing Verification",

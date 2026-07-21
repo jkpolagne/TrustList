@@ -104,16 +104,28 @@ export interface Property {
 
 export type PrcLicenseStatus = "Verified" | "Pending" | "Unverified";
 export type ConsultantRole = "Broker" | "Sales Manager" | "Sales Person";
+export type ConsultantAccountStatus = "Active" | "Inactive";
+export type ConsultantLinkStatus = "Active" | "Inactive";
 
 export interface Consultant {
   id: string;
   companyId: string;
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  /** Derived from first/middle/last on every create or edit — kept so existing display code stays simple. */
   name: string;
   role: ConsultantRole;
+  /** Broker id (for Sales Manager) or Sales Manager id (for Sales Person). Never set for Broker. */
   reportsTo?: string;
   prcLicenseNumber: string;
   prcLicenseStatus: PrcLicenseStatus;
+  /** Mock only — a real backend would never store this in plain text. */
+  password: string;
+  accountStatus: ConsultantAccountStatus;
+  /** Set only for Sales Manager / Sales Person — Brokers never get a consultant link. */
   linkCode?: string;
+  linkStatus?: ConsultantLinkStatus;
   email: string;
   phone: string;
 }
@@ -198,6 +210,8 @@ export interface VisitRequest {
   notes?: string;
   status: VisitRequestStatus;
   submittedAt: string;
+  /** The consultant whose link this session was attributed to, if any. */
+  consultantId?: string;
 }
 
 export type SellerPropertyType = "House and Lot" | "Lot Only";

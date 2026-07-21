@@ -4,9 +4,12 @@ import { AppShell } from "./components/AppShell";
 import { PublicShell } from "./components/PublicShell";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CompareProvider } from "./context/CompareContext";
+import { ReferralProvider } from "./context/ReferralContext";
 import type { InternalRole } from "./types";
 import { Browse } from "./pages/Browse";
 import { Compare } from "./pages/Compare";
+import { ConsultantAccounts } from "./pages/ConsultantAccounts";
+import { ConsultantLinks } from "./pages/ConsultantLinks";
 import { Dashboard } from "./pages/Dashboard";
 import { Firms } from "./pages/Firms";
 import { ListingVerification } from "./pages/ListingVerification";
@@ -110,6 +113,22 @@ function AppRoutes() {
           }
         />
         <Route
+          path="consultants"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ConsultantAccounts />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="consultant-links"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ConsultantLinks />
+            </RequireRole>
+          }
+        />
+        <Route
           path="seller-inquiries"
           element={
             <RequireRole roles={["Company Admin"]}>
@@ -144,7 +163,9 @@ function App() {
   return (
     <AuthProvider>
       <CompareProvider>
-        <AppRoutes />
+        <ReferralProvider>
+          <AppRoutes />
+        </ReferralProvider>
       </CompareProvider>
     </AuthProvider>
   );

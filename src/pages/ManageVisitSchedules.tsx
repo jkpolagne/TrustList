@@ -3,8 +3,13 @@ import { useEffect, useMemo, useState } from "react";
 import { EmptyState } from "../components/EmptyState";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
-import { getPropertiesByFirm, getVisitRequestsByFirm, updateVisitRequestStatus } from "../services";
-import type { Property, VisitRequest, VisitRequestStatus } from "../types";
+import {
+  getConsultantsByFirm,
+  getPropertiesByFirm,
+  getVisitRequestsByFirm,
+  updateVisitRequestStatus,
+} from "../services";
+import type { Consultant, Property, VisitRequest, VisitRequestStatus } from "../types";
 import "./ManageVisitSchedules.css";
 
 function formatDate(value: string): string {
@@ -19,28 +24,33 @@ export function ManageVisitSchedules() {
   const { session } = useAuth();
   const [visits, setVisits] = useState<VisitRequest[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
+  const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<"All" | VisitRequestStatus>("All");
   const [busyId, setBusyId] = useState<string | null>(null);
 
   function reload() {
     if (!session?.firmId) return;
-    Promise.all([getVisitRequestsByFirm(session.firmId), getPropertiesByFirm(session.firmId)]).then(
-      ([visitsData, propertiesData]) => {
-        setVisits(
-          [...visitsData].sort(
-            (a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime(),
-          ),
-        );
-        setProperties(propertiesData);
-        setLoading(false);
-      },
-    );
+    Promise.all([
+      getVisitRequestsByFirm(session.firmId),
+      getPropertiesByFirm(session.firmId),
+      getConsultantsByFirm(session.firmId),
+    ]).then(([visitsData, propertiesData, consultantsData]) => {
+      setVisits(
+        [...visitsData].sort(
+          (a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime(),
+        ),
+      );
+      setProperties(propertiesData);
+      setConsultants(consultantsData);
+      setLoading(false);
+    });
   }
 
   useEffect(reload, [session?.firmId]);
 
   const propertiesById = useMemo(() => new Map(properties.map((p) => [p.id, p])), [properties]);
+  const consultantsById = useMemo(() => new Map(consultants.map((c) => [c.id, c])), [consultants]);
 
   const filtered = useMemo(
     () => visits.filter((v) => statusFilter === "All" || v.status === statusFilter),
@@ -87,6 +97,7 @@ export function ManageVisitSchedules() {
                 <th>Requester</th>
                 <th>Property</th>
                 <th>Preferred Visit</th>
+                <th>Referred By</th>
                 <th>Status</th>
                 <th />
               </tr>
@@ -104,6 +115,13 @@ export function ManageVisitSchedules() {
                   <td>{propertiesById.get(visit.propertyId)?.title ?? visit.propertyId}</td>
                   <td>
                     {formatDate(visit.preferredDate)} · {visit.preferredTime}
+                  </td>
+                  <td>
+                    {visit.consultantId ? (
+                      (consultantsById.get(visit.consultantId)?.name ?? "—")
+                    ) : (
+                      <span className="manage-visits-page__no-referral">Direct</span>
+                    )}
                   </td>
                   <td>
                     <span

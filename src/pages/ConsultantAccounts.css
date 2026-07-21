@@ -1,0 +1,117 @@
+.consultant-accounts-page__header {
+  margin-bottom: 18px;
+}
+
+.consultant-accounts-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.consultant-accounts-page__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.consultant-accounts-page__prc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.consultant-accounts-page__edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.consultant-accounts-page__edit:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* Rate/role sections need to read as distinct groups, same convention as
+   the Manage Developers form. */
+.admin-form__section--credentials {
+  border-left: 3px solid var(--color-ink);
+}
+
+.admin-form__section--role {
+  border-left: 3px solid var(--color-gold);
+}
+
+.consultant-accounts-page__link-success {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.consultant-accounts-page__link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--color-green-bg);
+  color: var(--color-green);
+}
+
+.consultant-accounts-page__link-success h3 {
+  font-size: 16px;
+}
+
+.consultant-accounts-page__link-success p {
+  font-size: 13.5px;
+  color: var(--color-text);
+  max-width: 440px;
+}
+
+.consultant-accounts-page__link-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+
+.consultant-accounts-page__link-row code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--color-ink);
+}
+
+.consultant-accounts-page__link-row button {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.consultant-accounts-page__link-row button:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}

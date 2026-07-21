@@ -67,3 +67,7 @@
   opacity: 0.5;
   cursor: default;
 }
+
+.manage-visits-page__no-referral {
+  color: var(--color-text-muted);
+}

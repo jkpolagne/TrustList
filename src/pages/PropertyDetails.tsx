@@ -10,7 +10,7 @@ import {
   SearchX,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConsultantCard } from "../components/ConsultantCard";
 import { EmptyState } from "../components/EmptyState";
 import { PropertyCard } from "../components/PropertyCard";
@@ -18,14 +18,14 @@ import { PropertyImagePlaceholder } from "../components/PropertyImagePlaceholder
 import { PropertyMap } from "../components/PropertyMap";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
+import { useReferral } from "../context/ReferralContext";
 import {
-  getConsultantByLinkCode,
   getDeveloperById,
   getFirmById,
   getPublicPropertyById,
   getPublicProperties,
 } from "../services";
-import type { Consultant, Developer, Firm, Property } from "../types";
+import type { Developer, Firm, Property } from "../types";
 import { formatPHP } from "../utils/finance";
 import "./PropertyDetails.css";
 
@@ -34,13 +34,11 @@ const GALLERY_SLOTS = 4;
 export function PropertyDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const ref = searchParams.get("ref");
+  const { consultant } = useReferral();
 
   const [property, setProperty] = useState<Property | null | undefined>(undefined);
   const [firm, setFirm] = useState<Firm | undefined>();
   const [developer, setDeveloper] = useState<Developer | undefined>();
-  const [consultant, setConsultant] = useState<Consultant | undefined>();
   const [similar, setSimilar] = useState<Property[]>([]);
   const [activePhoto, setActivePhoto] = useState(0);
 
@@ -64,14 +62,6 @@ export function PropertyDetails() {
       });
     });
   }, [id]);
-
-  useEffect(() => {
-    if (!ref) {
-      setConsultant(undefined);
-      return;
-    }
-    getConsultantByLinkCode(ref).then(setConsultant);
-  }, [ref]);
 
   const showConsultantCard = useMemo(
     () => Boolean(consultant && property && consultant.companyId === property.companyId),

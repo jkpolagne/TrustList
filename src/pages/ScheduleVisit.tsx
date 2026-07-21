@@ -3,12 +3,14 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
 import { Skeleton } from "../components/Skeleton";
+import { useReferral } from "../context/ReferralContext";
 import { getFirmById, getPublicPropertyById, submitVisitRequest } from "../services";
 import type { Firm, Property } from "../types";
 import "./ScheduleVisit.css";
 
 export function ScheduleVisit() {
   const { id } = useParams<{ id: string }>();
+  const { consultant } = useReferral();
   const [property, setProperty] = useState<Property | null | undefined>(undefined);
   const [firm, setFirm] = useState<Firm | undefined>();
 
@@ -42,6 +44,10 @@ export function ScheduleVisit() {
       preferredDate,
       preferredTime,
       notes: notes || undefined,
+      consultantId:
+        consultant && property && consultant.companyId === property.companyId
+          ? consultant.id
+          : undefined,
     });
     setSubmitting(false);
     setSubmitted(true);
