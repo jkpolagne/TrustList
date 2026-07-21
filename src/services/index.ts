@@ -7,3 +7,5 @@ export * from "./authService";
 export * from "./loanQuotationService";
 export * from "./visitService";
 export * from "./sellerInquiryService";
+export * from "./companyAdminService";
+export * from "./platformLogService";

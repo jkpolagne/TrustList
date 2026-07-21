@@ -106,9 +106,30 @@ export function createListingFromInquiry(
     coordinates: CITY_COORDINATES[draft.city] ?? CITY_COORDINATES["Naga City"],
     turnover: draft.propertyType === "Lot Only" ? "Titled, ready for construction" : "Ready for occupancy",
     features: [],
+    images: [],
   };
   properties.push(property);
   persist();
+  return withDelay(property);
+}
+
+/** General create/edit for Manage Properties — covers both Developer and Individual Seller sources. */
+export function createProperty(input: Omit<Property, "id">): Promise<Property> {
+  const property: Property = { ...input, id: `prop-${Date.now()}` };
+  properties.push(property);
+  persist();
+  return withDelay(property);
+}
+
+export function updateProperty(
+  id: string,
+  input: Omit<Property, "id" | "companyId">,
+): Promise<Property | undefined> {
+  const property = properties.find((p) => p.id === id);
+  if (property) {
+    Object.assign(property, input);
+    persist();
+  }
   return withDelay(property);
 }
 

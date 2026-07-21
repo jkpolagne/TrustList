@@ -183,3 +183,11 @@
 .loan-calculator__breakdown tr:last-child td {
   border-bottom: none;
 }
+
+.loan-calculator__breakdown-note {
+  width: auto;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: 12.5px;
+}

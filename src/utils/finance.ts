@@ -1,12 +1,11 @@
 export function computeMonthlyAmortization(
   principal: number,
   annualRatePercent: number,
-  termYears: number,
+  termMonths: number,
 ): number {
   const monthlyRate = annualRatePercent / 100 / 12;
-  const totalMonths = termYears * 12;
-  if (monthlyRate === 0) return principal / totalMonths;
-  return (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -totalMonths));
+  if (monthlyRate === 0) return principal / termMonths;
+  return (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -termMonths));
 }
 
 export function formatPHP(amount: number): string {

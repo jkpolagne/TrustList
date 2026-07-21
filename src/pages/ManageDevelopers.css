@@ -1,0 +1,46 @@
+.manage-developers-page__header {
+  margin-bottom: 18px;
+}
+
+.manage-developers-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.manage-developers-page__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.manage-developers-page__edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.manage-developers-page__edit:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* Rate sections need to read as visually distinct groups — this is where the
+   core per-developer commission business rule lives. */
+.admin-form__section--direct {
+  border-left: 3px solid var(--color-gold);
+}
+
+.admin-form__section--referred {
+  border-left: 3px solid var(--color-ink);
+}
+
+.admin-form__section--milestone {
+  border-left: 3px solid var(--color-amber);
+}

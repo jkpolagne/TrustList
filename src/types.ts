@@ -2,10 +2,37 @@ export type FirmStatus = "Active" | "Suspended";
 
 export interface Firm {
   id: string;
+  code: string;
   name: string;
   city: string;
+  address: string;
+  email: string;
+  contactNumber: string;
   isPrimary?: boolean;
   status: FirmStatus;
+}
+
+export interface CompanyAdminAccount {
+  id: string;
+  firmId: string;
+  name: string;
+  email: string;
+  /** Mock only — a real backend would never store this in plain text. */
+  temporaryPassword: string;
+  createdAt: string;
+}
+
+export type PlatformLogEventType =
+  | "Firm Onboarded"
+  | "Firm Status Changed"
+  | "Company Admin Created";
+
+export interface PlatformLogEntry {
+  id: string;
+  timestamp: string;
+  eventType: PlatformLogEventType;
+  firmId?: string;
+  message: string;
 }
 
 export interface CommissionSplit {
@@ -14,14 +41,26 @@ export interface CommissionSplit {
   salesPerson: number;
 }
 
+export type DeveloperStatus = "Active" | "Inactive";
+
+export interface RequiredMilestonePercents {
+  cash: number;
+  inHouse: number;
+  bank: number;
+}
+
 export interface Developer {
   id: string;
   companyId: string;
   name: string;
+  status: DeveloperStatus;
+  totalCutPercent: number;
   commissionRates: {
     direct: CommissionSplit;
     referred: CommissionSplit;
   };
+  /** Minimum % of contract price paid before the first commission tranche is due, per method. */
+  requiredMilestonePercent: RequiredMilestonePercents;
 }
 
 export type ListingSource = "Developer" | "Individual Seller";
@@ -56,7 +95,11 @@ export interface Property {
   description: string;
   coordinates: Coordinates;
   turnover: string;
+  /** Only meaningful for House/Townhouse/Condominium — hidden in the UI for Lot Only. */
+  houseModel?: string;
   features: string[];
+  /** Mock filenames standing in for uploaded listing photos. */
+  images: string[];
 }
 
 export type PrcLicenseStatus = "Verified" | "Pending" | "Unverified";
@@ -125,6 +168,7 @@ export interface Session {
 
 export interface LoanQuotation {
   id: string;
+  companyId: string;
   developerId: string;
   propertyId: string;
   bankName: string;
@@ -133,14 +177,18 @@ export interface LoanQuotation {
   downpaymentAmount: number;
   loanableAmount: number;
   interestRatePercent: number;
-  termYears: number;
+  termMonths: number;
   monthlyAmortization: number;
   miscFeesTotal: number;
   totalContractPrice: number;
+  breakdownDescription: string;
 }
+
+export type VisitRequestStatus = "Pending" | "Approved" | "Declined";
 
 export interface VisitRequest {
   id: string;
+  companyId: string;
   propertyId: string;
   name: string;
   email: string;
@@ -148,6 +196,7 @@ export interface VisitRequest {
   preferredDate: string;
   preferredTime: string;
   notes?: string;
+  status: VisitRequestStatus;
   submittedAt: string;
 }
 

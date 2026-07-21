@@ -19,6 +19,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.571, lng: 123.2801 },
     turnover: "Titled, ready for construction",
     features: ["Gated subdivision", "Concrete road access", "Near Pili town proper", "Titled lot"],
+    images: ["Lot Perimeter.jpg", "Subdivision Entrance.jpg"],
   },
   {
     id: "prop-riverside-4b",
@@ -40,7 +41,9 @@ export const properties: Property[] = [
       "A 3-bedroom townhouse unit in a riverside subdivision minutes from the Naga City Centrale Mall and Ateneo de Naga University.",
     coordinates: { lat: 13.6252, lng: 123.1912 },
     turnover: "Ready for occupancy",
+    houseModel: "Camia Model",
     features: ["Covered carport", "2-storey layout", "Near Centrale Mall", "Perimeter fence"],
+    images: ["Facade.jpg", "Living Area.jpg", "Kitchen.jpg"],
   },
   {
     id: "prop-casateresa",
@@ -67,6 +70,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.6142, lng: 123.1866 },
     turnover: "Ready for occupancy",
     features: ["Duplex, dual entry", "Near public market", "Covered parking (2 cars)", "Own water pump"],
+    images: ["Front Exterior.jpg", "Sala.jpg"],
   },
   {
     id: "prop-sunrise-b7",
@@ -88,7 +92,9 @@ export const properties: Property[] = [
       "A newly-built townhouse in Pili's growing Sunrise development, close to the Capitol Complex and provincial hospital.",
     coordinates: { lat: 13.5589, lng: 123.2732 },
     turnover: "Pre-selling — turnover Q4 2026",
+    houseModel: "Sampaguita Model",
     features: ["Near Capitol Complex", "Near provincial hospital", "Clubhouse access", "Gated subdivision"],
+    images: ["Model Unit.jpg", "Perspective.jpg"],
   },
   {
     id: "prop-emerald-lot22",
@@ -109,6 +115,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.6486, lng: 123.2153 },
     turnover: "Titled, ready for construction",
     features: ["Elevated lot", "Mountain view", "Quiet residential street"],
+    images: ["Lot View.jpg"],
   },
   {
     id: "prop-villacorazon",
@@ -130,7 +137,9 @@ export const properties: Property[] = [
       "A spacious single-detached home with a view of Mayon Volcano, part of the Everstone Bay master-planned community.",
     coordinates: { lat: 13.1204, lng: 123.7301 },
     turnover: "Pre-selling — turnover Q2 2027",
+    houseModel: "Seaview Model",
     features: ["Mayon Volcano view", "Single-detached", "Master-planned community", "2-car garage"],
+    images: ["Exterior Render.jpg", "Master Bedroom.jpg"],
   },
   {
     id: "prop-palm-12a",
@@ -153,6 +162,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.1548, lng: 123.7513 },
     turnover: "Ready for occupancy",
     features: ["Near Legazpi Port", "Balcony", "Shared amenities", "24-hour security"],
+    images: ["Unit Layout.jpg", "Balcony View.jpg"],
   },
   {
     id: "prop-hillside-lot5",
@@ -172,5 +182,6 @@ export const properties: Property[] = [
     coordinates: { lat: 13.5432, lng: 123.2894 },
     turnover: "Turned over",
     features: ["Hillside view", "North-facing", "Titled lot"],
+    images: ["Hillside View.jpg"],
   },
 ];

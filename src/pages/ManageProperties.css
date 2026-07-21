@@ -1,0 +1,149 @@
+.manage-properties-page__header {
+  margin-bottom: 18px;
+}
+
+.manage-properties-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.manage-properties-page__name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.manage-properties-page__address {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.manage-properties-page__na {
+  color: var(--color-text-muted);
+}
+
+.manage-properties-page__edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.manage-properties-page__edit:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.admin-form__field--wide {
+  flex: 2;
+}
+
+.manage-properties-page__tag-input {
+  display: flex;
+  gap: 8px;
+}
+
+.manage-properties-page__tag-input input {
+  flex: 1;
+  padding: 9px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 13.5px;
+}
+
+.manage-properties-page__tag-input button {
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.manage-properties-page__tag-input button:hover {
+  border-color: var(--color-gold);
+}
+
+.manage-properties-page__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.manage-properties-page__tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px 4px 10px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.manage-properties-page__tag button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.manage-properties-page__tag button:hover {
+  background: var(--color-border);
+  color: var(--color-ink);
+}
+
+.manage-properties-page__verification {
+  border-left: 3px solid var(--color-amber);
+  background: var(--color-paper);
+}
+
+.manage-properties-page__verification-status {
+  display: flex;
+}
+
+.manage-properties-page__doc-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.manage-properties-page__rejection-reason {
+  font-size: 12.5px;
+  color: var(--color-red);
+}
+
+.manage-properties-page__verify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-decoration: underline;
+  width: fit-content;
+}

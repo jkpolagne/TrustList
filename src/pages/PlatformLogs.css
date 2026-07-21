@@ -1,0 +1,92 @@
+.platform-logs-page__header {
+  margin-bottom: 22px;
+}
+
+.platform-logs-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.platform-logs-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+}
+
+.platform-logs-timeline__item {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.platform-logs-timeline__item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 34px;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-border);
+}
+
+.platform-logs-timeline__icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold-hover);
+  z-index: 1;
+}
+
+.platform-logs-timeline__body {
+  flex: 1;
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-card);
+  padding: 12px 14px;
+}
+
+.platform-logs-timeline__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.platform-logs-timeline__event {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.platform-logs-timeline__time {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.platform-logs-timeline__body p {
+  font-size: 13.5px;
+  color: var(--color-text);
+}
+
+.platform-logs-timeline__firm {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}

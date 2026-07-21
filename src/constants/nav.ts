@@ -20,22 +20,22 @@ export interface NavItem {
   label: string;
   icon: LucideIcon;
   path: string;
-  /** Only "Dashboard" is a real route in this stage; the rest preview upcoming modules. */
+  /** Not yet built — later modules. */
   comingSoon?: boolean;
 }
 
 export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
   "Super Admin": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
-    { label: "Firms", icon: Building2, path: "/app/firms", comingSoon: true },
-    { label: "Platform Logs", icon: Inbox, path: "/app/logs", comingSoon: true },
+    { label: "Firms", icon: Building2, path: "/app/firms" },
+    { label: "Platform Logs", icon: Inbox, path: "/app/logs" },
   ],
   "Company Admin": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
-    { label: "Developers", icon: Building2, path: "/app/developers", comingSoon: true },
-    { label: "Properties", icon: Home, path: "/app/properties", comingSoon: true },
-    { label: "Loan Quotations", icon: Calculator, path: "/app/loan-quotations", comingSoon: true },
-    { label: "Visit Schedules", icon: CalendarClock, path: "/app/visits", comingSoon: true },
+    { label: "Developers", icon: Building2, path: "/app/developers" },
+    { label: "Properties", icon: Home, path: "/app/properties" },
+    { label: "Loan Quotations", icon: Calculator, path: "/app/loan-quotations" },
+    { label: "Visit Schedules", icon: CalendarClock, path: "/app/visits" },
     { label: "Consultants", icon: Users, path: "/app/consultants", comingSoon: true },
     { label: "Seller Inquiries", icon: Inbox, path: "/app/seller-inquiries" },
     {

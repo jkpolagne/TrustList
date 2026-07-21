@@ -8,9 +8,15 @@ import type { InternalRole } from "./types";
 import { Browse } from "./pages/Browse";
 import { Compare } from "./pages/Compare";
 import { Dashboard } from "./pages/Dashboard";
+import { Firms } from "./pages/Firms";
 import { ListingVerification } from "./pages/ListingVerification";
 import { LoanCalculator } from "./pages/LoanCalculator";
 import { Login } from "./pages/Login";
+import { ManageDevelopers } from "./pages/ManageDevelopers";
+import { ManageLoanQuotations } from "./pages/ManageLoanQuotations";
+import { ManageProperties } from "./pages/ManageProperties";
+import { ManageVisitSchedules } from "./pages/ManageVisitSchedules";
+import { PlatformLogs } from "./pages/PlatformLogs";
 import { PropertyDetails } from "./pages/PropertyDetails";
 import { ScheduleVisit } from "./pages/ScheduleVisit";
 import { SellerInquiries } from "./pages/SellerInquiries";
@@ -53,6 +59,56 @@ function AppRoutes() {
         }
       >
         <Route index element={<Dashboard />} />
+
+        <Route
+          path="firms"
+          element={
+            <RequireRole roles={["Super Admin"]}>
+              <Firms />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="logs"
+          element={
+            <RequireRole roles={["Super Admin"]}>
+              <PlatformLogs />
+            </RequireRole>
+          }
+        />
+
+        <Route
+          path="developers"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ManageDevelopers />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="properties"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ManageProperties />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="loan-quotations"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ManageLoanQuotations />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="visits"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <ManageVisitSchedules />
+            </RequireRole>
+          }
+        />
         <Route
           path="seller-inquiries"
           element={

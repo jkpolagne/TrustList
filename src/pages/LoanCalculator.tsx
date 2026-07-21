@@ -17,6 +17,7 @@ import "./LoanCalculator.css";
 const DOWNPAYMENT_PERCENT = 20;
 const INTEREST_RATE_PERCENT = 6.5;
 const TERM_YEARS = 15;
+const TERM_MONTHS = TERM_YEARS * 12;
 
 type Tab = "manual" | "fixed";
 
@@ -96,7 +97,7 @@ function ManualTab({
   const downpayment = numericBudget * (DOWNPAYMENT_PERCENT / 100);
   const loanable = numericBudget - downpayment;
   const monthly = numericBudget > 0
-    ? computeMonthlyAmortization(loanable, INTEREST_RATE_PERCENT, TERM_YEARS)
+    ? computeMonthlyAmortization(loanable, INTEREST_RATE_PERCENT, TERM_MONTHS)
     : 0;
 
   const matching = useMemo(
@@ -263,7 +264,7 @@ function FixedQuotationTab({
             </tr>
             <tr>
               <th>Term</th>
-              <td>{selectedQuotation.termYears} years</td>
+              <td>{selectedQuotation.termMonths} months</td>
             </tr>
             <tr>
               <th>Misc. Fees</th>
@@ -276,6 +277,11 @@ function FixedQuotationTab({
             <tr className="loan-calculator__breakdown-highlight">
               <th>Total Contract Price</th>
               <td className="money">{formatPHP(selectedQuotation.totalContractPrice)}</td>
+            </tr>
+            <tr>
+              <th colSpan={2} className="loan-calculator__breakdown-note">
+                {selectedQuotation.breakdownDescription}
+              </th>
             </tr>
           </tbody>
         </table>

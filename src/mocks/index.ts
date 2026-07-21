@@ -5,3 +5,6 @@ export { consultants } from "./consultants";
 export { clients } from "./clients";
 export { loanQuotations } from "./loanQuotations";
 export { sellerInquiries } from "./sellerInquiries";
+export { companyAdmins } from "./companyAdmins";
+export { platformLogs } from "./platformLogs";
+export { visits } from "./visits";
