@@ -1,0 +1,135 @@
+:root {
+  /* Brand palette — do not introduce colors outside this set */
+  --color-ink: #10233f;
+  --color-ink-soft: #1c3559;
+  --color-paper: #faf8f4;
+  --color-surface: #ffffff;
+  --color-gold: #b8863b;
+  --color-gold-hover: #a3742f;
+  --color-green: #1e7f52;
+  --color-green-bg: #e7f3ec;
+  --color-amber: #b7791f;
+  --color-amber-bg: #fbf1dd;
+  --color-red: #a3372e;
+  --color-red-bg: #f6e9e7;
+  --color-border: #e7e3da;
+  --color-text: #1a2b42;
+  --color-text-muted: #5c6b7d;
+  --color-text-on-ink: #f4f0e6;
+  --color-text-on-ink-muted: #9fb0c4;
+
+  /* Typography */
+  --font-heading: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Shape */
+  --radius-control: 8px;
+  --radius-card: 12px;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(16, 35, 63, 0.04);
+
+  /* Layout */
+  --sidebar-width: 232px;
+  --topnav-height: 64px;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Visible focus ring everywhere — accessibility requirement */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-text-on-ink);
+}

@@ -1,0 +1,27 @@
+.verification-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.verification-badge--verified {
+  background: var(--color-green-bg);
+  color: var(--color-green);
+}
+
+.verification-badge--pending {
+  background: var(--color-amber-bg);
+  color: var(--color-amber);
+}
+
+.verification-badge__meta {
+  font-weight: 500;
+  opacity: 0.85;
+}

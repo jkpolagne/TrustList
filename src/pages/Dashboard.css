@@ -1,0 +1,27 @@
+.dashboard-page__header {
+  margin-bottom: 20px;
+}
+
+.dashboard-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 6px;
+  max-width: 640px;
+}
+
+.dashboard-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.dashboard-page__note {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.dashboard-page__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
