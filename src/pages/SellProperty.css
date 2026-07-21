@@ -1,0 +1,151 @@
+.sell-property {
+  max-width: 560px;
+}
+
+.sell-property__intro {
+  margin-bottom: 24px;
+}
+
+.sell-property__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-green-bg);
+  color: var(--color-green);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.sell-property__intro h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.sell-property__intro p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  max-width: 520px;
+}
+
+.sell-property__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+}
+
+.sell-property__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.sell-property__field-row {
+  display: flex;
+  gap: 14px;
+}
+
+.sell-property__field label,
+.sell-property__radio-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sell-property__field input,
+.sell-property__field select,
+.sell-property__field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-family: var(--font-body);
+  background: var(--color-surface);
+  color: var(--color-text);
+  resize: vertical;
+}
+
+.sell-property__radio-group {
+  display: flex;
+  gap: 16px;
+}
+
+.sell-property__radio-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.sell-property__radio-option input {
+  accent-color: var(--color-gold);
+}
+
+.sell-property__submit {
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius-control);
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.sell-property__submit:hover:not(:disabled) {
+  background: var(--color-gold-hover);
+  color: #fff;
+}
+
+.sell-property__submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sell-property__confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--color-green-bg);
+  border: 1px solid var(--color-green-bg);
+  border-radius: var(--radius-card);
+  padding: 26px 24px;
+  color: var(--color-green);
+}
+
+.sell-property__confirmation h3 {
+  color: var(--color-green);
+}
+
+.sell-property__confirmation p {
+  color: var(--color-text);
+  font-size: 13.5px;
+  max-width: 440px;
+}
+
+.sell-property__confirmation-link {
+  margin-top: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .sell-property__field-row {
+    flex-direction: column;
+  }
+}

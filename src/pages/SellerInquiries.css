@@ -1,0 +1,76 @@
+.seller-inquiries-page__header {
+  margin-bottom: 20px;
+}
+
+.seller-inquiries-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.seller-inquiries-table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: auto;
+  max-height: calc(100svh - 220px);
+}
+
+.seller-inquiries-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.seller-inquiries-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-paper);
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.seller-inquiries-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.seller-inquiries-table tbody tr {
+  cursor: pointer;
+}
+
+.seller-inquiries-table tbody tr:hover td {
+  background: var(--color-paper);
+}
+
+.seller-inquiries-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.seller-inquiries-table__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.seller-inquiries-table__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 720px) {
+  .seller-inquiries-table {
+    min-width: 640px;
+  }
+}

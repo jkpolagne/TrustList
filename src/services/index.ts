@@ -6,3 +6,4 @@ export * from "./clientService";
 export * from "./authService";
 export * from "./loanQuotationService";
 export * from "./visitService";
+export * from "./sellerInquiryService";

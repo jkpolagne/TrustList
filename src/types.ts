@@ -52,6 +52,7 @@ export interface Property {
   listingSource: ListingSource;
   verificationStatus?: VerificationStatus;
   verificationDocuments?: string[];
+  verificationRejectionReason?: string;
   description: string;
   coordinates: Coordinates;
   turnover: string;
@@ -148,4 +149,35 @@ export interface VisitRequest {
   preferredTime: string;
   notes?: string;
   submittedAt: string;
+}
+
+export type SellerPropertyType = "House and Lot" | "Lot Only";
+export type SellerInquiryStatus = "New" | "Contacted" | "Converted to Listing" | "Declined";
+
+export interface SellerInquiry {
+  id: string;
+  firmId: string;
+  name: string;
+  contactNumber: string;
+  email: string;
+  propertyLocation: string;
+  propertyType: SellerPropertyType;
+  description: string;
+  status: SellerInquiryStatus;
+  submittedAt: string;
+  /** Set once the inquiry is converted — links to the resulting Property record. */
+  propertyId?: string;
+}
+
+export interface ListingDraft {
+  title: string;
+  city: string;
+  address: string;
+  price: number;
+  propertyType: PropertyType;
+  bedrooms?: number;
+  bathrooms?: number;
+  lotAreaSqm?: number;
+  floorAreaSqm?: number;
+  description: string;
 }
