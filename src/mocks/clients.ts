@@ -17,6 +17,7 @@ export const clients: Client[] = [
     currentTranche: 2,
     amountPaid: 1150000,
     status: "Active",
+    reservationDate: "2026-02-20",
     lastContactedDate: "2026-07-18",
     notes: "Confirmed marriage contract submission this week.",
     requirementsChecklist: [
@@ -98,6 +99,7 @@ export const clients: Client[] = [
     currentTranche: 1,
     amountPaid: 462500,
     status: "Active",
+    reservationDate: "2026-07-15",
     lastContactedDate: "2026-07-21",
     notes: "Just signed reservation — following up for remaining payslips.",
     requirementsChecklist: [
@@ -126,15 +128,16 @@ export const clients: Client[] = [
     contactNumber: "0917-333-4455",
     email: "josefina.trinidad@example.com",
     employmentStatus: "OFW",
-    propertyId: "prop-casateresa",
+    propertyId: "prop-hillside-lot5",
     consultantId: "cons-adv-sp2",
     saleType: "Referred",
     paymentMethod: "Cash",
-    contractPrice: 3200000,
+    contractPrice: 750000,
     totalTranches: 1,
     currentTranche: 1,
-    amountPaid: 3200000,
+    amountPaid: 750000,
     status: "Fully Released",
+    reservationDate: "2026-01-10",
     lastContactedDate: "2026-01-20",
     notes: "Fully released — sent a thank-you note and referral ask.",
     requirementsChecklist: [
@@ -172,6 +175,7 @@ export const clients: Client[] = [
     currentTranche: 2,
     amountPaid: 825000,
     status: "Active",
+    reservationDate: "2026-06-25",
     lastContactedDate: "2026-07-10",
     notes: "Reminded to submit passport copy — still pending after two follow-ups.",
     requirementsChecklist: [
@@ -253,6 +257,7 @@ export const clients: Client[] = [
     currentTranche: 2,
     amountPaid: 750000,
     status: "Active",
+    reservationDate: "2026-06-28",
     lastContactedDate: "2026-07-19",
     notes: "Following up on DTI registration copy.",
     requirementsChecklist: [

@@ -7,7 +7,7 @@ export const milestoneEvents: MilestoneEvent[] = [
     clientId: "cli-maria-santos",
     trancheNumber: 2,
     totalTranches: 4,
-    detectedDate: "2026-07-08",
+    detectedDate: "2026-07-04",
     voucherStatus: "Pending",
   },
   {

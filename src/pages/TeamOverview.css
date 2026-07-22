@@ -1,0 +1,55 @@
+.team-overview-page__header {
+  margin-bottom: 16px;
+}
+
+.team-overview-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.team-overview-page__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.team-overview-page__summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+}
+
+.team-overview-page__summary-card span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.team-overview-page__summary-card strong {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+.team-overview-page__name {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.team-overview-page__indent {
+  padding-left: 30px;
+  color: var(--color-text);
+}
+
+.team-overview-page__role {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}

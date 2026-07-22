@@ -6,12 +6,15 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CompareProvider } from "./context/CompareContext";
 import { ReferralProvider } from "./context/ReferralContext";
 import type { InternalRole } from "./types";
+import { AllVouchers } from "./pages/AllVouchers";
 import { Browse } from "./pages/Browse";
 import { ClientDetail } from "./pages/ClientDetail";
 import { Compare } from "./pages/Compare";
 import { ConsultantAccounts } from "./pages/ConsultantAccounts";
 import { ConsultantLinks } from "./pages/ConsultantLinks";
+import { CreateVoucher } from "./pages/CreateVoucher";
 import { Dashboard } from "./pages/Dashboard";
+import { ExpectedPayouts } from "./pages/ExpectedPayouts";
 import { Firms } from "./pages/Firms";
 import { ListingVerification } from "./pages/ListingVerification";
 import { LoanCalculator } from "./pages/LoanCalculator";
@@ -21,6 +24,7 @@ import { ManageLoanQuotations } from "./pages/ManageLoanQuotations";
 import { ManageProperties } from "./pages/ManageProperties";
 import { ManageVisitSchedules } from "./pages/ManageVisitSchedules";
 import { MonitorClients } from "./pages/MonitorClients";
+import { MyCommission } from "./pages/MyCommission";
 import { PlatformLogs } from "./pages/PlatformLogs";
 import { PropertyDetails } from "./pages/PropertyDetails";
 import { SalesPersons } from "./pages/SalesPersons";
@@ -28,7 +32,9 @@ import { ScheduleVisit } from "./pages/ScheduleVisit";
 import { SellerInquiries } from "./pages/SellerInquiries";
 import { SellerInquiryDetail } from "./pages/SellerInquiryDetail";
 import { SellProperty } from "./pages/SellProperty";
+import { TeamOverview } from "./pages/TeamOverview";
 import { UploadPaymentProof } from "./pages/UploadPaymentProof";
+import { VoucherDetail } from "./pages/VoucherDetail";
 
 function RequireSession({ children }: { children: ReactNode }) {
   const { session } = useAuth();
@@ -186,6 +192,55 @@ function AppRoutes() {
           element={
             <RequireRole roles={["Sales Manager"]}>
               <SalesPersons />
+            </RequireRole>
+          }
+        />
+
+        <Route
+          path="vouchers"
+          element={
+            <RequireRole roles={["Broker"]}>
+              <AllVouchers />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="vouchers/new"
+          element={
+            <RequireRole roles={["Broker"]}>
+              <CreateVoucher />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="vouchers/:id"
+          element={
+            <RequireRole roles={["Broker", "Sales Manager", "Sales Person"]}>
+              <VoucherDetail />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="payouts"
+          element={
+            <RequireRole roles={["Broker"]}>
+              <ExpectedPayouts />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="team-overview"
+          element={
+            <RequireRole roles={["Broker"]}>
+              <TeamOverview />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="commission"
+          element={
+            <RequireRole roles={["Sales Manager", "Sales Person"]}>
+              <MyCommission />
             </RequireRole>
           }
         />

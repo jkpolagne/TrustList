@@ -11,3 +11,4 @@ export { visits } from "./visits";
 export { clientStatusHistory } from "./clientStatusHistory";
 export { milestoneEvents } from "./milestoneEvents";
 export { paymentProofs } from "./paymentProofs";
+export { vouchers } from "./vouchers";

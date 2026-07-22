@@ -12,3 +12,4 @@ export * from "./platformLogService";
 export * from "./clientStatusHistoryService";
 export * from "./milestoneService";
 export * from "./paymentProofService";
+export * from "./voucherService";

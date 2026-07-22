@@ -164,6 +164,8 @@ export interface Client {
   requirementsChecklist: RequirementItem[];
   lastContactedDate?: string;
   notes?: string;
+  /** Reservation Sale date — when the contract was signed. Feeds the "RS date" voucher field. */
+  reservationDate: string;
 }
 
 export interface ClientStatusHistoryEntry {
@@ -207,6 +209,61 @@ export interface PaymentProof {
   proofFilename: string;
   uploadedBy: string;
   uploadedAt: string;
+}
+
+export type VoucherStatus =
+  | "Pending Signature"
+  | "Signed"
+  | "Disputed"
+  | "Check Ready"
+  | "Released";
+
+/** One voucher per tranche per entitled role — a single sale accumulates many over its lifetime. */
+export interface Voucher {
+  id: string;
+  companyId: string;
+  clientId: string;
+  developerId: string;
+  /** The entitled role this specific voucher pays out — Broker, Sales Manager, or Sales Person. */
+  role: ConsultantRole;
+  consultantId: string;
+  saleType: SaleType;
+  trancheNumber: number;
+  totalTranches: number;
+
+  paidTo: string;
+  buyer: string;
+  rsDate: string;
+  /** Net Total Contract Price. */
+  ntcp: number;
+  /** e.g. "2 of 4". */
+  releaseNumber: string;
+  ratePercent: number;
+  blockLot: string;
+
+  grossCommission: number;
+  lessEwt: number;
+  lessAdcom: number;
+  totalCommissionDue: number;
+  lessMiscTax: number;
+  otherDeductions: number;
+  netCommissionReceivable: number;
+
+  checkNumber?: string;
+  bank?: string;
+  checkDate?: string;
+  dateDisbursed?: string;
+
+  approvedBy: string;
+  approvedSignedAt: string;
+  receivedBy?: string;
+  receivedSignedAt?: string;
+
+  disputeReason?: string;
+  disputedAt?: string;
+
+  status: VoucherStatus;
+  createdAt: string;
 }
 
 export type InternalRole =

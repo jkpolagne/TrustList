@@ -1,0 +1,196 @@
+.voucher-detail {
+  max-width: 720px;
+}
+
+.voucher-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.voucher-detail__back:hover {
+  color: var(--color-ink);
+}
+
+.voucher-detail__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.voucher-detail__card--receipt {
+  border-color: var(--color-gold);
+}
+
+.voucher-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.voucher-detail__eyebrow {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-gold-hover);
+  margin-bottom: 4px;
+}
+
+.voucher-detail__header h1 {
+  font-size: 22px;
+}
+
+.voucher-detail__banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-control);
+  font-size: 13px;
+}
+
+.voucher-detail__banner p {
+  margin-top: 2px;
+}
+
+.voucher-detail__banner--dispute {
+  background: var(--color-red-bg);
+  color: var(--color-red);
+}
+
+.voucher-detail__banner--gate {
+  background: var(--color-amber-bg);
+  color: var(--color-amber);
+  font-weight: 600;
+  align-items: center;
+}
+
+.voucher-detail__banner-date {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  opacity: 0.8;
+}
+
+.voucher-detail__section {
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+.voucher-detail__section:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.voucher-detail__section-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.voucher-detail__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px 20px;
+}
+
+.voucher-detail__facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.voucher-detail__facts dt {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.voucher-detail__facts dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.voucher-detail__signed-at {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.voucher-detail__net {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.voucher-detail__net strong {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  color: var(--color-ink);
+}
+
+.voucher-detail__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.voucher-detail__actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Mobile priority — this page doubles as the consultant-facing Sign Voucher screen. */
+@media (max-width: 640px) {
+  .voucher-detail__card {
+    padding: 16px;
+  }
+
+  .voucher-detail__header {
+    flex-direction: column;
+  }
+
+  .voucher-detail__facts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .voucher-detail__actions {
+    flex-direction: column-reverse;
+  }
+
+  .voucher-detail__actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

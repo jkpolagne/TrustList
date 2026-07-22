@@ -1,0 +1,98 @@
+.create-voucher-page {
+  max-width: 720px;
+}
+
+.create-voucher-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.create-voucher-page__back:hover {
+  color: var(--color-ink);
+}
+
+.create-voucher-page__header {
+  margin-bottom: 18px;
+}
+
+.create-voucher-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.create-voucher-page__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.create-voucher-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.create-voucher-page__gate-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-control);
+  background: var(--color-amber-bg);
+  color: var(--color-amber);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.create-voucher-page__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px 20px;
+}
+
+.create-voucher-page__facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.create-voucher-page__facts dt {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.create-voucher-page__facts dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.create-voucher-page__facts--totals {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.create-voucher-page__net {
+  font-size: 17px;
+  color: var(--color-ink);
+}

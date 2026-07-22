@@ -47,3 +47,17 @@ export function recordMilestoneEvent(
   persist();
   return withDelay(event);
 }
+
+/** Flips the milestone's flag once the broker has started acting on it — first voucher
+ * created for that tranche is enough to clear it from the simple Stage-6 milestone list;
+ * the richer per-role remaining balance still shows up in Stage 7's Awaiting Payout view. */
+export function markMilestoneVoucherCreated(clientId: string, trancheNumber: number): Promise<void> {
+  const event = milestoneEvents.find(
+    (m) => m.clientId === clientId && m.trancheNumber === trancheNumber,
+  );
+  if (event) {
+    event.voucherStatus = "Voucher Created";
+    persist();
+  }
+  return withDelay(undefined);
+}

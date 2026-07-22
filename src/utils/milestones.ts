@@ -25,3 +25,14 @@ const AGING_THRESHOLD_DAYS = 7;
 export function isMilestoneAging(detectedDate: string, reference: Date = new Date()): boolean {
   return daysSince(detectedDate, reference) > AGING_THRESHOLD_DAYS;
 }
+
+export type PayoutAgingTier = "fresh" | "amber" | "red";
+
+/** Expected Developer Payout uses a stricter 3-tier aging read than the plain milestone
+ * card: amber past 7 days, red past 14 — the anti-"walang transmittal" signal. */
+export function getPayoutAgingTier(detectedDate: string, reference: Date = new Date()): PayoutAgingTier {
+  const days = daysSince(detectedDate, reference);
+  if (days > 14) return "red";
+  if (days > 7) return "amber";
+  return "fresh";
+}
