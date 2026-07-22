@@ -1,0 +1,224 @@
+.client-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.client-detail__back:hover {
+  color: var(--color-ink);
+}
+
+.client-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.client-detail__header h1 {
+  font-size: 26px;
+}
+
+.client-detail__sale-type {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-gold-hover);
+}
+
+.client-detail__layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(240px, 300px);
+  gap: 24px;
+  align-items: start;
+}
+
+.client-detail__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.client-detail__section {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-border);
+}
+
+.client-detail__section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.client-detail__section h3 {
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.client-detail__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px;
+}
+
+.client-detail__facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.client-detail__facts dt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.client-detail__facts dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.client-detail__empty-note {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.client-detail__history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.client-detail__history li {
+  padding: 12px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+
+.client-detail__history-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.client-detail__history-transition {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.client-detail__history-date {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.client-detail__history p {
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.client-detail__history-by {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+.client-detail__proof-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--color-text);
+}
+
+.client-detail__sidebar {
+  position: sticky;
+  top: 16px;
+}
+
+.client-detail__sidebar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.client-detail__sidebar-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.client-detail__sidebar-value {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--color-ink);
+}
+
+.client-detail__sidebar-sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.client-detail__upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 16px;
+  border-radius: var(--radius-control);
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 13.5px;
+  text-decoration: none;
+}
+
+.client-detail__upload-btn:hover {
+  background: var(--color-gold-hover);
+  color: #fff;
+}
+
+@media (max-width: 860px) {
+  .client-detail__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .client-detail__sidebar {
+    position: static;
+  }
+
+  .client-detail__header {
+    flex-direction: column;
+  }
+}

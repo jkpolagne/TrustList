@@ -1,0 +1,212 @@
+.upload-payment-proof {
+  max-width: 560px;
+}
+
+.upload-payment-proof__header {
+  margin-bottom: 18px;
+}
+
+.upload-payment-proof__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.upload-payment-proof__steps {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.upload-payment-proof__step {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.upload-payment-proof__step--done {
+  background: var(--color-green-bg);
+  border-color: var(--color-green-bg);
+  color: var(--color-green);
+}
+
+.upload-payment-proof__step--active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.upload-payment-proof__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+}
+
+.upload-payment-proof__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-payment-proof__body h3 {
+  font-size: 15px;
+}
+
+.upload-payment-proof__for {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+.upload-payment-proof__for strong {
+  color: var(--color-ink);
+}
+
+.upload-payment-proof__choose-file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.upload-payment-proof__choose-file:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.upload-payment-proof__file-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: var(--radius-control);
+  background: var(--color-green-bg);
+  color: var(--color-green);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.upload-payment-proof__review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-payment-proof__review-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.upload-payment-proof__review-list dt {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+
+.upload-payment-proof__review-list dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.upload-payment-proof__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.upload-payment-proof__done {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--color-gold-hover);
+}
+
+.upload-payment-proof__done h3 {
+  font-size: 17px;
+  color: var(--color-ink);
+}
+
+.upload-payment-proof__done p {
+  font-size: 13.5px;
+  color: var(--color-text);
+}
+
+.upload-payment-proof__done-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.upload-payment-proof__done-actions a {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.upload-payment-proof__cancel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.upload-payment-proof__cancel-link:hover {
+  color: var(--color-ink);
+}
+
+/* Mobile priority per CLAUDE.md — Upload Payment Proof is a consultant-facing
+   flow that needs to work comfortably on a phone in the field. */
+@media (max-width: 640px) {
+  .upload-payment-proof__card {
+    padding: 16px;
+  }
+
+  .admin-form__row {
+    flex-direction: column;
+  }
+
+  .upload-payment-proof__actions {
+    flex-direction: column-reverse;
+  }
+
+  .upload-payment-proof__actions button,
+  .upload-payment-proof__actions .admin-form__submit {
+    width: 100%;
+  }
+
+  .upload-payment-proof__done-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .upload-payment-proof__done-actions a,
+  .upload-payment-proof__done-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

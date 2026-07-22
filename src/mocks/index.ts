@@ -8,3 +8,6 @@ export { sellerInquiries } from "./sellerInquiries";
 export { companyAdmins } from "./companyAdmins";
 export { platformLogs } from "./platformLogs";
 export { visits } from "./visits";
+export { clientStatusHistory } from "./clientStatusHistory";
+export { milestoneEvents } from "./milestoneEvents";
+export { paymentProofs } from "./paymentProofs";

@@ -7,6 +7,7 @@ import { CompareProvider } from "./context/CompareContext";
 import { ReferralProvider } from "./context/ReferralContext";
 import type { InternalRole } from "./types";
 import { Browse } from "./pages/Browse";
+import { ClientDetail } from "./pages/ClientDetail";
 import { Compare } from "./pages/Compare";
 import { ConsultantAccounts } from "./pages/ConsultantAccounts";
 import { ConsultantLinks } from "./pages/ConsultantLinks";
@@ -19,12 +20,15 @@ import { ManageDevelopers } from "./pages/ManageDevelopers";
 import { ManageLoanQuotations } from "./pages/ManageLoanQuotations";
 import { ManageProperties } from "./pages/ManageProperties";
 import { ManageVisitSchedules } from "./pages/ManageVisitSchedules";
+import { MonitorClients } from "./pages/MonitorClients";
 import { PlatformLogs } from "./pages/PlatformLogs";
 import { PropertyDetails } from "./pages/PropertyDetails";
+import { SalesPersons } from "./pages/SalesPersons";
 import { ScheduleVisit } from "./pages/ScheduleVisit";
 import { SellerInquiries } from "./pages/SellerInquiries";
 import { SellerInquiryDetail } from "./pages/SellerInquiryDetail";
 import { SellProperty } from "./pages/SellProperty";
+import { UploadPaymentProof } from "./pages/UploadPaymentProof";
 
 function RequireSession({ children }: { children: ReactNode }) {
   const { session } = useAuth();
@@ -149,6 +153,39 @@ function AppRoutes() {
           element={
             <RequireRole roles={["Company Admin"]}>
               <ListingVerification />
+            </RequireRole>
+          }
+        />
+
+        <Route
+          path="clients"
+          element={
+            <RequireRole roles={["Sales Manager", "Sales Person"]}>
+              <MonitorClients />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="clients/:id"
+          element={
+            <RequireRole roles={["Sales Manager", "Sales Person"]}>
+              <ClientDetail />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="payment-proof"
+          element={
+            <RequireRole roles={["Sales Manager", "Sales Person"]}>
+              <UploadPaymentProof />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="team"
+          element={
+            <RequireRole roles={["Sales Manager"]}>
+              <SalesPersons />
             </RequireRole>
           }
         />

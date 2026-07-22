@@ -9,3 +9,6 @@ export * from "./visitService";
 export * from "./sellerInquiryService";
 export * from "./companyAdminService";
 export * from "./platformLogService";
+export * from "./clientStatusHistoryService";
+export * from "./milestoneService";
+export * from "./paymentProofService";

@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Link2,
   ShieldQuestion,
+  UploadCloud,
   UserCheck,
   Users,
   Wallet,
@@ -55,13 +56,15 @@ export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
   ],
   "Sales Manager": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
-    { label: "My Team", icon: Users, path: "/app/team", comingSoon: true },
-    { label: "My Clients", icon: UserCheck, path: "/app/clients", comingSoon: true },
+    { label: "My Team", icon: Users, path: "/app/team" },
+    { label: "My Clients", icon: UserCheck, path: "/app/clients" },
+    { label: "Upload Payment Proof", icon: UploadCloud, path: "/app/payment-proof" },
     { label: "My Commission", icon: Wallet, path: "/app/commission", comingSoon: true },
   ],
   "Sales Person": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
-    { label: "My Clients", icon: UserCheck, path: "/app/clients", comingSoon: true },
+    { label: "My Clients", icon: UserCheck, path: "/app/clients" },
+    { label: "Upload Payment Proof", icon: UploadCloud, path: "/app/payment-proof" },
     { label: "My Commission", icon: Wallet, path: "/app/commission", comingSoon: true },
   ],
 };

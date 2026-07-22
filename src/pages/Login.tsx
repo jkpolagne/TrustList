@@ -61,7 +61,7 @@ export function Login() {
   const [firms, setFirms] = useState<Firm[]>([]);
   const [loadingFirms, setLoadingFirms] = useState(false);
 
-  const [salesPersons, setSalesPersons] = useState<Consultant[]>([]);
+  const [consultantOptions, setConsultantOptions] = useState<Consultant[]>([]);
   const [loadingConsultants, setLoadingConsultants] = useState(false);
 
   const [signingIn, setSigningIn] = useState(false);
@@ -91,12 +91,23 @@ export function Login() {
     setSelectedFirmId(firmId);
     if (!selectedRole) return;
 
-    if (selectedRole.role === "Sales Person") {
+    if (selectedRole.role === "Sales Person" || selectedRole.role === "Sales Manager") {
       setLoadingConsultants(true);
       const consultants = await getConsultantsByFirm(firmId);
       setLoadingConsultants(false);
-      setSalesPersons(consultants.filter((c) => c.role === "Sales Person"));
-      setStep("consultant");
+      const matches = consultants.filter((c) => c.role === selectedRole.role);
+
+      if (matches.length > 1) {
+        setConsultantOptions(matches);
+        setStep("consultant");
+        return;
+      }
+
+      setSigningIn(true);
+      const session = await login(selectedRole.role, firmId, matches[0]?.id);
+      setSigningIn(false);
+      setSession(session);
+      navigate("/app");
       return;
     }
 
@@ -200,14 +211,14 @@ export function Login() {
 
         {step === "consultant" ? (
           <div className="login-card__options">
-            <p className="login-card__step-label">Sign in as which Sales Person?</p>
+            <p className="login-card__step-label">Sign in as which {selectedRole?.role}?</p>
             {loadingConsultants ? (
               <div className="login-skeleton-list">
                 <div className="login-skeleton" />
                 <div className="login-skeleton" />
               </div>
             ) : (
-              salesPersons.map((consultant) => (
+              consultantOptions.map((consultant) => (
                 <button
                   key={consultant.id}
                   type="button"

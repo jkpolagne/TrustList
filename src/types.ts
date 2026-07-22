@@ -162,6 +162,51 @@ export interface Client {
   amountPaid: number;
   status: ClientStatus;
   requirementsChecklist: RequirementItem[];
+  lastContactedDate?: string;
+  notes?: string;
+}
+
+export interface ClientStatusHistoryEntry {
+  id: string;
+  clientId: string;
+  fromStatus: ClientStatus | "New";
+  toStatus: ClientStatus;
+  remarks: string;
+  updatedBy: string;
+  date: string;
+}
+
+export type MilestoneVoucherStatus = "Pending" | "Voucher Created";
+
+export interface MilestoneEvent {
+  id: string;
+  companyId: string;
+  clientId: string;
+  trancheNumber: number;
+  totalTranches: number;
+  /** Date the system detected this tranche's payment threshold was crossed. */
+  detectedDate: string;
+  /** Flips to "Voucher Created" once a broker acts on it — Stage 7 consumes this. */
+  voucherStatus: MilestoneVoucherStatus;
+}
+
+export type PaymentProofType =
+  | "Reservation Fee"
+  | "Downpayment"
+  | "Monthly Amortization"
+  | "Full Payment"
+  | "Other";
+
+export interface PaymentProof {
+  id: string;
+  clientId: string;
+  amount: number;
+  paymentDate: string;
+  paymentType: PaymentProofType;
+  /** Mock filename standing in for an uploaded receipt/proof image. */
+  proofFilename: string;
+  uploadedBy: string;
+  uploadedAt: string;
 }
 
 export type InternalRole =

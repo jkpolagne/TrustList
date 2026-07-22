@@ -1,0 +1,65 @@
+.milestone-status-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.milestone-status-card__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--color-paper);
+}
+
+.milestone-status-card__icon--fresh,
+.milestone-status-card__icon--resolved {
+  color: var(--color-gold-hover);
+}
+
+.milestone-status-card__icon--aging {
+  color: var(--color-amber);
+}
+
+.milestone-status-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.milestone-status-card__client {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--color-ink);
+}
+
+.milestone-status-card__headline {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.milestone-status-card__meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.milestone-status-card__aging {
+  margin-left: 4px;
+}
+
+.milestone-status-card__aging--warn {
+  color: var(--color-amber);
+  font-weight: 700;
+}
+
+.milestone-status-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}

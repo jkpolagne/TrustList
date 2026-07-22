@@ -1,0 +1,106 @@
+.monitor-clients-page__header {
+  margin-bottom: 16px;
+}
+
+.monitor-clients-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.monitor-clients-page__filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.monitor-clients-page__filter-chip button {
+  background: none;
+  border: none;
+  color: var(--color-gold-hover);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.monitor-clients-page__tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 16px;
+}
+
+.monitor-clients-page__tab {
+  padding: 9px 4px;
+  margin-right: 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.monitor-clients-page__tab:hover {
+  color: var(--color-ink);
+}
+
+.monitor-clients-page__tab--active {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-gold);
+}
+
+.monitor-clients-page__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.monitor-clients-page__contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.monitor-clients-page__contact-link:hover {
+  color: var(--color-gold-hover);
+}
+
+.monitor-clients-page__notes {
+  max-width: 240px;
+  color: var(--color-text-muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.monitor-clients-page__log-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.monitor-clients-page__log-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}

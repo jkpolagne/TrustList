@@ -1,0 +1,67 @@
+.sales-persons-page__header {
+  margin-bottom: 18px;
+}
+
+.sales-persons-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+.sales-persons-page__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.sales-persons-page__summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+}
+
+.sales-persons-page__summary-card span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sales-persons-page__summary-card strong {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+.sales-persons-page__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.sales-persons-page__drilldown {
+  padding: 7px 12px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sales-persons-page__drilldown:hover:not(:disabled) {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.sales-persons-page__drilldown:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
