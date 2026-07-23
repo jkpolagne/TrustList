@@ -1,5 +1,6 @@
 import { clients as seedClients } from "../mocks";
-import type { Client } from "../types";
+import type { Client, EmploymentStatus, PaymentMethod, SaleType } from "../types";
+import { buildRequirementsChecklist } from "../utils/requirementsTemplate";
 import { withDelay } from "./delay";
 import { loadPersisted, savePersisted } from "./persist";
 
@@ -29,6 +30,50 @@ export function getClientsByConsultantIds(consultantIds: string[]): Promise<Clie
 
 export function getClientById(id: string): Promise<Client | undefined> {
   return withDelay(clients.find((c) => c.id === id));
+}
+
+export interface CreateClientInput {
+  companyId: string;
+  name: string;
+  contactNumber: string;
+  email: string;
+  employmentStatus: EmploymentStatus;
+  propertyId: string;
+  consultantId: string;
+  saleType: SaleType;
+  paymentMethod: PaymentMethod;
+  contractPrice: number;
+  reservationDate: string;
+}
+
+/** Brings a new buyer onto the books — e.g. once a scheduled visit turns into
+ * a committed sale. Tranches always start at 0/unpaid; the requirements
+ * checklist is generated fresh (all unchecked) from the payment method and
+ * employment status per CLAUDE.md's requirements-gate spec. */
+export function createClient(input: CreateClientInput): Promise<Client> {
+  const id = `cli-${Date.now()}`;
+  const client: Client = {
+    id,
+    companyId: input.companyId,
+    name: input.name,
+    contactNumber: input.contactNumber,
+    email: input.email,
+    employmentStatus: input.employmentStatus,
+    propertyId: input.propertyId,
+    consultantId: input.consultantId,
+    saleType: input.saleType,
+    paymentMethod: input.paymentMethod,
+    contractPrice: input.contractPrice,
+    totalTranches: input.paymentMethod === "Cash" ? 1 : 4,
+    currentTranche: 0,
+    amountPaid: 0,
+    status: "Active",
+    requirementsChecklist: buildRequirementsChecklist(input.paymentMethod, input.employmentStatus, id),
+    reservationDate: input.reservationDate,
+  };
+  clients.push(client);
+  persist();
+  return withDelay(client);
 }
 
 export function logClientContact(id: string, notes: string): Promise<Client | undefined> {

@@ -314,6 +314,8 @@ export interface VisitRequest {
   submittedAt: string;
   /** The consultant whose link this session was attributed to, if any. */
   consultantId?: string;
+  /** Set once this visit is converted into a monitored Client record. */
+  clientId?: string;
 }
 
 export type SellerPropertyType = "House and Lot" | "Lot Only";
