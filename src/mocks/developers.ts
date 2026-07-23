@@ -18,10 +18,10 @@ export const developers: Developer[] = [
     companyId: "firm-advench",
     name: "Riverstone Heights Corp",
     status: "Inactive",
-    totalCutPercent: 6,
+    totalCutPercent: 5,
     commissionRates: {
-      direct: { broker: 2, salesManager: 4, salesPerson: 0 },
-      referred: { broker: 2, salesManager: 1.5, salesPerson: 2.5 },
+      direct: { broker: 1.5, salesManager: 3.5, salesPerson: 0 },
+      referred: { broker: 1.5, salesManager: 1, salesPerson: 2 },
     },
     requiredMilestonePercent: { cash: 100, inHouse: 25, bank: 25 },
   },

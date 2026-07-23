@@ -1,4 +1,4 @@
-import { AlertTriangle, ChevronLeft, FileCheck2 } from "lucide-react";
+import { ChevronLeft, FileCheck2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
@@ -137,14 +137,6 @@ export function CreateVoucher() {
 
           {selected ? (
             <div className="create-voucher-page__form">
-              {selected.releaseBlocked ? (
-                <div className="create-voucher-page__gate-warning">
-                  <AlertTriangle size={16} strokeWidth={2} aria-hidden="true" />
-                  This client's requirements checklist isn't Complete yet — the voucher can be
-                  created and signed, but release will be blocked until it is.
-                </div>
-              ) : null}
-
               <div className="admin-form__section">
                 <span className="admin-form__section-title">Sale Details</span>
                 <dl className="create-voucher-page__facts">

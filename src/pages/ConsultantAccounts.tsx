@@ -158,7 +158,7 @@ export function ConsultantAccounts() {
     if (result?.linkGenerated && result.consultant.linkCode) {
       setGeneratedLink({
         name: result.consultant.name,
-        url: `${window.location.origin}/?ref=${result.consultant.linkCode}`,
+        url: `${window.location.origin}/browse?ref=${result.consultant.linkCode}`,
       });
       reload();
       return;

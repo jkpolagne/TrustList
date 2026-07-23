@@ -45,7 +45,6 @@ export interface EligibleCommissionRequest {
   detectedDate: string;
   breakdown: TrancheBreakdown;
   consultantName: string;
-  releaseBlocked: boolean;
 }
 
 /** The single source of truth for "money owed but not yet paperworked": every entitled
@@ -75,6 +74,10 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
     const developer = property?.developerId ? developersById.get(property.developerId) : undefined;
     if (!property || !developer) continue;
 
+    // A tranche whose requirements checklist isn't where it needs to be yet is not
+    // "eligible" at all — the broker shouldn't even see it as owed, let alone action it.
+    if (isTrancheReleaseBlocked(client, milestone.trancheNumber)) continue;
+
     const breakdowns = computeTrancheBreakdown(client, developer, consultants, milestone.trancheNumber);
     for (const breakdown of breakdowns) {
       const alreadyVouchered = firmVouchers.some(
@@ -95,7 +98,6 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
         detectedDate: milestone.detectedDate,
         breakdown,
         consultantName: consultantsById.get(breakdown.consultantId)?.name ?? "—",
-        releaseBlocked: isTrancheReleaseBlocked(client, milestone.trancheNumber),
       });
     }
   }

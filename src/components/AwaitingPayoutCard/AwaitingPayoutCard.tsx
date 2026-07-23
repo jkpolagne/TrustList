@@ -59,9 +59,6 @@ export function AwaitingPayoutCard({
               · Pending {pendingDays} {pendingDays === 1 ? "day" : "days"}
             </span>
           </span>
-          {request.releaseBlocked ? (
-            <span className="awaiting-payout-card__gate">Requirements gate: not yet Complete</span>
-          ) : null}
         </div>
       </Link>
     </StatusCard>

@@ -101,7 +101,7 @@ export function ConsultantLinks() {
             </thead>
             <tbody>
               {filtered.map((c) => {
-                const url = `${window.location.origin}/?ref=${c.linkCode}`;
+                const url = `${window.location.origin}/browse?ref=${c.linkCode}`;
                 return (
                   <tr key={c.id}>
                     <td className="consultant-links-page__name">{c.name}</td>

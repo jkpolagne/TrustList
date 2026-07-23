@@ -88,9 +88,6 @@ export function ExpectedPayouts() {
                       <span className={`status-pill ${TIER_PILL[tier]}`}>
                         {TIER_LABEL[tier]} · {days}d
                       </span>
-                      {r.releaseBlocked ? (
-                        <span className="expected-payouts-page__gate">Gate: incomplete</span>
-                      ) : null}
                     </td>
                     <td>
                       <Link
