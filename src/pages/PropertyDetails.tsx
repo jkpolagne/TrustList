@@ -16,16 +16,19 @@ import { EmptyState } from "../components/EmptyState";
 import { PropertyCard } from "../components/PropertyCard";
 import { PropertyMap } from "../components/PropertyMap";
 import { PropertyPhoto } from "../components/PropertyPhoto";
+import { PropertyValuationCard } from "../components/PropertyValuationCard";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
 import { useReferral } from "../context/ReferralContext";
 import {
   getDeveloperById,
   getFirmById,
+  getLoanQuotationByProperty,
   getPublicPropertyById,
   getPublicProperties,
+  getZonalValuePerSqm,
 } from "../services";
-import type { Developer, Firm, Property } from "../types";
+import type { Developer, Firm, LoanQuotation, Property } from "../types";
 import { formatPHP } from "../utils/finance";
 import "./PropertyDetails.css";
 
@@ -38,10 +41,14 @@ export function PropertyDetails() {
   const [firm, setFirm] = useState<Firm | undefined>();
   const [developer, setDeveloper] = useState<Developer | undefined>();
   const [similar, setSimilar] = useState<Property[]>([]);
+  const [zonalValuePerSqm, setZonalValuePerSqm] = useState<number>();
+  const [loanQuotation, setLoanQuotation] = useState<LoanQuotation>();
 
   useEffect(() => {
     if (!id) return;
     setProperty(undefined);
+    setZonalValuePerSqm(undefined);
+    setLoanQuotation(undefined);
 
     getPublicPropertyById(id).then((found) => {
       setProperty(found ?? null);
@@ -49,6 +56,8 @@ export function PropertyDetails() {
 
       getFirmById(found.companyId).then(setFirm);
       if (found.developerId) getDeveloperById(found.developerId).then(setDeveloper);
+      getZonalValuePerSqm(found.city, found.barangay).then(setZonalValuePerSqm);
+      getLoanQuotationByProperty(found.id).then(setLoanQuotation);
 
       getPublicProperties().then((all) => {
         const candidates = all
@@ -196,6 +205,15 @@ export function PropertyDetails() {
                 <dd>{property.status}</dd>
               </div>
             </dl>
+          </section>
+
+          <section className="property-details__section">
+            <h3>Estimated Market Value</h3>
+            <PropertyValuationCard
+              property={property}
+              zonalValuePerSqm={zonalValuePerSqm}
+              loanQuotation={loanQuotation}
+            />
           </section>
 
           {property.features.length > 0 ? (

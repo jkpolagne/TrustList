@@ -3,12 +3,15 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
 import { Modal } from "../components/Modal";
+import { PropertyValuationCard } from "../components/PropertyValuationCard";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
 import { useAuth } from "../context/AuthContext";
 import {
   createProperty,
   getDevelopersByFirm,
+  getLoanQuotationByProperty,
+  getLocations,
   getPropertiesByFirm,
   mockVerificationDocuments,
   updateProperty,
@@ -16,6 +19,8 @@ import {
 import type {
   Developer,
   ListingSource,
+  LoanQuotation,
+  LocationZonalValue,
   Property,
   PropertyStatus,
   PropertyType,
@@ -39,6 +44,7 @@ interface PropertyFormState {
   price: string;
   status: PropertyStatus;
   city: string;
+  barangay: string;
   address: string;
   lat: string;
   lng: string;
@@ -60,6 +66,7 @@ const EMPTY_FORM: PropertyFormState = {
   price: "",
   status: "Available",
   city: CITIES[0],
+  barangay: "",
   address: "",
   lat: String(CITY_COORDINATES[CITIES[0]].lat),
   lng: String(CITY_COORDINATES[CITIES[0]].lng),
@@ -82,6 +89,7 @@ function propertyToForm(p: Property): PropertyFormState {
     price: String(p.price),
     status: p.status,
     city: p.city,
+    barangay: p.barangay,
     address: p.address,
     lat: String(p.coordinates.lat),
     lng: String(p.coordinates.lng),
@@ -116,6 +124,8 @@ export function ManageProperties() {
   const [images, setImages] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState("");
   const [saving, setSaving] = useState(false);
+  const [locations, setLocations] = useState<LocationZonalValue[]>([]);
+  const [editingLoanQuotation, setEditingLoanQuotation] = useState<LoanQuotation>();
 
   const editingProperty = editingId ? properties.find((p) => p.id === editingId) : undefined;
 
@@ -131,8 +141,19 @@ export function ManageProperties() {
   }
 
   useEffect(reload, [session?.firmId]);
+  useEffect(() => {
+    getLocations().then(setLocations);
+  }, []);
 
   const developersById = useMemo(() => new Map(developers.map((d) => [d.id, d])), [developers]);
+  const editingZonalValuePerSqm = useMemo(() => {
+    if (!editingProperty) return undefined;
+    return locations.find(
+      (l) =>
+        l.city === editingProperty.city &&
+        l.barangay.trim().toLowerCase() === editingProperty.barangay.trim().toLowerCase(),
+    )?.zonalValuePerSqm;
+  }, [locations, editingProperty]);
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -153,6 +174,7 @@ export function ManageProperties() {
     setForm(EMPTY_FORM);
     setFeatures([]);
     setImages([]);
+    setEditingLoanQuotation(undefined);
     setModalOpen(true);
   }
 
@@ -161,6 +183,8 @@ export function ManageProperties() {
     setForm(propertyToForm(p));
     setFeatures(p.features);
     setImages(p.images);
+    setEditingLoanQuotation(undefined);
+    getLoanQuotationByProperty(p.id).then(setEditingLoanQuotation);
     setModalOpen(true);
   }
 
@@ -195,6 +219,7 @@ export function ManageProperties() {
       title: form.title,
       propertyType: form.propertyType,
       city: form.city,
+      barangay: form.barangay,
       address: form.address,
       price: Number(form.price),
       bedrooms: isLotOnly ? undefined : form.bedrooms ? Number(form.bedrooms) : undefined,
@@ -473,6 +498,17 @@ export function ManageProperties() {
                   ))}
                 </select>
               </div>
+              <div className="admin-form__field">
+                <label htmlFor="propBarangay">Barangay</label>
+                <input
+                  id="propBarangay"
+                  type="text"
+                  required
+                  placeholder="e.g. Triangulo"
+                  value={form.barangay}
+                  onChange={(e) => setForm({ ...form, barangay: e.target.value })}
+                />
+              </div>
               <div className="admin-form__field admin-form__field--wide">
                 <label htmlFor="propAddress">Address</label>
                 <input
@@ -484,6 +520,9 @@ export function ManageProperties() {
                 />
               </div>
             </div>
+            <p className="admin-form__hint">
+              Barangay feeds the Estimated Market Value's zonal valuation reference below.
+            </p>
             <div className="admin-form__row">
               <div className="admin-form__field">
                 <label htmlFor="propLat">Latitude</label>
@@ -509,6 +548,17 @@ export function ManageProperties() {
               </div>
             </div>
           </div>
+
+          {editingProperty ? (
+            <div className="admin-form__section">
+              <span className="admin-form__section-title">Estimated Market Value</span>
+              <PropertyValuationCard
+                property={editingProperty}
+                zonalValuePerSqm={editingZonalValuePerSqm}
+                loanQuotation={editingLoanQuotation}
+              />
+            </div>
+          ) : null}
 
           <div className="admin-form__section">
             <span className="admin-form__section-title">Details</span>

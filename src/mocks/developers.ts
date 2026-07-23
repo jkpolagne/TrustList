@@ -6,10 +6,10 @@ export const developers: Developer[] = [
     companyId: "firm-advench",
     name: "Golden Horizon Developers",
     status: "Active",
-    totalCutPercent: 6,
+    totalCutPercent: 8,
     commissionRates: {
-      direct: { broker: 2, salesManager: 4, salesPerson: 0 },
-      referred: { broker: 2, salesManager: 1.5, salesPerson: 2.5 },
+      direct: { broker: 2, salesManager: 6, salesPerson: 0 },
+      referred: { broker: 2, salesManager: 2, salesPerson: 4 },
     },
     requiredMilestonePercent: { cash: 100, inHouse: 25, bank: 25 },
   },

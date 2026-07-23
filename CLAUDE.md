@@ -84,8 +84,8 @@ firms (see Mock Data) so the multi-firm nature is visible in every demo.
 ## Commission logic
 Rates are negotiated PER DEVELOPER (set by Company Admin on the Add
 Developer form), not fixed system-wide. Example rates for mock data:
-- Direct Sale: Broker 2%, Sales Manager 4% (no Sales Person share)
-- Referred Sale: Broker 2%, Sales Manager 1.5%, Sales Person 2.5%
+- Direct Sale: Broker 2%, Sales Manager 6% (no Sales Person share)
+- Referred Sale: Broker 2%, Sales Manager 2%, Sales Person 4%
 Sale type is determined by the consultant link: a buyer who arrived
 through a Sales Person's unique link = Referred Sale; otherwise Direct.
 Stored as an explicit sale_type field, never inferred at display time.
@@ -145,8 +145,8 @@ Firms (3 minimum):
 - Advench Realty — Naga City (primary, most complete data)
 - Bicol Homes Realty — Naga City
 - Coastline Properties — Legazpi City
-Developers: Golden Horizon Developers (6% total cut, Direct 2%/4%,
-Referred 2%/1.5%/2.5%), plus one more developer with slightly different
+Developers: Golden Horizon Developers (8% total cut, Direct 2%/6%,
+Referred 2%/2%/4%), plus one more developer with slightly different
 rates to prove rates are per-developer.
 Properties: Lot 14 Greenview Estates (₱1,500,000, Pili, developer-sourced,
 available), Unit 4B Riverside Homes (₱2,300,000, Naga, reserved), plus

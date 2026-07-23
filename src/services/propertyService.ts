@@ -91,6 +91,9 @@ export function createListingFromInquiry(
     title: draft.title,
     propertyType: draft.propertyType,
     city: draft.city,
+    // No structured barangay from a seller inquiry's free-text location — admin can
+    // fill this in later via Manage Properties to enable the zonal valuation estimate.
+    barangay: "",
     address: draft.address,
     price: draft.price,
     bedrooms: draft.bedrooms,

@@ -80,6 +80,8 @@ export interface Property {
   title: string;
   propertyType: PropertyType;
   city: string;
+  /** Used to look up the barangay-level BIR zonal value for the valuation estimate. */
+  barangay: string;
   address: string;
   price: number;
   bedrooms?: number;
@@ -334,6 +336,14 @@ export interface SellerInquiry {
   submittedAt: string;
   /** Set once the inquiry is converted — links to the resulting Property record. */
   propertyId?: string;
+}
+
+/** Barangay-level BIR zonal valuation reference, PHP per square meter. Government
+ * zonal values are a floor/reference figure for tax purposes, not a market appraisal. */
+export interface LocationZonalValue {
+  city: string;
+  barangay: string;
+  zonalValuePerSqm: number;
 }
 
 export interface ListingDraft {

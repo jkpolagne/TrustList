@@ -27,6 +27,7 @@ import { MonitorClients } from "./pages/MonitorClients";
 import { MyCommission } from "./pages/MyCommission";
 import { PlatformLogs } from "./pages/PlatformLogs";
 import { PropertyDetails } from "./pages/PropertyDetails";
+import { PropertyValuation } from "./pages/PropertyValuation";
 import { SalesPersons } from "./pages/SalesPersons";
 import { ScheduleVisit } from "./pages/ScheduleVisit";
 import { SellerInquiries } from "./pages/SellerInquiries";
@@ -58,6 +59,7 @@ function AppRoutes() {
         <Route path="/properties/:id/visit" element={<ScheduleVisit />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/loan-calculator" element={<LoanCalculator />} />
+        <Route path="/property-valuation" element={<PropertyValuation />} />
         <Route path="/sell" element={<SellProperty />} />
       </Route>
 

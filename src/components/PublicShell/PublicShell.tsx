@@ -13,6 +13,7 @@ interface PublicNavItem {
 const PUBLIC_NAV_ITEMS: PublicNavItem[] = [
   { label: "Browse Listings", path: "/" },
   { label: "Loan Calculator", path: "/loan-calculator" },
+  { label: "Property Valuation", path: "/property-valuation" },
   { label: "Sell Your Property", path: "/sell" },
 ];
 
