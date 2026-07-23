@@ -16,6 +16,7 @@ import { CreateVoucher } from "./pages/CreateVoucher";
 import { Dashboard } from "./pages/Dashboard";
 import { ExpectedPayouts } from "./pages/ExpectedPayouts";
 import { Firms } from "./pages/Firms";
+import { Landing } from "./pages/Landing";
 import { ListingVerification } from "./pages/ListingVerification";
 import { LoanCalculator } from "./pages/LoanCalculator";
 import { Login } from "./pages/Login";
@@ -54,7 +55,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route element={<PublicShell />}>
-        <Route path="/" element={<Browse />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/browse" element={<Browse />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/properties/:id/visit" element={<ScheduleVisit />} />
         <Route path="/compare" element={<Compare />} />

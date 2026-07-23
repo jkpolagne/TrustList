@@ -96,7 +96,7 @@ export function PropertyDetails() {
         title="Listing not found"
         description="This property may have been removed or the link is incorrect."
         action={
-          <Link to="/" className="property-details__back-link">
+          <Link to="/browse" className="property-details__back-link">
             <ChevronLeft size={14} strokeWidth={2} aria-hidden="true" />
             Back to listings
           </Link>
@@ -109,7 +109,7 @@ export function PropertyDetails() {
 
   return (
     <div className="property-details">
-      <Link to="/" className="property-details__back-link">
+      <Link to="/browse" className="property-details__back-link">
         <ChevronLeft size={14} strokeWidth={2} aria-hidden="true" />
         Back to listings
       </Link>

@@ -71,7 +71,7 @@ export function SellProperty() {
             your property and the ownership verification documents they'll need. No live chat —
             just wait for their call or email.
           </p>
-          <Link to="/" className="sell-property__confirmation-link">
+          <Link to="/browse" className="sell-property__confirmation-link">
             Back to listings
           </Link>
         </div>

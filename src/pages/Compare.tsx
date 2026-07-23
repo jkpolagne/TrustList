@@ -65,7 +65,7 @@ export function Compare() {
           title="No properties selected"
           description="Add up to 2 properties to compare from the browse page."
           action={
-            <Link to="/" className="compare-page__browse-link">
+            <Link to="/browse" className="compare-page__browse-link">
               Browse listings
             </Link>
           }
@@ -108,7 +108,7 @@ export function Compare() {
               ))}
               {properties.length < 2 ? (
                 <th>
-                  <Link to="/" className="compare-table__add-more">
+                  <Link to="/browse" className="compare-table__add-more">
                     + Add another property
                   </Link>
                 </th>

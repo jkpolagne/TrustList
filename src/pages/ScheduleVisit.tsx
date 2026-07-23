@@ -69,7 +69,7 @@ export function ScheduleVisit() {
         title="Listing not found"
         description="This property may have been removed or the link is incorrect."
         action={
-          <Link to="/" className="schedule-visit__back">
+          <Link to="/browse" className="schedule-visit__back">
             <ChevronLeft size={14} strokeWidth={2} aria-hidden="true" />
             Back to listings
           </Link>

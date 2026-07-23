@@ -239,7 +239,7 @@ export function Login() {
           </div>
         ) : null}
 
-        <Link className="login-card__public-link" to="/">
+        <Link className="login-card__public-link" to="/browse">
           Browse the public hub instead →
         </Link>
       </div>
