@@ -1,6 +1,6 @@
 import { BedDouble, Building2, Check, Layers, Plus, Ruler, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PropertyImagePlaceholder } from "../PropertyImagePlaceholder";
+import { PropertyPhoto } from "../PropertyPhoto";
 import { VerificationBadge } from "../VerificationBadge";
 import type { Property } from "../../types";
 import { formatPHP } from "../../utils/finance";
@@ -41,7 +41,7 @@ export function PropertyDetailPanel({
       </button>
 
       <div className="detail-panel__image">
-        <PropertyImagePlaceholder propertyType={property.propertyType} />
+        <PropertyPhoto property={property} />
       </div>
 
       <div className="detail-panel__body">

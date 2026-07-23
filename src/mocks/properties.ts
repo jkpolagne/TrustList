@@ -19,7 +19,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.571, lng: 123.2801 },
     turnover: "Titled, ready for construction",
     features: ["Gated subdivision", "Concrete road access", "Near Pili town proper", "Titled lot"],
-    images: ["Lot Perimeter.jpg", "Subdivision Entrance.jpg"],
+    images: ["https://images.pexels.com/photos/37520984/pexels-photo-37520984.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-riverside-4b",
@@ -43,7 +43,7 @@ export const properties: Property[] = [
     turnover: "Ready for occupancy",
     houseModel: "Camia Model",
     features: ["Covered carport", "2-storey layout", "Near Centrale Mall", "Perimeter fence"],
-    images: ["Facade.jpg", "Living Area.jpg", "Kitchen.jpg"],
+    images: ["https://images.pexels.com/photos/18093637/pexels-photo-18093637.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-casateresa",
@@ -70,7 +70,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.6142, lng: 123.1866 },
     turnover: "Ready for occupancy",
     features: ["Duplex, dual entry", "Near public market", "Covered parking (2 cars)", "Own water pump"],
-    images: ["Front Exterior.jpg", "Sala.jpg"],
+    images: ["https://images.pexels.com/photos/7587880/pexels-photo-7587880.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-sunrise-b7",
@@ -94,7 +94,7 @@ export const properties: Property[] = [
     turnover: "Pre-selling — turnover Q4 2026",
     houseModel: "Sampaguita Model",
     features: ["Near Capitol Complex", "Near provincial hospital", "Clubhouse access", "Gated subdivision"],
-    images: ["Model Unit.jpg", "Perspective.jpg"],
+    images: ["https://images.pexels.com/photos/30484316/pexels-photo-30484316.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-emerald-lot22",
@@ -115,7 +115,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.6486, lng: 123.2153 },
     turnover: "Titled, ready for construction",
     features: ["Elevated lot", "Mountain view", "Quiet residential street"],
-    images: ["Lot View.jpg"],
+    images: ["https://images.pexels.com/photos/19335534/pexels-photo-19335534.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-villacorazon",
@@ -139,7 +139,7 @@ export const properties: Property[] = [
     turnover: "Pre-selling — turnover Q2 2027",
     houseModel: "Seaview Model",
     features: ["Mayon Volcano view", "Single-detached", "Master-planned community", "2-car garage"],
-    images: ["Exterior Render.jpg", "Master Bedroom.jpg"],
+    images: ["https://images.pexels.com/photos/8082328/pexels-photo-8082328.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-palm-12a",
@@ -162,7 +162,7 @@ export const properties: Property[] = [
     coordinates: { lat: 13.1548, lng: 123.7513 },
     turnover: "Ready for occupancy",
     features: ["Near Legazpi Port", "Balcony", "Shared amenities", "24-hour security"],
-    images: ["Unit Layout.jpg", "Balcony View.jpg"],
+    images: ["https://images.pexels.com/photos/129494/pexels-photo-129494.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
   {
     id: "prop-hillside-lot5",
@@ -182,6 +182,6 @@ export const properties: Property[] = [
     coordinates: { lat: 13.5432, lng: 123.2894 },
     turnover: "Turned over",
     features: ["Hillside view", "North-facing", "Titled lot"],
-    images: ["Hillside View.jpg"],
+    images: ["https://images.pexels.com/photos/17862876/pexels-photo-17862876.jpeg?auto=compress&cs=tinysrgb&w=1200"],
   },
 ];

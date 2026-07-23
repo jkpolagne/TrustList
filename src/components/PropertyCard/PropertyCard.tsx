@@ -1,5 +1,5 @@
 import { Bath, BedDouble, MapPin, Ruler } from "lucide-react";
-import { PropertyImagePlaceholder } from "../PropertyImagePlaceholder";
+import { PropertyPhoto } from "../PropertyPhoto";
 import { VerificationBadge } from "../VerificationBadge";
 import type { Property } from "../../types";
 import { formatPHP } from "../../utils/finance";
@@ -28,7 +28,7 @@ export function PropertyCard({ property, firmName, active, onSelect }: PropertyC
       onClick={() => onSelect(property.id)}
     >
       <div className="property-card__image">
-        <PropertyImagePlaceholder propertyType={property.propertyType} />
+        <PropertyPhoto property={property} />
         <span className={`property-card__status ${STATUS_CLASS[property.status]}`}>
           {property.status}
         </span>

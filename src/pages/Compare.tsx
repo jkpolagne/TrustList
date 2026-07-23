@@ -2,7 +2,7 @@ import { Scale, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
-import { PropertyImagePlaceholder } from "../components/PropertyImagePlaceholder";
+import { PropertyPhoto } from "../components/PropertyPhoto";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
 import { useCompare } from "../context/CompareContext";
@@ -100,7 +100,7 @@ export function Compare() {
                       <X size={13} strokeWidth={2} aria-hidden="true" />
                     </button>
                     <div className="compare-table__image">
-                      <PropertyImagePlaceholder propertyType={property.propertyType} />
+                      <PropertyPhoto property={property} />
                     </div>
                     <span className="compare-table__title">{property.title}</span>
                   </div>

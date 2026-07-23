@@ -630,7 +630,7 @@ export function ManageProperties() {
           </div>
 
           <div className="admin-form__field">
-            <label>Images</label>
+            <label>Photos</label>
             <div className="manage-properties-page__tag-input">
               <input
                 type="text"
@@ -642,14 +642,14 @@ export function ManageProperties() {
                     addImage();
                   }
                 }}
-                placeholder="e.g. Front View.jpg"
+                placeholder="Paste a photo URL"
               />
               <button type="button" onClick={addImage}>
                 Add
               </button>
             </div>
             <p className="admin-form__hint">
-              Mock filenames only — this prototype has no real file storage.
+              The first photo added is used as the listing's cover image.
             </p>
             <div className="manage-properties-page__tags">
               {images.map((img) => (

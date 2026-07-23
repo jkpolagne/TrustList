@@ -14,8 +14,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConsultantCard } from "../components/ConsultantCard";
 import { EmptyState } from "../components/EmptyState";
 import { PropertyCard } from "../components/PropertyCard";
-import { PropertyImagePlaceholder } from "../components/PropertyImagePlaceholder";
 import { PropertyMap } from "../components/PropertyMap";
+import { PropertyPhoto } from "../components/PropertyPhoto";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
 import { useReferral } from "../context/ReferralContext";
@@ -29,8 +29,6 @@ import type { Developer, Firm, Property } from "../types";
 import { formatPHP } from "../utils/finance";
 import "./PropertyDetails.css";
 
-const GALLERY_SLOTS = 4;
-
 export function PropertyDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -40,12 +38,10 @@ export function PropertyDetails() {
   const [firm, setFirm] = useState<Firm | undefined>();
   const [developer, setDeveloper] = useState<Developer | undefined>();
   const [similar, setSimilar] = useState<Property[]>([]);
-  const [activePhoto, setActivePhoto] = useState(0);
 
   useEffect(() => {
     if (!id) return;
     setProperty(undefined);
-    setActivePhoto(0);
 
     getPublicPropertyById(id).then((found) => {
       setProperty(found ?? null);
@@ -111,20 +107,7 @@ export function PropertyDetails() {
 
       <div className="property-details__gallery">
         <div className="property-details__hero">
-          <PropertyImagePlaceholder propertyType={property.propertyType} key={activePhoto} />
-        </div>
-        <div className="property-details__thumbs">
-          {Array.from({ length: GALLERY_SLOTS }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className={`property-details__thumb${i === activePhoto ? " property-details__thumb--active" : ""}`}
-              onClick={() => setActivePhoto(i)}
-              aria-label={`Photo ${i + 1}`}
-            >
-              <PropertyImagePlaceholder propertyType={property.propertyType} compact />
-            </button>
-          ))}
+          <PropertyPhoto property={property} />
         </div>
       </div>
 
