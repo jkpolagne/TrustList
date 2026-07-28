@@ -14,3 +14,4 @@ export * from "./milestoneService";
 export * from "./paymentProofService";
 export * from "./voucherService";
 export * from "./locationService";
+export * from "./notificationService";

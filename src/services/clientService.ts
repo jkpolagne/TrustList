@@ -76,6 +76,28 @@ export function createClient(input: CreateClientInput): Promise<Client> {
   return withDelay(client);
 }
 
+/** Toggles a single requirements-checklist item as the consultant collects/confirms a
+ * document from the client. Checking sets verifiedBy/verifiedDate; unchecking clears them
+ * so a mistaken tick can be undone cleanly. */
+export function updateRequirementItem(
+  clientId: string,
+  itemId: string,
+  checked: boolean,
+  verifiedBy: string,
+): Promise<Client | undefined> {
+  const client = clients.find((c) => c.id === clientId);
+  if (client) {
+    const item = client.requirementsChecklist.find((r) => r.id === itemId);
+    if (item) {
+      item.checked = checked;
+      item.verifiedBy = checked ? verifiedBy : undefined;
+      item.verifiedDate = checked ? new Date().toISOString().slice(0, 10) : undefined;
+      persist();
+    }
+  }
+  return withDelay(client);
+}
+
 export function logClientContact(id: string, notes: string): Promise<Client | undefined> {
   const client = clients.find((c) => c.id === id);
   if (client) {

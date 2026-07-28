@@ -4,6 +4,7 @@ import { APP_NAME } from "../../config";
 import { NAV_ITEMS_BY_ROLE } from "../../constants/nav";
 import { useAuth } from "../../context/AuthContext";
 import { firms } from "../../mocks";
+import { NotificationBell } from "../NotificationBell";
 import "./AppShell.css";
 
 export function AppShell() {
@@ -66,6 +67,7 @@ export function AppShell() {
               {firm ? ` · ${firm.name}` : ""}
             </span>
           </div>
+          {session.role !== "Super Admin" ? <NotificationBell /> : null}
           <button
             type="button"
             className="app-shell__logout"

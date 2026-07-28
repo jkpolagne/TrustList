@@ -18,12 +18,14 @@ import {
 } from "../services";
 import type {
   Developer,
+  FurnishingStatus,
   ListingSource,
   LoanQuotation,
   LocationZonalValue,
   Property,
   PropertyStatus,
   PropertyType,
+  TitleType,
 } from "../types";
 import { formatPHP } from "../utils/finance";
 import "./ManageProperties.css";
@@ -35,6 +37,13 @@ const CITY_COORDINATES: Record<string, { lat: number; lng: number }> = {
 };
 const CITIES = Object.keys(CITY_COORDINATES);
 const PROPERTY_TYPES: PropertyType[] = ["House", "Townhouse", "Condominium", "Lot Only"];
+const TITLE_TYPES: TitleType[] = [
+  "Clean Title (Transfer Certificate of Title)",
+  "Condominium Certificate of Title (CCT)",
+  "Mother Title (Subdivision in Progress)",
+  "Tax Declaration Only",
+];
+const FURNISHING_STATUSES: FurnishingStatus[] = ["Bare", "Semi-Furnished", "Fully Furnished"];
 
 interface PropertyFormState {
   title: string;
@@ -53,7 +62,18 @@ interface PropertyFormState {
   bedrooms: string;
   bathrooms: string;
   turnover: string;
+  turnoverDate: string;
   houseModel: string;
+  titleType: TitleType;
+  blockLot: string;
+  unitFloor: string;
+  lotFrontageMeters: string;
+  isCornerLot: boolean;
+  numberOfFloors: string;
+  parkingSlots: string;
+  furnishingStatus: FurnishingStatus | "";
+  associationDuesMonthly: string;
+  floorPlanImage: string;
   description: string;
   ownerName: string;
 }
@@ -75,7 +95,18 @@ const EMPTY_FORM: PropertyFormState = {
   bedrooms: "",
   bathrooms: "",
   turnover: "Ready for occupancy",
+  turnoverDate: "",
   houseModel: "",
+  titleType: "Clean Title (Transfer Certificate of Title)",
+  blockLot: "",
+  unitFloor: "",
+  lotFrontageMeters: "",
+  isCornerLot: false,
+  numberOfFloors: "",
+  parkingSlots: "",
+  furnishingStatus: "",
+  associationDuesMonthly: "",
+  floorPlanImage: "",
   description: "",
   ownerName: "",
 };
@@ -98,7 +129,18 @@ function propertyToForm(p: Property): PropertyFormState {
     bedrooms: p.bedrooms !== undefined ? String(p.bedrooms) : "",
     bathrooms: p.bathrooms !== undefined ? String(p.bathrooms) : "",
     turnover: p.turnover,
+    turnoverDate: p.turnoverDate ?? "",
     houseModel: p.houseModel ?? "",
+    titleType: p.titleType,
+    blockLot: p.blockLot ?? "",
+    unitFloor: p.unitFloor ?? "",
+    lotFrontageMeters: p.lotFrontageMeters !== undefined ? String(p.lotFrontageMeters) : "",
+    isCornerLot: p.isCornerLot ?? false,
+    numberOfFloors: p.numberOfFloors !== undefined ? String(p.numberOfFloors) : "",
+    parkingSlots: p.parkingSlots !== undefined ? String(p.parkingSlots) : "",
+    furnishingStatus: p.furnishingStatus ?? "",
+    associationDuesMonthly: p.associationDuesMonthly !== undefined ? String(p.associationDuesMonthly) : "",
+    floorPlanImage: p.floorPlanImage ?? "",
     description: p.description,
     ownerName: "",
   };
@@ -121,6 +163,10 @@ export function ManageProperties() {
   const [form, setForm] = useState<PropertyFormState>(EMPTY_FORM);
   const [features, setFeatures] = useState<string[]>([]);
   const [featureInput, setFeatureInput] = useState("");
+  const [amenities, setAmenities] = useState<string[]>([]);
+  const [amenityInput, setAmenityInput] = useState("");
+  const [nearbyLandmarks, setNearbyLandmarks] = useState<string[]>([]);
+  const [landmarkInput, setLandmarkInput] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState("");
   const [saving, setSaving] = useState(false);
@@ -173,6 +219,8 @@ export function ManageProperties() {
     setEditingId(null);
     setForm(EMPTY_FORM);
     setFeatures([]);
+    setAmenities([]);
+    setNearbyLandmarks([]);
     setImages([]);
     setEditingLoanQuotation(undefined);
     setModalOpen(true);
@@ -182,6 +230,8 @@ export function ManageProperties() {
     setEditingId(p.id);
     setForm(propertyToForm(p));
     setFeatures(p.features);
+    setAmenities(p.amenities);
+    setNearbyLandmarks(p.nearbyLandmarks);
     setImages(p.images);
     setEditingLoanQuotation(undefined);
     getLoanQuotationByProperty(p.id).then(setEditingLoanQuotation);
@@ -197,6 +247,18 @@ export function ManageProperties() {
     const value = featureInput.trim();
     if (value && !features.includes(value)) setFeatures([...features, value]);
     setFeatureInput("");
+  }
+
+  function addAmenity() {
+    const value = amenityInput.trim();
+    if (value && !amenities.includes(value)) setAmenities([...amenities, value]);
+    setAmenityInput("");
+  }
+
+  function addLandmark() {
+    const value = landmarkInput.trim();
+    if (value && !nearbyLandmarks.includes(value)) setNearbyLandmarks([...nearbyLandmarks, value]);
+    setLandmarkInput("");
   }
 
   function addImage() {
@@ -242,8 +304,29 @@ export function ManageProperties() {
       description: form.description,
       coordinates: { lat: Number(form.lat), lng: Number(form.lng) },
       turnover: isLotOnly ? "Titled, ready for construction" : form.turnover,
+      turnoverDate: form.turnoverDate || undefined,
       houseModel: isLotOnly ? undefined : form.houseModel || undefined,
+      titleType: form.titleType,
+      blockLot: form.propertyType !== "Condominium" ? form.blockLot || undefined : undefined,
+      unitFloor: form.propertyType === "Condominium" ? form.unitFloor || undefined : undefined,
+      lotFrontageMeters:
+        form.propertyType !== "Condominium" && form.lotFrontageMeters
+          ? Number(form.lotFrontageMeters)
+          : undefined,
+      isCornerLot: form.propertyType !== "Condominium" ? form.isCornerLot : undefined,
+      numberOfFloors:
+        form.propertyType === "House" || form.propertyType === "Townhouse"
+          ? form.numberOfFloors
+            ? Number(form.numberOfFloors)
+            : undefined
+          : undefined,
+      parkingSlots: isLotOnly ? undefined : form.parkingSlots ? Number(form.parkingSlots) : undefined,
+      furnishingStatus: isLotOnly ? undefined : form.furnishingStatus || undefined,
+      associationDuesMonthly: form.associationDuesMonthly ? Number(form.associationDuesMonthly) : undefined,
+      floorPlanImage: isLotOnly ? undefined : form.floorPlanImage || undefined,
       features,
+      amenities,
+      nearbyLandmarks,
       images,
     };
 
@@ -585,6 +668,58 @@ export function ManageProperties() {
                   />
                 </div>
               ) : null}
+              {form.propertyType !== "Condominium" ? (
+                <div className="admin-form__field">
+                  <label htmlFor="propFrontage">Lot frontage (m)</label>
+                  <input
+                    id="propFrontage"
+                    type="number"
+                    min={0}
+                    step="0.1"
+                    value={form.lotFrontageMeters}
+                    onChange={(e) => setForm({ ...form, lotFrontageMeters: e.target.value })}
+                  />
+                </div>
+              ) : null}
+            </div>
+
+            <div className="admin-form__row">
+              {form.propertyType !== "Condominium" ? (
+                <div className="admin-form__field admin-form__field--checkbox">
+                  <label htmlFor="propCornerLot">
+                    <input
+                      id="propCornerLot"
+                      type="checkbox"
+                      checked={form.isCornerLot}
+                      onChange={(e) => setForm({ ...form, isCornerLot: e.target.checked })}
+                    />
+                    Corner lot
+                  </label>
+                </div>
+              ) : null}
+              <div className="admin-form__field">
+                <label htmlFor="propTurnoverDate">
+                  {isLotOnly || form.turnover.toLowerCase().includes("pre-selling")
+                    ? "Expected turnover date"
+                    : "Turnover / built date"}
+                </label>
+                <input
+                  id="propTurnoverDate"
+                  type="date"
+                  value={form.turnoverDate}
+                  onChange={(e) => setForm({ ...form, turnoverDate: e.target.value })}
+                />
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="propDues">Association dues (₱/mo)</label>
+                <input
+                  id="propDues"
+                  type="number"
+                  min={0}
+                  value={form.associationDuesMonthly}
+                  onChange={(e) => setForm({ ...form, associationDuesMonthly: e.target.value })}
+                />
+              </div>
             </div>
 
             {!isLotOnly ? (
@@ -610,6 +745,48 @@ export function ManageProperties() {
                   />
                 </div>
                 <div className="admin-form__field">
+                  <label htmlFor="propParking">Parking slots</label>
+                  <input
+                    id="propParking"
+                    type="number"
+                    min={0}
+                    value={form.parkingSlots}
+                    onChange={(e) => setForm({ ...form, parkingSlots: e.target.value })}
+                  />
+                </div>
+                <div className="admin-form__field">
+                  <label htmlFor="propFurnishing">Furnishing</label>
+                  <select
+                    id="propFurnishing"
+                    value={form.furnishingStatus}
+                    onChange={(e) =>
+                      setForm({ ...form, furnishingStatus: e.target.value as FurnishingStatus | "" })
+                    }
+                  >
+                    <option value="">Unspecified</option>
+                    {FURNISHING_STATUSES.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ) : null}
+
+            {form.propertyType === "House" || form.propertyType === "Townhouse" ? (
+              <div className="admin-form__row">
+                <div className="admin-form__field">
+                  <label htmlFor="propFloors">Number of floors</label>
+                  <input
+                    id="propFloors"
+                    type="number"
+                    min={1}
+                    value={form.numberOfFloors}
+                    onChange={(e) => setForm({ ...form, numberOfFloors: e.target.value })}
+                  />
+                </div>
+                <div className="admin-form__field">
                   <label htmlFor="propTurnover">Turnover status</label>
                   <input
                     id="propTurnover"
@@ -629,12 +806,67 @@ export function ManageProperties() {
                   />
                 </div>
               </div>
+            ) : form.propertyType === "Condominium" ? (
+              <div className="admin-form__row">
+                <div className="admin-form__field">
+                  <label htmlFor="propTurnover">Turnover status</label>
+                  <input
+                    id="propTurnover"
+                    type="text"
+                    value={form.turnover}
+                    onChange={(e) => setForm({ ...form, turnover: e.target.value })}
+                  />
+                </div>
+              </div>
             ) : (
               <p className="admin-form__hint">
-                Bedrooms, bathrooms, turnover status, and house model don't apply to lot-only
-                listings.
+                Bedrooms, bathrooms, floor count, turnover status, and house model don't apply to
+                lot-only listings.
               </p>
             )}
+          </div>
+
+          <div className="admin-form__section">
+            <span className="admin-form__section-title">Title &amp; Legal</span>
+            <div className="admin-form__row">
+              <div className="admin-form__field">
+                <label htmlFor="propTitleType">Title type</label>
+                <select
+                  id="propTitleType"
+                  value={form.titleType}
+                  onChange={(e) => setForm({ ...form, titleType: e.target.value as TitleType })}
+                >
+                  {TITLE_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {form.propertyType === "Condominium" ? (
+                <div className="admin-form__field">
+                  <label htmlFor="propUnitFloor">Unit / Floor</label>
+                  <input
+                    id="propUnitFloor"
+                    type="text"
+                    placeholder="e.g. Unit 12A, 3rd Floor"
+                    value={form.unitFloor}
+                    onChange={(e) => setForm({ ...form, unitFloor: e.target.value })}
+                  />
+                </div>
+              ) : (
+                <div className="admin-form__field">
+                  <label htmlFor="propBlockLot">Block / Lot</label>
+                  <input
+                    id="propBlockLot"
+                    type="text"
+                    placeholder="e.g. Block 4, Lot 14"
+                    value={form.blockLot}
+                    onChange={(e) => setForm({ ...form, blockLot: e.target.value })}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="admin-form__field">
@@ -649,7 +881,7 @@ export function ManageProperties() {
           </div>
 
           <div className="admin-form__field">
-            <label>Features / amenities</label>
+            <label>Unit features</label>
             <div className="manage-properties-page__tag-input">
               <input
                 type="text"
@@ -661,7 +893,7 @@ export function ManageProperties() {
                     addFeature();
                   }
                 }}
-                placeholder="Type a feature and press Enter"
+                placeholder="e.g. Granite countertop — press Enter"
               />
               <button type="button" onClick={addFeature}>
                 Add
@@ -672,6 +904,71 @@ export function ManageProperties() {
                 <span key={f} className="manage-properties-page__tag">
                   {f}
                   <button type="button" onClick={() => setFeatures(features.filter((x) => x !== f))}>
+                    <X size={11} strokeWidth={2} aria-hidden="true" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="admin-form__field">
+            <label>{isLotOnly ? "Subdivision amenities" : "Building / subdivision amenities"}</label>
+            <div className="manage-properties-page__tag-input">
+              <input
+                type="text"
+                value={amenityInput}
+                onChange={(e) => setAmenityInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addAmenity();
+                  }
+                }}
+                placeholder="e.g. Clubhouse, 24/7 security — press Enter"
+              />
+              <button type="button" onClick={addAmenity}>
+                Add
+              </button>
+            </div>
+            <div className="manage-properties-page__tags">
+              {amenities.map((a) => (
+                <span key={a} className="manage-properties-page__tag">
+                  {a}
+                  <button type="button" onClick={() => setAmenities(amenities.filter((x) => x !== a))}>
+                    <X size={11} strokeWidth={2} aria-hidden="true" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="admin-form__field">
+            <label>Nearby landmarks</label>
+            <div className="manage-properties-page__tag-input">
+              <input
+                type="text"
+                value={landmarkInput}
+                onChange={(e) => setLandmarkInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addLandmark();
+                  }
+                }}
+                placeholder="e.g. 5 mins to SM City Naga — press Enter"
+              />
+              <button type="button" onClick={addLandmark}>
+                Add
+              </button>
+            </div>
+            <div className="manage-properties-page__tags">
+              {nearbyLandmarks.map((l) => (
+                <span key={l} className="manage-properties-page__tag">
+                  {l}
+                  <button
+                    type="button"
+                    onClick={() => setNearbyLandmarks(nearbyLandmarks.filter((x) => x !== l))}
+                  >
                     <X size={11} strokeWidth={2} aria-hidden="true" />
                   </button>
                 </span>
@@ -712,6 +1009,19 @@ export function ManageProperties() {
               ))}
             </div>
           </div>
+
+          {!isLotOnly ? (
+            <div className="admin-form__field">
+              <label htmlFor="propFloorPlan">Floor plan image URL</label>
+              <input
+                id="propFloorPlan"
+                type="text"
+                placeholder="Paste a floor plan diagram URL (optional)"
+                value={form.floorPlanImage}
+                onChange={(e) => setForm({ ...form, floorPlanImage: e.target.value })}
+              />
+            </div>
+          ) : null}
 
           {isIndividualSeller && editingId ? (
             <div className="admin-form__section manage-properties-page__verification">

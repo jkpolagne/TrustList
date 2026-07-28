@@ -68,6 +68,18 @@ export type VerificationStatus = "Pending Review" | "Verified" | "Rejected";
 export type PropertyStatus = "Available" | "Reserved" | "Sold";
 export type PropertyType = "Lot Only" | "House" | "Townhouse" | "Condominium";
 
+/** The actual legal instrument backing the listing — distinct from Ownership
+ * Verification (which is about whether the SELLER is who they claim to be).
+ * A Clean Title can still belong to a scammer; a Mother Title can still belong
+ * to a legitimate developer mid-subdivision. Buyers need to see both. */
+export type TitleType =
+  | "Clean Title (Transfer Certificate of Title)"
+  | "Condominium Certificate of Title (CCT)"
+  | "Mother Title (Subdivision in Progress)"
+  | "Tax Declaration Only";
+
+export type FurnishingStatus = "Bare" | "Semi-Furnished" | "Fully Furnished";
+
 export interface Coordinates {
   lat: number;
   lng: number;
@@ -97,11 +109,33 @@ export interface Property {
   description: string;
   coordinates: Coordinates;
   turnover: string;
+  /** ISO date. In the past: when the unit was actually turned over/built (shown as
+   * age). In the future: expected turnover date for a pre-selling listing. */
+  turnoverDate?: string;
   /** Only meaningful for House/Townhouse/Condominium — hidden in the UI for Lot Only. */
   houseModel?: string;
+  titleType: TitleType;
+  /** House/Townhouse/Lot Only — e.g. "Block 4, Lot 14". */
+  blockLot?: string;
+  /** Condominium only — e.g. "Unit 12A, 3rd Floor". */
+  unitFloor?: string;
+  lotFrontageMeters?: number;
+  isCornerLot?: boolean;
+  /** House/Townhouse only — storeys, e.g. 2 for a 2-storey house. */
+  numberOfFloors?: number;
+  parkingSlots?: number;
+  furnishingStatus?: FurnishingStatus;
+  associationDuesMonthly?: number;
+  /** Unit-level specifics, e.g. "granite countertop". */
   features: string[];
+  /** Subdivision/building-level shared amenities, e.g. "Clubhouse", "24/7 security" —
+   * kept separate from unit `features` since they describe different things. */
+  amenities: string[];
+  nearbyLandmarks: string[];
   /** Mock filenames standing in for uploaded listing photos. */
   images: string[];
+  /** Single floor-plan diagram image, when the firm has one on file. */
+  floorPlanImage?: string;
 }
 
 export type PrcLicenseStatus = "Verified" | "Pending" | "Unverified";
@@ -344,6 +378,32 @@ export interface LocationZonalValue {
   city: string;
   barangay: string;
   zonalValuePerSqm: number;
+}
+
+export type NotificationCategory =
+  | "New Listing"
+  | "New Quotation"
+  | "New Buyer/Seller Lead"
+  | "Meeting"
+  | "General";
+
+/** Internal, role-scoped messaging — separate from the buyer-facing Seller Inquiry
+ * channel. Routed either to one specific consultant (toConsultantId) or to a whole
+ * role within a firm (toRole) — Company Admin has no consultant record of its own,
+ * so it can only be addressed by role. */
+export interface Notification {
+  id: string;
+  companyId: string;
+  fromConsultantId: string;
+  fromName: string;
+  fromRole: ConsultantRole;
+  toConsultantId?: string;
+  toRole?: InternalRole;
+  category: NotificationCategory;
+  subject: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
 }
 
 export interface ListingDraft {

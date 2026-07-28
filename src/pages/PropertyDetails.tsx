@@ -3,19 +3,24 @@ import {
   BedDouble,
   Building2,
   Calendar,
+  Car,
   ChevronLeft,
+  Landmark,
   Layers,
   MapPin,
+  MapPinned,
   Ruler,
+  ScrollText,
   SearchX,
+  Sofa,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConsultantCard } from "../components/ConsultantCard";
 import { EmptyState } from "../components/EmptyState";
 import { PropertyCard } from "../components/PropertyCard";
+import { PropertyGallery } from "../components/PropertyGallery";
 import { PropertyMap } from "../components/PropertyMap";
-import { PropertyPhoto } from "../components/PropertyPhoto";
 import { PropertyValuationCard } from "../components/PropertyValuationCard";
 import { Skeleton } from "../components/Skeleton";
 import { VerificationBadge } from "../components/VerificationBadge";
@@ -31,6 +36,18 @@ import {
 import type { Developer, Firm, LoanQuotation, Property } from "../types";
 import { formatPHP } from "../utils/finance";
 import "./PropertyDetails.css";
+
+function formatTurnoverDate(iso: string): { label: string; value: string } {
+  const date = new Date(iso);
+  const formatted = date.toLocaleDateString("en-PH", { year: "numeric", month: "long" });
+  const isPast = date.getTime() <= Date.now();
+  if (!isPast) return { label: "Expected turnover", value: formatted };
+  const ageYears = Math.max(0, Math.floor((Date.now() - date.getTime()) / (365.25 * 24 * 60 * 60 * 1000)));
+  return {
+    label: "Turned over",
+    value: `${formatted} (${ageYears} ${ageYears === 1 ? "year" : "years"} ago)`,
+  };
+}
 
 export function PropertyDetails() {
   const { id } = useParams<{ id: string }>();
@@ -115,9 +132,7 @@ export function PropertyDetails() {
       </Link>
 
       <div className="property-details__gallery">
-        <div className="property-details__hero">
-          <PropertyPhoto property={property} />
-        </div>
+        <PropertyGallery property={property} />
       </div>
 
       <div className="property-details__layout">
@@ -192,12 +207,63 @@ export function PropertyDetails() {
                   <dd>{property.floorAreaSqm} sqm</dd>
                 </div>
               ) : null}
+              {property.lotFrontageMeters ? (
+                <div>
+                  <dt>
+                    <Ruler size={14} strokeWidth={2} aria-hidden="true" /> Lot frontage
+                  </dt>
+                  <dd>
+                    {property.lotFrontageMeters}m{property.isCornerLot ? " · Corner lot" : ""}
+                  </dd>
+                </div>
+              ) : null}
+              {property.numberOfFloors ? (
+                <div>
+                  <dt>
+                    <Layers size={14} strokeWidth={2} aria-hidden="true" /> Floors
+                  </dt>
+                  <dd>{property.numberOfFloors}-storey</dd>
+                </div>
+              ) : null}
+              {property.parkingSlots ? (
+                <div>
+                  <dt>
+                    <Car size={14} strokeWidth={2} aria-hidden="true" /> Parking
+                  </dt>
+                  <dd>
+                    {property.parkingSlots} {property.parkingSlots === 1 ? "slot" : "slots"}
+                  </dd>
+                </div>
+              ) : null}
+              {property.furnishingStatus ? (
+                <div>
+                  <dt>
+                    <Sofa size={14} strokeWidth={2} aria-hidden="true" /> Furnishing
+                  </dt>
+                  <dd>{property.furnishingStatus}</dd>
+                </div>
+              ) : null}
               <div>
                 <dt>
                   <Calendar size={14} strokeWidth={2} aria-hidden="true" /> Turnover
                 </dt>
                 <dd>{property.turnover}</dd>
               </div>
+              {property.turnoverDate ? (
+                <div>
+                  <dt>
+                    <Calendar size={14} strokeWidth={2} aria-hidden="true" />{" "}
+                    {formatTurnoverDate(property.turnoverDate).label}
+                  </dt>
+                  <dd>{formatTurnoverDate(property.turnoverDate).value}</dd>
+                </div>
+              ) : null}
+              {property.associationDuesMonthly ? (
+                <div>
+                  <dt>Association dues</dt>
+                  <dd className="money">{formatPHP(property.associationDuesMonthly)}/mo</dd>
+                </div>
+              ) : null}
               <div>
                 <dt>
                   <Layers size={14} strokeWidth={2} aria-hidden="true" /> Status
@@ -216,14 +282,89 @@ export function PropertyDetails() {
             />
           </section>
 
+          <section className="property-details__section">
+            <h3>Title &amp; Legal</h3>
+            <dl className="property-details__facts">
+              <div>
+                <dt>
+                  <ScrollText size={14} strokeWidth={2} aria-hidden="true" /> Title type
+                </dt>
+                <dd>{property.titleType}</dd>
+              </div>
+              {property.blockLot ? (
+                <div>
+                  <dt>
+                    <MapPinned size={14} strokeWidth={2} aria-hidden="true" /> Block / Lot
+                  </dt>
+                  <dd>{property.blockLot}</dd>
+                </div>
+              ) : null}
+              {property.unitFloor ? (
+                <div>
+                  <dt>
+                    <MapPinned size={14} strokeWidth={2} aria-hidden="true" /> Unit / Floor
+                  </dt>
+                  <dd>{property.unitFloor}</dd>
+                </div>
+              ) : null}
+            </dl>
+            <p className="property-details__title-note">
+              <Landmark size={13} strokeWidth={2} aria-hidden="true" />
+              Title type reflects the legal instrument on file — separate from the Ownership
+              Verification badge above, which confirms the seller's identity against it.
+            </p>
+          </section>
+
+          {!property.isLotOnly ? (
+            <section className="property-details__section">
+              <h3>Floor Plan</h3>
+              {property.floorPlanImage ? (
+                <img
+                  src={property.floorPlanImage}
+                  alt={`${property.title} floor plan`}
+                  className="property-details__floor-plan"
+                />
+              ) : (
+                <p className="property-details__empty-note">
+                  No floor plan has been uploaded for this listing yet.
+                </p>
+              )}
+            </section>
+          ) : null}
+
           {property.features.length > 0 ? (
             <section className="property-details__section">
-              <h3>Features</h3>
+              <h3>Unit Features</h3>
               <div className="property-details__features">
                 {property.features.map((feature) => (
                   <span key={feature}>{feature}</span>
                 ))}
               </div>
+            </section>
+          ) : null}
+
+          {property.amenities.length > 0 ? (
+            <section className="property-details__section">
+              <h3>{property.isLotOnly ? "Subdivision Amenities" : "Building / Subdivision Amenities"}</h3>
+              <div className="property-details__features">
+                {property.amenities.map((amenity) => (
+                  <span key={amenity}>{amenity}</span>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {property.nearbyLandmarks.length > 0 ? (
+            <section className="property-details__section">
+              <h3>Nearby Landmarks</h3>
+              <ul className="property-details__landmarks">
+                {property.nearbyLandmarks.map((landmark) => (
+                  <li key={landmark}>
+                    <MapPin size={13} strokeWidth={2} aria-hidden="true" />
+                    {landmark}
+                  </li>
+                ))}
+              </ul>
             </section>
           ) : null}
 

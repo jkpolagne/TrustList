@@ -15,6 +15,7 @@ import { EmptyState } from "../components/EmptyState";
 import { MilestoneStatusCard } from "../components/MilestoneStatusCard";
 import { RequirementsChecklistView } from "../components/RequirementsChecklistView";
 import { Skeleton } from "../components/Skeleton";
+import { useAuth } from "../context/AuthContext";
 import {
   getClientById,
   getConsultantById,
@@ -23,6 +24,7 @@ import {
   getPaymentProofsByClient,
   getPropertyById,
   getStatusHistoryByClient,
+  updateRequirementItem,
 } from "../services";
 import type {
   Client,
@@ -46,6 +48,7 @@ function formatDate(value: string): string {
 
 export function ClientDetail() {
   const { id } = useParams<{ id: string }>();
+  const { session } = useAuth();
   const [client, setClient] = useState<Client | null | undefined>(undefined);
   const [property, setProperty] = useState<Property>();
   const [firm, setFirm] = useState<Firm>();
@@ -94,6 +97,15 @@ export function ClientDetail() {
   }
 
   const area = property?.isLotOnly ? property.lotAreaSqm : property?.floorAreaSqm;
+
+  function handleToggleRequirement(itemId: string, checked: boolean) {
+    if (!client || !session) return;
+    // updateRequirementItem mutates and returns the same client reference the service
+    // holds — shallow-copy it here so React reliably re-renders on every toggle.
+    updateRequirementItem(client.id, itemId, checked, session.displayName).then((updated) => {
+      if (updated) setClient({ ...updated, requirementsChecklist: [...updated.requirementsChecklist] });
+    });
+  }
 
   return (
     <div className="client-detail">
@@ -190,7 +202,10 @@ export function ClientDetail() {
 
           <section className="client-detail__section">
             <h3>Requirements Checklist</h3>
-            <RequirementsChecklistView client={client} />
+            <p className="client-detail__checklist-hint">
+              Click an item as the client hands it over to mark it verified.
+            </p>
+            <RequirementsChecklistView client={client} onToggle={handleToggleRequirement} />
           </section>
 
           <section className="client-detail__section">

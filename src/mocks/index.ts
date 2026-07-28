@@ -13,3 +13,4 @@ export { milestoneEvents } from "./milestoneEvents";
 export { paymentProofs } from "./paymentProofs";
 export { vouchers } from "./vouchers";
 export { locations } from "./locations";
+export { notifications } from "./notifications";

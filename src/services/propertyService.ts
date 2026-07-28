@@ -5,8 +5,23 @@ import { loadPersisted, savePersisted } from "./persist";
 
 const STORAGE_KEY = "trustlist.properties";
 
+/** Backfills fields added to the Property model after a browser may have already cached
+ * older records in localStorage — without this, a stale cached property missing e.g.
+ * `amenities` crashes any component that calls `.length` on it (no error boundary exists,
+ * so one bad property blanks the whole page). Every read of the store goes through this. */
+function normalizeProperty(p: Property): Property {
+  return {
+    ...p,
+    titleType: p.titleType ?? "Clean Title (Transfer Certificate of Title)",
+    features: p.features ?? [],
+    amenities: p.amenities ?? [],
+    nearbyLandmarks: p.nearbyLandmarks ?? [],
+    images: p.images ?? [],
+  };
+}
+
 /** Mutable store, backed by localStorage, so admin actions (approve/reject/convert) persist. */
-const properties: Property[] = loadPersisted(STORAGE_KEY, seedProperties);
+const properties: Property[] = loadPersisted(STORAGE_KEY, seedProperties).map(normalizeProperty);
 
 function persist(): void {
   savePersisted(STORAGE_KEY, properties);
@@ -108,7 +123,12 @@ export function createListingFromInquiry(
     description: draft.description,
     coordinates: CITY_COORDINATES[draft.city] ?? CITY_COORDINATES["Naga City"],
     turnover: draft.propertyType === "Lot Only" ? "Titled, ready for construction" : "Ready for occupancy",
+    // A freshly-submitted seller inquiry has no verified paper trail yet — Tax
+    // Declaration Only is the honest default until the firm reviews the actual title.
+    titleType: "Tax Declaration Only",
     features: [],
+    amenities: [],
+    nearbyLandmarks: [],
     images: [],
   };
   properties.push(property);

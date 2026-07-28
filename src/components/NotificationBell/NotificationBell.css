@@ -1,0 +1,123 @@
+.notification-bell {
+  position: relative;
+}
+
+.notification-bell__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-control);
+  border: 1px solid rgba(159, 176, 196, 0.3);
+  background: transparent;
+  color: var(--color-text-on-ink-muted);
+  cursor: pointer;
+}
+
+.notification-bell__trigger:hover {
+  color: var(--color-text-on-ink);
+  border-color: rgba(159, 176, 196, 0.55);
+}
+
+.notification-bell__badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 16px;
+  text-align: center;
+}
+
+.notification-bell__panel {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 24px rgba(16, 35, 63, 0.22);
+  overflow: hidden;
+}
+
+.notification-bell__panel-header {
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.notification-bell__empty {
+  padding: 16px 14px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.notification-bell__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.notification-bell__item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.notification-bell__item:hover {
+  background: var(--color-paper);
+}
+
+.notification-bell__item--unread .notification-bell__item-subject {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.notification-bell__item-subject {
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.notification-bell__item-meta {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+.notification-bell__view-all {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: var(--color-paper);
+  color: var(--color-gold-hover);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notification-bell__view-all:hover {
+  background: var(--color-border);
+}

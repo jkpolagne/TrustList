@@ -155,6 +155,26 @@ export function Compare() {
               ))}
             </tr>
             <tr>
+              <th className="compare-table__label-col">Parking</th>
+              {properties.map((p) => (
+                <td key={p.id}>{p.parkingSlots ?? "—"}</td>
+              ))}
+            </tr>
+            <tr>
+              <th className="compare-table__label-col">Furnishing</th>
+              {properties.map((p) => (
+                <td key={p.id}>{p.furnishingStatus ?? "—"}</td>
+              ))}
+            </tr>
+            <tr>
+              <th className="compare-table__label-col">Association dues</th>
+              {properties.map((p) => (
+                <td key={p.id} className={p.associationDuesMonthly ? "money" : undefined}>
+                  {p.associationDuesMonthly ? `${formatPHP(p.associationDuesMonthly)}/mo` : "—"}
+                </td>
+              ))}
+            </tr>
+            <tr>
               <th className="compare-table__label-col">Turnover</th>
               {properties.map((p) => (
                 <td key={p.id}>{p.turnover}</td>
@@ -199,6 +219,12 @@ export function Compare() {
                     "—"
                   )}
                 </td>
+              ))}
+            </tr>
+            <tr>
+              <th className="compare-table__label-col">Title type</th>
+              {properties.map((p) => (
+                <td key={p.id}>{p.titleType}</td>
               ))}
             </tr>
             <tr>

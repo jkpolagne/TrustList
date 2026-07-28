@@ -5,11 +5,19 @@ import "./RequirementsChecklistView.css";
 
 interface RequirementsChecklistViewProps {
   client: Client;
+  /** When provided, items become clickable and this fires on toggle — omit for read-only display. */
+  onToggle?: (itemId: string, checked: boolean) => void;
 }
 
-function RequirementRow({ item }: { item: RequirementItem }) {
-  return (
-    <li className={`requirements-checklist-view__item${item.checked ? " requirements-checklist-view__item--checked" : ""}`}>
+function RequirementRow({
+  item,
+  onToggle,
+}: {
+  item: RequirementItem;
+  onToggle?: (itemId: string, checked: boolean) => void;
+}) {
+  const content = (
+    <>
       {item.checked ? (
         <CheckSquare size={16} strokeWidth={2} aria-hidden="true" />
       ) : (
@@ -24,11 +32,34 @@ function RequirementRow({ item }: { item: RequirementItem }) {
           </span>
         ) : null}
       </div>
+    </>
+  );
+
+  if (!onToggle) {
+    return (
+      <li
+        className={`requirements-checklist-view__item${item.checked ? " requirements-checklist-view__item--checked" : ""}`}
+      >
+        {content}
+      </li>
+    );
+  }
+
+  return (
+    <li>
+      <button
+        type="button"
+        className={`requirements-checklist-view__item requirements-checklist-view__item--button${item.checked ? " requirements-checklist-view__item--checked" : ""}`}
+        onClick={() => onToggle(item.id, !item.checked)}
+        aria-pressed={item.checked}
+      >
+        {content}
+      </button>
     </li>
   );
 }
 
-export function RequirementsChecklistView({ client }: RequirementsChecklistViewProps) {
+export function RequirementsChecklistView({ client, onToggle }: RequirementsChecklistViewProps) {
   const state = getRequirementsState(client);
   const statePillClass =
     state === "Complete"
@@ -46,7 +77,7 @@ export function RequirementsChecklistView({ client }: RequirementsChecklistViewP
         </div>
         <ul className="requirements-checklist-view__list">
           {client.requirementsChecklist.map((item) => (
-            <RequirementRow key={item.id} item={item} />
+            <RequirementRow key={item.id} item={item} onToggle={onToggle} />
           ))}
         </ul>
       </div>
@@ -69,7 +100,7 @@ export function RequirementsChecklistView({ client }: RequirementsChecklistViewP
         </span>
         <ul className="requirements-checklist-view__list">
           {basics.map((item) => (
-            <RequirementRow key={item.id} item={item} />
+            <RequirementRow key={item.id} item={item} onToggle={onToggle} />
           ))}
         </ul>
       </div>
@@ -80,7 +111,7 @@ export function RequirementsChecklistView({ client }: RequirementsChecklistViewP
         </span>
         <ul className="requirements-checklist-view__list">
           {completes.map((item) => (
-            <RequirementRow key={item.id} item={item} />
+            <RequirementRow key={item.id} item={item} onToggle={onToggle} />
           ))}
         </ul>
       </div>
