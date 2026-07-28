@@ -1,0 +1,62 @@
+.sales-report-page__header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.sales-report-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 6px;
+  max-width: 560px;
+}
+
+.sales-report-page__filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sales-report-page__filters select {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: var(--font-body);
+}
+
+.sales-report-page__download {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.sales-report-page__download:hover {
+  background: var(--color-gold-hover);
+  color: #fff;
+}
+
+.sales-report-page__three-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.sales-report-page__three-col .dashboard-page__milestones {
+  margin-bottom: 0;
+}

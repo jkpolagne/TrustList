@@ -1,5 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  Bell,
+  BarChart3,
   Building2,
   CalendarClock,
   Calculator,
@@ -45,12 +47,15 @@ export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
       icon: ShieldQuestion,
       path: "/app/listing-verification",
     },
+    { label: "Sales Report", icon: BarChart3, path: "/app/sales-report" },
+    { label: "Notifications", icon: Bell, path: "/app/notifications" },
   ],
   Broker: [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
     { label: "All Vouchers", icon: FileCheck2, path: "/app/vouchers" },
     { label: "Expected Payouts", icon: Clock3, path: "/app/payouts" },
     { label: "Team Overview", icon: UserCheck, path: "/app/team-overview" },
+    { label: "Notifications", icon: Bell, path: "/app/notifications" },
   ],
   "Sales Manager": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
@@ -58,11 +63,13 @@ export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
     { label: "My Clients", icon: UserCheck, path: "/app/clients" },
     { label: "Upload Payment Proof", icon: UploadCloud, path: "/app/payment-proof" },
     { label: "My Commission", icon: Wallet, path: "/app/commission" },
+    { label: "Notifications", icon: Bell, path: "/app/notifications" },
   ],
   "Sales Person": [
     { label: "Dashboard", icon: LayoutDashboard, path: "/app" },
     { label: "My Clients", icon: UserCheck, path: "/app/clients" },
     { label: "Upload Payment Proof", icon: UploadCloud, path: "/app/payment-proof" },
     { label: "My Commission", icon: Wallet, path: "/app/commission" },
+    { label: "Notifications", icon: Bell, path: "/app/notifications" },
   ],
 };

@@ -1,0 +1,22 @@
+.date-range-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+}
+
+.date-range-filter select,
+.date-range-filter input[type="date"] {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: var(--font-body);
+}
+
+.date-range-filter__sep {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}

@@ -27,7 +27,9 @@ import { ManageVisitSchedules } from "./pages/ManageVisitSchedules";
 import { MonitorClients } from "./pages/MonitorClients";
 import { MyCommission } from "./pages/MyCommission";
 import { PlatformLogs } from "./pages/PlatformLogs";
+import { Notifications } from "./pages/Notifications";
 import { PropertyDetails } from "./pages/PropertyDetails";
+import { SalesReport } from "./pages/SalesReport";
 import { PropertyValuation } from "./pages/PropertyValuation";
 import { SalesPersons } from "./pages/SalesPersons";
 import { ScheduleVisit } from "./pages/ScheduleVisit";
@@ -166,6 +168,14 @@ function AppRoutes() {
             </RequireRole>
           }
         />
+        <Route
+          path="sales-report"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <SalesReport />
+            </RequireRole>
+          }
+        />
 
         <Route
           path="clients"
@@ -245,6 +255,14 @@ function AppRoutes() {
           element={
             <RequireRole roles={["Sales Manager", "Sales Person"]}>
               <MyCommission />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="notifications"
+          element={
+            <RequireRole roles={["Company Admin", "Broker", "Sales Manager", "Sales Person"]}>
+              <Notifications />
             </RequireRole>
           }
         />
