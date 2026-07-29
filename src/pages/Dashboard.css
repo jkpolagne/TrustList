@@ -1,5 +1,11 @@
+.dashboard-page {
+  padding-bottom: 8px;
+}
+
 .dashboard-page__header {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .dashboard-page__header-row {
@@ -8,7 +14,9 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .dashboard-page__header-row .dashboard-page__header {
@@ -41,36 +49,48 @@
 
 .dashboard-page__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 14px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .dashboard-page__stat-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: 14px 16px;
+  padding: 16px 18px;
 }
 
 .dashboard-page__stat-card span {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-muted);
+  letter-spacing: 0.01em;
+}
+
+.dashboard-page__stat-card span svg {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border-radius: 7px;
+  background: var(--color-paper);
+  color: var(--color-gold-hover);
 }
 
 .dashboard-page__stat-card strong {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--color-ink);
+  line-height: 1.1;
 }
 
 .dashboard-page__stat-card--placeholder strong {
@@ -104,7 +124,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .dashboard-page__two-col .dashboard-page__milestones {
@@ -116,7 +136,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .dashboard-page__section-header .dashboard-page__milestones-sub {
@@ -136,11 +156,27 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .dashboard-page__download:hover {
   border-color: var(--color-gold);
   color: var(--color-gold-hover);
+}
+
+/* Every dashboard section is its own card — the shared card system used for
+   stat tiles and tables, applied consistently here too. */
+.dashboard-page__milestones {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.dashboard-page__milestones:last-child {
+  margin-bottom: 0;
 }
 
 .dashboard-page__milestones h2 {
@@ -151,14 +187,44 @@
 .dashboard-page__milestones-sub {
   color: var(--color-text-muted);
   font-size: 12.5px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   max-width: 520px;
+}
+
+/* Tables and empty states already carry their own card chrome elsewhere in
+   the app — flatten them here so they sit flush inside the section card
+   instead of doubling up borders/shadows. */
+.dashboard-page__milestones .data-table-wrap {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  max-height: 420px;
+}
+
+.dashboard-page__milestones .status-card {
+  border: none;
+  box-shadow: none;
+  background: var(--color-paper);
+  border-radius: var(--radius-control);
 }
 
 .dashboard-page__milestone-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+}
+
+.dashboard-page__milestone-list > * {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dashboard-page__milestone-list > *:first-child {
+  padding-top: 0;
+}
+
+.dashboard-page__milestone-list > *:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .dashboard-page__no-milestones {
@@ -171,7 +237,7 @@
 
 .dashboard-page__view-all {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 14px;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-gold-hover);

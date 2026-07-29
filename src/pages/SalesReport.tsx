@@ -1,4 +1,4 @@
-import { BarChart3, Download } from "lucide-react";
+import { BarChart3, Download, ListChecks, TrendingUp, Wallet } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BarList, type BarListItem } from "../components/BarList";
 import { DateRangeFilter } from "../components/DateRangeFilter";
@@ -179,15 +179,24 @@ export function SalesReport() {
 
       <div className="dashboard-page__stats">
         <div className="dashboard-page__stat-card">
-          <span>Total Sales Count</span>
+          <span>
+            <ListChecks size={13} strokeWidth={2} aria-hidden="true" />
+            Total Sales Count
+          </span>
           <strong>{filteredClients.length}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Total Sales Value</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            Total Sales Value
+          </span>
           <strong className="money">{formatPHP(totalValue)}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Average Sale Price</span>
+          <span>
+            <TrendingUp size={13} strokeWidth={2} aria-hidden="true" />
+            Average Sale Price
+          </span>
           <strong className="money">{formatPHP(averagePrice)}</strong>
         </div>
       </div>

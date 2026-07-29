@@ -9,6 +9,7 @@ import {
   ShieldQuestion,
   TrendingDown,
   TrendingUp,
+  UserCheck,
   Users,
   Wallet,
 } from "lucide-react";
@@ -234,7 +235,10 @@ function CompanyAdminDashboard() {
           <strong>{activeConsultants}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Clients ({formatRangeLabel(range)})</span>
+          <span>
+            <UserCheck size={13} strokeWidth={2} aria-hidden="true" />
+            Clients ({formatRangeLabel(range)})
+          </span>
           <strong>{rangedClients.length}</strong>
         </div>
         <div className="dashboard-page__stat-card">
@@ -434,11 +438,17 @@ function ConsultantDashboard() {
 
       <div className="dashboard-page__stats">
         <div className="dashboard-page__stat-card">
-          <span>{isManager ? "My Direct Clients" : "My Clients"}</span>
+          <span>
+            <UserCheck size={13} strokeWidth={2} aria-hidden="true" />
+            {isManager ? "My Direct Clients" : "My Clients"}
+          </span>
           <strong>{isManager ? directClients.length : clients.length}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>{isManager ? "My Direct Sales Value" : "My Sales Value"}</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            {isManager ? "My Direct Sales Value" : "My Sales Value"}
+          </span>
           <strong className="money">
             {formatPHP(sumContractPrice(isManager ? directClients : clients))}
           </strong>
@@ -453,13 +463,19 @@ function ConsultantDashboard() {
               <strong>{teamClients.length}</strong>
             </div>
             <div className="dashboard-page__stat-card">
-              <span>My Team's Sales Value</span>
+              <span>
+                <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+                My Team's Sales Value
+              </span>
               <strong className="money">{formatPHP(sumContractPrice(teamClients))}</strong>
             </div>
           </>
         ) : null}
         <div className="dashboard-page__stat-card">
-          <span>Active Clients</span>
+          <span>
+            <CheckCircle2 size={13} strokeWidth={2} aria-hidden="true" />
+            Active Clients
+          </span>
           <strong>{activeClients}</strong>
         </div>
         <div className="dashboard-page__stat-card">
@@ -470,11 +486,17 @@ function ConsultantDashboard() {
           <strong className="money">{formatPHP(commissionSummary.released)}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Commission Pending</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            Commission Pending
+          </span>
           <strong className="money">{formatPHP(commissionSummary.pending)}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Commission Eligible</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            Commission Eligible
+          </span>
           <strong className="money">{formatPHP(commissionSummary.eligible)}</strong>
         </div>
       </div>
@@ -705,11 +727,17 @@ function BrokerDashboard() {
 
       <div className="dashboard-page__stats">
         <div className="dashboard-page__stat-card">
-          <span>Sales Managers</span>
+          <span>
+            <Users size={13} strokeWidth={2} aria-hidden="true" />
+            Sales Managers
+          </span>
           <strong>{totalSMs}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Sales Persons</span>
+          <span>
+            <Users size={13} strokeWidth={2} aria-hidden="true" />
+            Sales Persons
+          </span>
           <strong>{totalSPs}</strong>
         </div>
         <div className="dashboard-page__stat-card">
@@ -720,7 +748,10 @@ function BrokerDashboard() {
           <strong>{eligible.length}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Sales This Month</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            Sales This Month
+          </span>
           <strong className="money">{formatPHP(monthOverMonth.thisMonthValue)}</strong>
           {monthOverMonth.deltaPercent !== null ? (
             <span className={`dashboard-page__trend ${trendClass}`}>
@@ -739,7 +770,10 @@ function BrokerDashboard() {
           <strong className="money">{formatPHP(releasedVsPending.releasedValue)}</strong>
         </div>
         <div className="dashboard-page__stat-card">
-          <span>Commission Pending</span>
+          <span>
+            <Wallet size={13} strokeWidth={2} aria-hidden="true" />
+            Commission Pending
+          </span>
           <strong className="money">{formatPHP(releasedVsPending.pendingValue)}</strong>
         </div>
       </div>
