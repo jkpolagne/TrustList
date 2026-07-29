@@ -25,6 +25,7 @@ import { ManageLoanQuotations } from "./pages/ManageLoanQuotations";
 import { ManageProperties } from "./pages/ManageProperties";
 import { ManageVisitSchedules } from "./pages/ManageVisitSchedules";
 import { MonitorClients } from "./pages/MonitorClients";
+import { MonitoringChart } from "./pages/MonitoringChart";
 import { MyCommission } from "./pages/MyCommission";
 import { PlatformLogs } from "./pages/PlatformLogs";
 import { Notifications } from "./pages/Notifications";
@@ -173,6 +174,14 @@ function AppRoutes() {
           element={
             <RequireRole roles={["Company Admin"]}>
               <SalesReport />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="monitoring-chart"
+          element={
+            <RequireRole roles={["Company Admin"]}>
+              <MonitoringChart />
             </RequireRole>
           }
         />

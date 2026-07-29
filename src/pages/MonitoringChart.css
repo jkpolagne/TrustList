@@ -1,0 +1,176 @@
+.monitoring-chart-page__header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.monitoring-chart-page__header p {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+  margin-top: 6px;
+}
+
+.monitoring-chart-page__filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.monitoring-chart-page__filters select,
+.monitoring-chart-page__filters input[type="month"] {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: var(--font-body);
+}
+
+.monitoring-chart-page__action {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.monitoring-chart-page__action:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold-hover);
+}
+
+.monitoring-chart-page__action--primary {
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.monitoring-chart-page__action--primary:hover {
+  background: var(--color-gold-hover);
+  color: #fff;
+}
+
+.monitoring-chart-table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: auto;
+  max-height: calc(100svh - 260px);
+}
+
+.monitoring-chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.monitoring-chart-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-ink);
+  color: var(--color-text-on-ink);
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.monitoring-chart-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.monitoring-chart-table td.monitoring-chart-table__numeric,
+.monitoring-chart-table th.monitoring-chart-table__numeric {
+  text-align: right;
+}
+
+.monitoring-chart-table tr[data-group-parity="odd"] td {
+  background: var(--color-paper);
+}
+
+.monitoring-chart-table tr[data-group-parity="even"] td {
+  background: var(--color-surface);
+}
+
+.monitoring-chart-table__sm-cell,
+.monitoring-chart-table__sp-cell {
+  font-weight: 700;
+  color: var(--color-ink);
+  vertical-align: middle !important;
+  border-right: 1px solid var(--color-border);
+}
+
+.monitoring-chart-table__direct-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-amber-bg);
+  color: var(--color-amber);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+}
+
+.monitoring-chart-table__subtotal-row td {
+  font-weight: 700;
+  color: var(--color-ink);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.monitoring-chart-table__subtotal-row--sm td {
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.monitoring-chart-table__grand-total-row td {
+  position: sticky;
+  bottom: 0;
+  background: var(--color-surface) !important;
+  border-top: 2px solid var(--color-ink);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 13.5px;
+  color: var(--color-ink);
+  padding: 12px 14px;
+}
+
+@media print {
+  .monitoring-chart-table-wrap {
+    max-height: none;
+    overflow: visible;
+    border: none;
+    box-shadow: none;
+  }
+
+  .monitoring-chart-table thead th,
+  .monitoring-chart-table__grand-total-row td {
+    position: static;
+  }
+}

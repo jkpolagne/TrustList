@@ -7,6 +7,7 @@ import {
   Calculator,
   Clock3,
   FileCheck2,
+  FileSpreadsheet,
   Home,
   Inbox,
   LayoutDashboard,
@@ -48,6 +49,7 @@ export const NAV_ITEMS_BY_ROLE: Record<InternalRole, NavItem[]> = {
       path: "/app/listing-verification",
     },
     { label: "Sales Report", icon: BarChart3, path: "/app/sales-report" },
+    { label: "Monitoring Chart", icon: FileSpreadsheet, path: "/app/monitoring-chart" },
     { label: "Notifications", icon: Bell, path: "/app/notifications" },
   ],
   Broker: [

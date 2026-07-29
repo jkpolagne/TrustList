@@ -445,3 +445,20 @@ table {
   background: var(--color-gold-hover);
   color: #fff;
 }
+
+/* Print-friendly layout — used by pages with a "Print" action (e.g. the
+   Monitoring Chart): full-width content, no sidebar, no interactive chrome. */
+@media print {
+  .app-shell__sidebar,
+  .no-print {
+    display: none !important;
+  }
+
+  .app-shell__content {
+    padding: 0 !important;
+  }
+
+  body {
+    background: #fff;
+  }
+}
