@@ -5,7 +5,21 @@ import { loadPersisted, savePersisted } from "./persist";
 
 const STORAGE_KEY = "trustlist.developers";
 
-const developers: Developer[] = loadPersisted(STORAGE_KEY, seedDevelopers);
+/** Backfills fields added to the Developer model after a browser may have already cached
+ * older records in localStorage — same defensive pattern as propertyService's
+ * normalizeProperty, so a stale cached developer never crashes the details page. */
+function normalizeDeveloper(d: Developer): Developer {
+  return {
+    ...d,
+    establishedYear: d.establishedYear ?? new Date().getFullYear(),
+    dhsudLicenseNumber: d.dhsudLicenseNumber ?? "",
+    dhsudLicenseStatus: d.dhsudLicenseStatus ?? "Not Available",
+    totalProjectsCompleted: d.totalProjectsCompleted ?? 0,
+    about: d.about ?? "",
+  };
+}
+
+const developers: Developer[] = loadPersisted(STORAGE_KEY, seedDevelopers).map(normalizeDeveloper);
 
 function persist(): void {
   savePersisted(STORAGE_KEY, developers);

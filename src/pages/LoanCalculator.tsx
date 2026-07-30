@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
 import { PropertyCard } from "../components/PropertyCard";
+import { PropertyPhoto } from "../components/PropertyPhoto";
 import { Skeleton } from "../components/Skeleton";
 import {
   getDevelopers,
@@ -194,6 +195,7 @@ function FixedQuotationTab({
   }, [developerId]);
 
   const selectedQuotation = quotations.find((q) => q.propertyId === propertyId);
+  const selectedProperty = propertiesById.get(propertyId);
 
   return (
     <div className="loan-calculator__panel">
@@ -240,51 +242,114 @@ function FixedQuotationTab({
       ) : loadingQuotations ? (
         <Skeleton height={280} />
       ) : selectedQuotation ? (
-        <table className="loan-calculator__breakdown">
-          <tbody>
-            <tr>
-              <th>Bank</th>
-              <td>{selectedQuotation.bankName}</td>
-            </tr>
-            <tr>
-              <th>List Price</th>
-              <td className="money">{formatPHP(selectedQuotation.listPrice)}</td>
-            </tr>
-            <tr>
-              <th>Downpayment ({selectedQuotation.downpaymentPercent}%)</th>
-              <td className="money">{formatPHP(selectedQuotation.downpaymentAmount)}</td>
-            </tr>
-            <tr>
-              <th>Loanable Amount</th>
-              <td className="money">{formatPHP(selectedQuotation.loanableAmount)}</td>
-            </tr>
-            <tr>
-              <th>Interest Rate</th>
-              <td>{selectedQuotation.interestRatePercent}% per annum</td>
-            </tr>
-            <tr>
-              <th>Term</th>
-              <td>{selectedQuotation.termMonths} months</td>
-            </tr>
-            <tr>
-              <th>Misc. Fees</th>
-              <td className="money">{formatPHP(selectedQuotation.miscFeesTotal)}</td>
-            </tr>
-            <tr className="loan-calculator__breakdown-highlight">
-              <th>Estimated Monthly Amortization</th>
-              <td className="money">{formatPHP(selectedQuotation.monthlyAmortization)}</td>
-            </tr>
-            <tr className="loan-calculator__breakdown-highlight">
-              <th>Total Contract Price</th>
-              <td className="money">{formatPHP(selectedQuotation.totalContractPrice)}</td>
-            </tr>
-            <tr>
-              <th colSpan={2} className="loan-calculator__breakdown-note">
-                {selectedQuotation.breakdownDescription}
-              </th>
-            </tr>
-          </tbody>
-        </table>
+        <div className="loan-calculator__sheet">
+          <div className="loan-calculator__sheet-media">
+            {selectedProperty ? (
+              <span className="loan-calculator__sheet-photo">
+                <PropertyPhoto property={selectedProperty} />
+              </span>
+            ) : null}
+            <div className="loan-calculator__sheet-specs">
+              <strong>{selectedProperty?.title ?? "Selected property"}</strong>
+              <span>
+                {selectedProperty?.city}
+                {selectedProperty?.floorAreaSqm ? ` · ${selectedProperty.floorAreaSqm} sqm floor area` : ""}
+                {selectedProperty?.lotAreaSqm ? ` · ${selectedProperty.lotAreaSqm} sqm lot area` : ""}
+              </span>
+              <span className="loan-calculator__sheet-status">{selectedProperty?.status}</span>
+            </div>
+          </div>
+
+          <div className="loan-calculator__sheet-content">
+            <table className="loan-calculator__breakdown">
+              <tbody>
+                <tr>
+                  <th>Bank / Lender</th>
+                  <td>{selectedQuotation.bankName}</td>
+                </tr>
+                <tr className="loan-calculator__breakdown-highlight">
+                  <th>Total Contract Price</th>
+                  <td className="money">{formatPHP(selectedQuotation.totalContractPrice)}</td>
+                </tr>
+                <tr>
+                  <th>Reservation Fee</th>
+                  <td className="money">{formatPHP(selectedQuotation.reservationFee)}</td>
+                </tr>
+
+                <tr>
+                  <th colSpan={2} className="loan-calculator__breakdown-section">
+                    Downpayment / Equity
+                  </th>
+                </tr>
+                <tr>
+                  <th>Downpayment ({selectedQuotation.downpaymentPercent}%)</th>
+                  <td className="money">{formatPHP(selectedQuotation.downpaymentAmount)}</td>
+                </tr>
+                <tr>
+                  <th>Balance After Reservation Fee</th>
+                  <td className="money">{formatPHP(selectedQuotation.downpaymentBalanceAfterReservation)}</td>
+                </tr>
+                <tr>
+                  <th>Monthly Equity (x {selectedQuotation.downpaymentTermMonths} months)</th>
+                  <td className="money">{formatPHP(selectedQuotation.monthlyEquity)}</td>
+                </tr>
+
+                <tr>
+                  <th colSpan={2} className="loan-calculator__breakdown-section">
+                    Bank Financing
+                  </th>
+                </tr>
+                <tr>
+                  <th>Loanable Amount</th>
+                  <td className="money">{formatPHP(selectedQuotation.loanableAmount)}</td>
+                </tr>
+                <tr>
+                  <th>Interest Rate</th>
+                  <td>{selectedQuotation.interestRatePercent}% per annum</td>
+                </tr>
+                <tr>
+                  <th>Misc. Fees</th>
+                  <td className="money">{formatPHP(selectedQuotation.miscFeesTotal)}</td>
+                </tr>
+                <tr>
+                  <th colSpan={2} className="loan-calculator__breakdown-note">
+                    {selectedQuotation.breakdownDescription}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+
+            <div className="loan-calculator__terms">
+              <h3>Monthly Amortization by Term</h3>
+              <table className="loan-calculator__breakdown loan-calculator__breakdown--terms">
+                <thead>
+                  <tr>
+                    <th>Term</th>
+                    <th>Monthly Amortization</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedQuotation.amortizationOptions.map((option) => (
+                    <tr
+                      key={option.termYears}
+                      className={
+                        option.termYears * 12 === selectedQuotation.termMonths
+                          ? "loan-calculator__breakdown-highlight"
+                          : undefined
+                      }
+                    >
+                      <th>{option.termYears} years</th>
+                      <td className="money">{formatPHP(option.monthlyAmortization)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="loan-calculator__terms-note">
+                Monthly amortization should not exceed 30% of the applicant's gross monthly income.
+              </p>
+            </div>
+          </div>
+        </div>
       ) : null}
     </div>
   );

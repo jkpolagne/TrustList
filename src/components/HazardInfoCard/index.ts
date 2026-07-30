@@ -1,0 +1,1 @@
+export { HazardInfoCard } from "./HazardInfoCard";

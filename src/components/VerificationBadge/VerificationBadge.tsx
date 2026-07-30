@@ -1,8 +1,8 @@
-import { ShieldCheck, ShieldQuestion } from "lucide-react";
+import { ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 import "./VerificationBadge.css";
 
-export type VerificationBadgeType = "prc" | "ownership";
-export type VerificationBadgeStatus = "verified" | "pending";
+export type VerificationBadgeType = "prc" | "ownership" | "dhsud";
+export type VerificationBadgeStatus = "verified" | "pending" | "expired";
 
 export interface VerificationBadgeProps {
   type: VerificationBadgeType;
@@ -12,8 +12,13 @@ export interface VerificationBadgeProps {
 }
 
 const LABELS: Record<VerificationBadgeType, Record<VerificationBadgeStatus, string>> = {
-  prc: { verified: "PRC Verified", pending: "PRC Pending" },
-  ownership: { verified: "Ownership Verified", pending: "Ownership Pending Review" },
+  prc: { verified: "PRC Verified", pending: "PRC Pending", expired: "PRC Expired" },
+  ownership: {
+    verified: "Ownership Verified",
+    pending: "Ownership Pending Review",
+    expired: "Ownership Rejected",
+  },
+  dhsud: { verified: "DHSUD Licensed", pending: "License Unverified", expired: "License Expired" },
 };
 
 export function VerificationBadge({ type, status, licenseNumber }: VerificationBadgeProps) {
@@ -23,6 +28,8 @@ export function VerificationBadge({ type, status, licenseNumber }: VerificationB
     <span className={`verification-badge verification-badge--${status}`}>
       {status === "verified" ? (
         <ShieldCheck size={14} strokeWidth={2} aria-hidden="true" />
+      ) : status === "expired" ? (
+        <ShieldAlert size={14} strokeWidth={2} aria-hidden="true" />
       ) : (
         <ShieldQuestion size={14} strokeWidth={2} aria-hidden="true" />
       )}

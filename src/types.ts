@@ -42,6 +42,7 @@ export interface CommissionSplit {
 }
 
 export type DeveloperStatus = "Active" | "Inactive";
+export type DhsudLicenseStatus = "Active" | "Expired" | "Not Available";
 
 export interface RequiredMilestonePercents {
   cash: number;
@@ -61,6 +62,11 @@ export interface Developer {
   };
   /** Minimum % of contract price paid before the first commission tranche is due, per method. */
   requiredMilestonePercent: RequiredMilestonePercents;
+  establishedYear: number;
+  dhsudLicenseNumber: string;
+  dhsudLicenseStatus: DhsudLicenseStatus;
+  totalProjectsCompleted: number;
+  about: string;
 }
 
 export type ListingSource = "Developer" | "Individual Seller";
@@ -136,6 +142,20 @@ export interface Property {
   images: string[];
   /** Single floor-plan diagram image, when the firm has one on file. */
   floorPlanImage?: string;
+  hazardInfo: HazardInfo;
+}
+
+export type RiskLevel = "Low" | "Moderate" | "High";
+export type RiskLevelOrNA = "Low" | "Moderate" | "High" | "Not Applicable";
+
+/** Mock flood/hazard reference data shown on every listing — never authoritative,
+ * always paired with a disclaimer pointing buyers to PHIVOLCS/the LGU. */
+export interface HazardInfo {
+  floodRisk: RiskLevel;
+  stormSurgeRisk: RiskLevelOrNA;
+  nearestEvacuationCenter: string;
+  landslideRisk: RiskLevelOrNA;
+  dataSource: string;
 }
 
 export type PrcLicenseStatus = "Verified" | "Pending" | "Unverified";
@@ -316,19 +336,34 @@ export interface Session {
   displayName: string;
 }
 
+export interface AmortizationOption {
+  termYears: number;
+  monthlyAmortization: number;
+}
+
 export interface LoanQuotation {
   id: string;
   companyId: string;
   developerId: string;
   propertyId: string;
   bankName: string;
+  /** Total Contract Price before misc. fees. */
   listPrice: number;
+  /** Flat fee paid to reserve the unit — credited against the downpayment, exactly like a real developer computation sheet. */
+  reservationFee: number;
   downpaymentPercent: number;
   downpaymentAmount: number;
+  /** downpaymentAmount minus reservationFee — what's left to pay as monthly equity. */
+  downpaymentBalanceAfterReservation: number;
+  /** Months over which the downpayment balance is paid in equal, zero-interest installments. */
+  downpaymentTermMonths: number;
+  monthlyEquity: number;
   loanableAmount: number;
   interestRatePercent: number;
   termMonths: number;
   monthlyAmortization: number;
+  /** Monthly amortization at the standard 5/10/15/20-year terms, shown side by side like a real bank quotation sheet. */
+  amortizationOptions: AmortizationOption[];
   miscFeesTotal: number;
   totalContractPrice: number;
   breakdownDescription: string;

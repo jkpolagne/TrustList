@@ -1,5 +1,8 @@
 import type { Property } from "../types";
 
+const HAZARD_DATA_SOURCE =
+  "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data";
+
 export const properties: Property[] = [
   {
     id: "prop-greenview-lot14",
@@ -37,6 +40,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/20074182/pexels-photo-20074182.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "https://images.pexels.com/photos/9666115/pexels-photo-9666115.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Pili Municipal Gymnasium — 1.2 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-riverside-4b",
@@ -83,6 +93,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/31488380/pexels-photo-31488380.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     floorPlanImage: "https://images.pexels.com/photos/7937320/pexels-photo-7937320.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hazardInfo: {
+      floodRisk: "High",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Naga City Coliseum — 2.1 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-casateresa",
@@ -128,6 +145,13 @@ export const properties: Property[] = [
     ],
     // Deliberately unset — a resale, individually-owned listing like this often has no
     // professionally drafted floor plan on file, unlike a developer's standard house model.
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Concepcion Pequeña Elementary School — 0.9 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-sunrise-b7",
@@ -174,6 +198,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/7195739/pexels-photo-7195739.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     floorPlanImage: "https://images.pexels.com/photos/8962803/pexels-photo-8962803.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Sta. Cruz Norte Covered Court — 1.0 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-emerald-lot22",
@@ -208,6 +239,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/16234528/pexels-photo-16234528.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "https://images.pexels.com/photos/5211235/pexels-photo-5211235.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
+    hazardInfo: {
+      floodRisk: "Low",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Moderate",
+      nearestEvacuationCenter: "Pacol Barangay Hall — 1.8 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-villacorazon",
@@ -251,6 +289,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/36099150/pexels-photo-36099150.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     floorPlanImage: "https://images.pexels.com/photos/271667/pexels-photo-271667.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "Low",
+      landslideRisk: "Moderate",
+      nearestEvacuationCenter: "Bogtong Evacuation Center — 1.4 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-palm-12a",
@@ -289,6 +334,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/6908565/pexels-photo-6908565.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     floorPlanImage: "https://images.pexels.com/photos/4458205/pexels-photo-4458205.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "High",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Rawis Elementary School — 0.7 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-hillside-lot5",
@@ -321,6 +373,13 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/17862876/pexels-photo-17862876.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "https://images.pexels.com/photos/17602526/pexels-photo-17602526.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
+    hazardInfo: {
+      floodRisk: "Low",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Moderate",
+      nearestEvacuationCenter: "Cadlan Barangay Gymnasium — 1.6 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-brookside-lot9",
@@ -352,6 +411,13 @@ export const properties: Property[] = [
     images: [
       "https://images.pexels.com/photos/2119713/pexels-photo-2119713.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
+    hazardInfo: {
+      floodRisk: "High",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Anayan Elementary School — 1.3 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
   {
     id: "prop-centralpark-5d",
@@ -394,5 +460,12 @@ export const properties: Property[] = [
       "https://images.pexels.com/photos/6903210/pexels-photo-6903210.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     floorPlanImage: "https://images.pexels.com/photos/4792501/pexels-photo-4792501.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    hazardInfo: {
+      floodRisk: "Moderate",
+      stormSurgeRisk: "Not Applicable",
+      landslideRisk: "Low",
+      nearestEvacuationCenter: "Naga City Coliseum — 1.8 km",
+      dataSource: HAZARD_DATA_SOURCE,
+    },
   },
 ];

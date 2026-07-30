@@ -21,6 +21,11 @@
   color: var(--color-amber);
 }
 
+.verification-badge--expired {
+  background: var(--color-red-bg);
+  color: var(--color-red);
+}
+
 .verification-badge__meta {
   font-weight: 500;
   opacity: 0.85;

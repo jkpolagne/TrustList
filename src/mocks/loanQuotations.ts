@@ -1,24 +1,36 @@
 import type { LoanQuotation } from "../types";
-import { computeMonthlyAmortization } from "../utils/finance";
+import { buildAmortizationOptions, computeMonthlyAmortization } from "../utils/finance";
 
 type QuotationInput = Omit<
   LoanQuotation,
-  "downpaymentAmount" | "loanableAmount" | "monthlyAmortization" | "totalContractPrice"
+  | "downpaymentAmount"
+  | "downpaymentBalanceAfterReservation"
+  | "monthlyEquity"
+  | "loanableAmount"
+  | "monthlyAmortization"
+  | "amortizationOptions"
+  | "totalContractPrice"
 >;
 
 function buildQuotation(input: QuotationInput): LoanQuotation {
   const downpaymentAmount = Math.round(input.listPrice * (input.downpaymentPercent / 100));
+  const downpaymentBalanceAfterReservation = Math.max(0, downpaymentAmount - input.reservationFee);
+  const monthlyEquity = Math.round(downpaymentBalanceAfterReservation / input.downpaymentTermMonths);
   const loanableAmount = input.listPrice - downpaymentAmount;
   const monthlyAmortization = Math.round(
     computeMonthlyAmortization(loanableAmount, input.interestRatePercent, input.termMonths),
   );
+  const amortizationOptions = buildAmortizationOptions(loanableAmount, input.interestRatePercent);
   const totalContractPrice = input.listPrice + input.miscFeesTotal;
 
   return {
     ...input,
     downpaymentAmount,
+    downpaymentBalanceAfterReservation,
+    monthlyEquity,
     loanableAmount,
     monthlyAmortization,
+    amortizationOptions,
     totalContractPrice,
   };
 }
@@ -31,7 +43,9 @@ export const loanQuotations: LoanQuotation[] = [
     propertyId: "prop-greenview-lot14",
     bankName: "BDO Home Loans",
     listPrice: 1500000,
+    reservationFee: 20000,
     downpaymentPercent: 20,
+    downpaymentTermMonths: 12,
     interestRatePercent: 6.75,
     termMonths: 180,
     miscFeesTotal: 45000,
@@ -44,7 +58,9 @@ export const loanQuotations: LoanQuotation[] = [
     propertyId: "prop-riverside-4b",
     bankName: "Pag-IBIG Fund",
     listPrice: 2300000,
+    reservationFee: 25000,
     downpaymentPercent: 20,
+    downpaymentTermMonths: 24,
     interestRatePercent: 6.25,
     termMonths: 240,
     miscFeesTotal: 62000,
@@ -57,7 +73,9 @@ export const loanQuotations: LoanQuotation[] = [
     propertyId: "prop-sunrise-b7",
     bankName: "BPI Family Savings Bank",
     listPrice: 1850000,
+    reservationFee: 25000,
     downpaymentPercent: 15,
+    downpaymentTermMonths: 12,
     interestRatePercent: 7.0,
     termMonths: 180,
     miscFeesTotal: 50000,
@@ -70,7 +88,9 @@ export const loanQuotations: LoanQuotation[] = [
     propertyId: "prop-villacorazon",
     bankName: "Metrobank",
     listPrice: 4500000,
+    reservationFee: 50000,
     downpaymentPercent: 20,
+    downpaymentTermMonths: 24,
     interestRatePercent: 6.5,
     termMonths: 240,
     miscFeesTotal: 95000,
@@ -83,7 +103,9 @@ export const loanQuotations: LoanQuotation[] = [
     propertyId: "prop-palm-12a",
     bankName: "Pag-IBIG Fund",
     listPrice: 1650000,
+    reservationFee: 20000,
     downpaymentPercent: 10,
+    downpaymentTermMonths: 12,
     interestRatePercent: 6.25,
     termMonths: 240,
     miscFeesTotal: 48000,

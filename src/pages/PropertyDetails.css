@@ -69,7 +69,15 @@
 }
 
 .property-details__section h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 12px;
+}
+
+.property-details__section h3 svg {
+  flex: none;
+  color: var(--color-text-muted);
 }
 
 .property-details__section p {

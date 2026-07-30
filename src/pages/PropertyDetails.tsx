@@ -12,12 +12,15 @@ import {
   Ruler,
   ScrollText,
   SearchX,
+  ShieldAlert,
   Sofa,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConsultantCard } from "../components/ConsultantCard";
+import { DeveloperInfoCard } from "../components/DeveloperInfoCard";
 import { EmptyState } from "../components/EmptyState";
+import { HazardInfoCard } from "../components/HazardInfoCard";
 import { PropertyCard } from "../components/PropertyCard";
 import { PropertyGallery } from "../components/PropertyGallery";
 import { PropertyMap } from "../components/PropertyMap";
@@ -157,6 +160,15 @@ export function PropertyDetails() {
             <h3>Overview</h3>
             <p>{property.description}</p>
           </section>
+
+          {property.listingSource === "Developer" && developer ? (
+            <section className="property-details__section">
+              <h3>
+                <Building2 size={16} strokeWidth={2} aria-hidden="true" /> Developer Information
+              </h3>
+              <DeveloperInfoCard developer={developer} />
+            </section>
+          ) : null}
 
           <section className="property-details__section">
             <h3>Property Details</h3>
@@ -373,6 +385,13 @@ export function PropertyDetails() {
             <div className="property-details__map">
               <PropertyMap properties={[property]} onMarkerClick={() => {}} />
             </div>
+          </section>
+
+          <section className="property-details__section">
+            <h3>
+              <ShieldAlert size={16} strokeWidth={2} aria-hidden="true" /> Location Hazard Info
+            </h3>
+            <HazardInfoCard hazardInfo={property.hazardInfo} />
           </section>
 
           {showConsultantCard && consultant ? (

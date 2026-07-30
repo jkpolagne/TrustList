@@ -1,12 +1,15 @@
 import { Building2, Pencil, Plus, Search } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { DeveloperInfoCard } from "../components/DeveloperInfoCard";
 import { EmptyState } from "../components/EmptyState";
 import { Modal } from "../components/Modal";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
 import { createDeveloper, getDevelopersByFirm, updateDeveloper } from "../services";
-import type { Developer, DeveloperStatus } from "../types";
+import type { Developer, DeveloperStatus, DhsudLicenseStatus } from "../types";
 import "./ManageDevelopers.css";
+
+const DHSUD_LICENSE_STATUSES: DhsudLicenseStatus[] = ["Active", "Expired", "Not Available"];
 
 interface DeveloperFormState {
   name: string;
@@ -20,6 +23,11 @@ interface DeveloperFormState {
   milestoneCash: string;
   milestoneInHouse: string;
   milestoneBank: string;
+  establishedYear: string;
+  dhsudLicenseNumber: string;
+  dhsudLicenseStatus: DhsudLicenseStatus;
+  totalProjectsCompleted: string;
+  about: string;
 }
 
 const EMPTY_FORM: DeveloperFormState = {
@@ -34,6 +42,11 @@ const EMPTY_FORM: DeveloperFormState = {
   milestoneCash: "100",
   milestoneInHouse: "25",
   milestoneBank: "25",
+  establishedYear: String(new Date().getFullYear()),
+  dhsudLicenseNumber: "",
+  dhsudLicenseStatus: "Not Available",
+  totalProjectsCompleted: "0",
+  about: "",
 };
 
 function developerToForm(dev: Developer): DeveloperFormState {
@@ -49,6 +62,11 @@ function developerToForm(dev: Developer): DeveloperFormState {
     milestoneCash: String(dev.requiredMilestonePercent.cash),
     milestoneInHouse: String(dev.requiredMilestonePercent.inHouse),
     milestoneBank: String(dev.requiredMilestonePercent.bank),
+    establishedYear: String(dev.establishedYear),
+    dhsudLicenseNumber: dev.dhsudLicenseNumber,
+    dhsudLicenseStatus: dev.dhsudLicenseStatus,
+    totalProjectsCompleted: String(dev.totalProjectsCompleted),
+    about: dev.about,
   };
 }
 
@@ -123,6 +141,11 @@ export function ManageDevelopers() {
         inHouse: Number(form.milestoneInHouse),
         bank: Number(form.milestoneBank),
       },
+      establishedYear: Number(form.establishedYear),
+      dhsudLicenseNumber: form.dhsudLicenseNumber,
+      dhsudLicenseStatus: form.dhsudLicenseStatus,
+      totalProjectsCompleted: Number(form.totalProjectsCompleted),
+      about: form.about,
     };
 
     if (editingId) {
@@ -395,6 +418,85 @@ export function ManageDevelopers() {
                 />
               </div>
             </div>
+          </div>
+
+          <div className="admin-form__section">
+            <span className="admin-form__section-title">Developer Credibility</span>
+            <div className="admin-form__row">
+              <div className="admin-form__field">
+                <label htmlFor="devEstablished">Established year</label>
+                <input
+                  id="devEstablished"
+                  type="number"
+                  min={1900}
+                  max={new Date().getFullYear()}
+                  required
+                  value={form.establishedYear}
+                  onChange={(e) => setForm({ ...form, establishedYear: e.target.value })}
+                />
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="devProjects">Projects completed</label>
+                <input
+                  id="devProjects"
+                  type="number"
+                  min={0}
+                  required
+                  value={form.totalProjectsCompleted}
+                  onChange={(e) => setForm({ ...form, totalProjectsCompleted: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="admin-form__row">
+              <div className="admin-form__field">
+                <label htmlFor="devLicenseNumber">DHSUD license number</label>
+                <input
+                  id="devLicenseNumber"
+                  type="text"
+                  placeholder="e.g. DHSUD-BIC-2005-00147"
+                  value={form.dhsudLicenseNumber}
+                  onChange={(e) => setForm({ ...form, dhsudLicenseNumber: e.target.value })}
+                />
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="devLicenseStatus">DHSUD license status</label>
+                <select
+                  id="devLicenseStatus"
+                  value={form.dhsudLicenseStatus}
+                  onChange={(e) =>
+                    setForm({ ...form, dhsudLicenseStatus: e.target.value as DhsudLicenseStatus })
+                  }
+                >
+                  {DHSUD_LICENSE_STATUSES.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="admin-form__field">
+              <label htmlFor="devAbout">About the developer</label>
+              <textarea
+                id="devAbout"
+                rows={2}
+                required
+                placeholder="1-2 sentences a buyer would want to know before trusting this developer."
+                value={form.about}
+                onChange={(e) => setForm({ ...form, about: e.target.value })}
+              />
+            </div>
+            <p className="admin-form__hint">Preview — this is exactly what buyers see on every listing page:</p>
+            <DeveloperInfoCard
+              developer={{
+                name: form.name || "Developer name",
+                establishedYear: Number(form.establishedYear) || new Date().getFullYear(),
+                dhsudLicenseNumber: form.dhsudLicenseNumber,
+                dhsudLicenseStatus: form.dhsudLicenseStatus,
+                totalProjectsCompleted: Number(form.totalProjectsCompleted) || 0,
+                about: form.about || "About text will appear here.",
+              }}
+            />
           </div>
 
           <div className="admin-form__actions">

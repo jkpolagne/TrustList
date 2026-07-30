@@ -1,9 +1,19 @@
 import { properties as seedProperties } from "../mocks";
-import type { ListingDraft, Property } from "../types";
+import type { HazardInfo, ListingDraft, Property } from "../types";
 import { withDelay } from "./delay";
 import { loadPersisted, savePersisted } from "./persist";
 
 const STORAGE_KEY = "trustlist.properties";
+
+/** Conservative placeholder for a listing with no assessed hazard data yet — never
+ * claims "Low" for an unassessed location, consistent with the trust theme. */
+const UNASSESSED_HAZARD_INFO: HazardInfo = {
+  floodRisk: "Moderate",
+  stormSurgeRisk: "Not Applicable",
+  landslideRisk: "Low",
+  nearestEvacuationCenter: "To be confirmed by the firm",
+  dataSource: "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data",
+};
 
 /** Backfills fields added to the Property model after a browser may have already cached
  * older records in localStorage — without this, a stale cached property missing e.g.
@@ -17,6 +27,7 @@ function normalizeProperty(p: Property): Property {
     amenities: p.amenities ?? [],
     nearbyLandmarks: p.nearbyLandmarks ?? [],
     images: p.images ?? [],
+    hazardInfo: p.hazardInfo ?? UNASSESSED_HAZARD_INFO,
   };
 }
 
@@ -130,6 +141,7 @@ export function createListingFromInquiry(
     amenities: [],
     nearbyLandmarks: [],
     images: [],
+    hazardInfo: UNASSESSED_HAZARD_INFO,
   };
   properties.push(property);
   persist();

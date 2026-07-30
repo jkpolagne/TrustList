@@ -1,6 +1,6 @@
 import { loanQuotations as seedQuotations } from "../mocks";
 import type { LoanQuotation } from "../types";
-import { computeMonthlyAmortization } from "../utils/finance";
+import { buildAmortizationOptions, computeMonthlyAmortization } from "../utils/finance";
 import { withDelay } from "./delay";
 import { loadPersisted, savePersisted } from "./persist";
 
@@ -30,24 +30,37 @@ export function getLoanQuotationByProperty(propertyId: string): Promise<LoanQuot
 
 type QuotationInput = Omit<
   LoanQuotation,
-  "id" | "downpaymentAmount" | "loanableAmount" | "monthlyAmortization" | "totalContractPrice"
+  | "id"
+  | "downpaymentAmount"
+  | "downpaymentBalanceAfterReservation"
+  | "monthlyEquity"
+  | "loanableAmount"
+  | "monthlyAmortization"
+  | "amortizationOptions"
+  | "totalContractPrice"
 >;
 
 export function createLoanQuotation(input: QuotationInput): Promise<LoanQuotation> {
   const downpaymentAmount = Math.round(input.listPrice * (input.downpaymentPercent / 100));
+  const downpaymentBalanceAfterReservation = Math.max(0, downpaymentAmount - input.reservationFee);
+  const monthlyEquity = Math.round(downpaymentBalanceAfterReservation / input.downpaymentTermMonths);
   const loanableAmount = input.listPrice - downpaymentAmount;
   const totalContractPrice = input.listPrice + input.miscFeesTotal;
   const monthlyAmortization = Math.round(
     computeMonthlyAmortization(loanableAmount, input.interestRatePercent, input.termMonths),
   );
+  const amortizationOptions = buildAmortizationOptions(loanableAmount, input.interestRatePercent);
 
   const quotation: LoanQuotation = {
     ...input,
     id: `lq-${Date.now()}`,
     downpaymentAmount,
+    downpaymentBalanceAfterReservation,
+    monthlyEquity,
     loanableAmount,
     totalContractPrice,
     monthlyAmortization,
+    amortizationOptions,
   };
   loanQuotations.push(quotation);
   persist();

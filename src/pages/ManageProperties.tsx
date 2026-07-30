@@ -2,6 +2,7 @@ import { Home, Pencil, Plus, Search, ShieldQuestion, X } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
+import { HazardInfoCard } from "../components/HazardInfoCard";
 import { Modal } from "../components/Modal";
 import { PropertyValuationCard } from "../components/PropertyValuationCard";
 import { Skeleton } from "../components/Skeleton";
@@ -25,6 +26,8 @@ import type {
   Property,
   PropertyStatus,
   PropertyType,
+  RiskLevel,
+  RiskLevelOrNA,
   TitleType,
 } from "../types";
 import { formatPHP } from "../utils/finance";
@@ -44,6 +47,10 @@ const TITLE_TYPES: TitleType[] = [
   "Tax Declaration Only",
 ];
 const FURNISHING_STATUSES: FurnishingStatus[] = ["Bare", "Semi-Furnished", "Fully Furnished"];
+const RISK_LEVELS: RiskLevel[] = ["Low", "Moderate", "High"];
+const RISK_LEVELS_OR_NA: RiskLevelOrNA[] = ["Low", "Moderate", "High", "Not Applicable"];
+const HAZARD_DATA_SOURCE =
+  "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data";
 
 interface PropertyFormState {
   title: string;
@@ -76,6 +83,10 @@ interface PropertyFormState {
   floorPlanImage: string;
   description: string;
   ownerName: string;
+  floodRisk: RiskLevel;
+  stormSurgeRisk: RiskLevelOrNA;
+  landslideRisk: RiskLevelOrNA;
+  nearestEvacuationCenter: string;
 }
 
 const EMPTY_FORM: PropertyFormState = {
@@ -109,6 +120,10 @@ const EMPTY_FORM: PropertyFormState = {
   floorPlanImage: "",
   description: "",
   ownerName: "",
+  floodRisk: "Moderate",
+  stormSurgeRisk: "Not Applicable",
+  landslideRisk: "Low",
+  nearestEvacuationCenter: "",
 };
 
 function propertyToForm(p: Property): PropertyFormState {
@@ -143,6 +158,10 @@ function propertyToForm(p: Property): PropertyFormState {
     floorPlanImage: p.floorPlanImage ?? "",
     description: p.description,
     ownerName: "",
+    floodRisk: p.hazardInfo.floodRisk,
+    stormSurgeRisk: p.hazardInfo.stormSurgeRisk,
+    landslideRisk: p.hazardInfo.landslideRisk,
+    nearestEvacuationCenter: p.hazardInfo.nearestEvacuationCenter,
   };
 }
 
@@ -328,6 +347,13 @@ export function ManageProperties() {
       amenities,
       nearbyLandmarks,
       images,
+      hazardInfo: {
+        floodRisk: form.floodRisk,
+        stormSurgeRisk: form.stormSurgeRisk,
+        landslideRisk: form.landslideRisk,
+        nearestEvacuationCenter: form.nearestEvacuationCenter,
+        dataSource: HAZARD_DATA_SOURCE,
+      },
     };
 
     if (editingId) {
@@ -867,6 +893,75 @@ export function ManageProperties() {
                 </div>
               )}
             </div>
+          </div>
+
+          <div className="admin-form__section">
+            <span className="admin-form__section-title">Location Hazard Info</span>
+            <div className="admin-form__row">
+              <div className="admin-form__field">
+                <label htmlFor="propFloodRisk">Flood risk</label>
+                <select
+                  id="propFloodRisk"
+                  value={form.floodRisk}
+                  onChange={(e) => setForm({ ...form, floodRisk: e.target.value as RiskLevel })}
+                >
+                  {RISK_LEVELS.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="propStormSurgeRisk">Storm surge risk</label>
+                <select
+                  id="propStormSurgeRisk"
+                  value={form.stormSurgeRisk}
+                  onChange={(e) => setForm({ ...form, stormSurgeRisk: e.target.value as RiskLevelOrNA })}
+                >
+                  {RISK_LEVELS_OR_NA.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="propLandslideRisk">Landslide risk</label>
+                <select
+                  id="propLandslideRisk"
+                  value={form.landslideRisk}
+                  onChange={(e) => setForm({ ...form, landslideRisk: e.target.value as RiskLevelOrNA })}
+                >
+                  {RISK_LEVELS_OR_NA.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="admin-form__field">
+              <label htmlFor="propEvacCenter">Nearest evacuation center</label>
+              <input
+                id="propEvacCenter"
+                type="text"
+                required
+                placeholder="e.g. Pili Municipal Gymnasium — 1.2 km"
+                value={form.nearestEvacuationCenter}
+                onChange={(e) => setForm({ ...form, nearestEvacuationCenter: e.target.value })}
+              />
+            </div>
+            <p className="admin-form__hint">Preview — this is exactly what buyers see on this listing's page:</p>
+            <HazardInfoCard
+              hazardInfo={{
+                floodRisk: form.floodRisk,
+                stormSurgeRisk: form.stormSurgeRisk,
+                landslideRisk: form.landslideRisk,
+                nearestEvacuationCenter: form.nearestEvacuationCenter || "To be confirmed",
+                dataSource: HAZARD_DATA_SOURCE,
+              }}
+            />
           </div>
 
           <div className="admin-form__field">

@@ -2,6 +2,7 @@ import { Calculator, Plus } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { EmptyState } from "../components/EmptyState";
 import { Modal } from "../components/Modal";
+import { PropertyPhoto } from "../components/PropertyPhoto";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -17,7 +18,9 @@ interface QuotationFormState {
   propertyId: string;
   bankName: string;
   interestRatePercent: string;
+  reservationFee: string;
   downpaymentPercent: string;
+  downpaymentTermMonths: string;
   termMonths: string;
   miscFeesTotal: string;
   breakdownDescription: string;
@@ -27,7 +30,9 @@ const EMPTY_FORM: QuotationFormState = {
   propertyId: "",
   bankName: "",
   interestRatePercent: "6.5",
+  reservationFee: "25000",
   downpaymentPercent: "20",
+  downpaymentTermMonths: "12",
   termMonths: "180",
   miscFeesTotal: "50000",
   breakdownDescription: "",
@@ -63,6 +68,9 @@ export function ManageLoanQuotations() {
   const selectedProperty = propertiesById.get(form.propertyId);
   const listPrice = selectedProperty?.price ?? 0;
   const downpaymentAmount = listPrice * (Number(form.downpaymentPercent || 0) / 100);
+  const reservationFee = Number(form.reservationFee || 0);
+  const downpaymentBalanceAfterReservation = Math.max(0, downpaymentAmount - reservationFee);
+  const monthlyEquity = downpaymentBalanceAfterReservation / Number(form.downpaymentTermMonths || 1);
   const loanableAmount = listPrice - downpaymentAmount;
   const monthlyPayment = selectedProperty
     ? computeMonthlyAmortization(
@@ -88,7 +96,9 @@ export function ManageLoanQuotations() {
       propertyId: selectedProperty.id,
       bankName: form.bankName,
       listPrice: selectedProperty.price,
+      reservationFee: Number(form.reservationFee),
       downpaymentPercent: Number(form.downpaymentPercent),
+      downpaymentTermMonths: Number(form.downpaymentTermMonths),
       interestRatePercent: Number(form.interestRatePercent),
       termMonths: Number(form.termMonths),
       miscFeesTotal: Number(form.miscFeesTotal),
@@ -133,6 +143,7 @@ export function ManageLoanQuotations() {
                 <th>Property</th>
                 <th>Bank</th>
                 <th className="data-table__numeric">List Price</th>
+                <th className="data-table__numeric">Reservation Fee</th>
                 <th className="data-table__numeric">Downpayment</th>
                 <th className="data-table__numeric">Rate</th>
                 <th className="data-table__numeric">Term</th>
@@ -140,13 +151,21 @@ export function ManageLoanQuotations() {
               </tr>
             </thead>
             <tbody>
-              {quotations.map((q) => (
+              {quotations.map((q) => {
+                const property = propertiesById.get(q.propertyId);
+                return (
                 <tr key={q.id}>
                   <td className="manage-loan-quotations-page__property">
-                    {propertiesById.get(q.propertyId)?.title ?? q.propertyId}
+                    {property ? (
+                      <span className="manage-loan-quotations-page__row-photo">
+                        <PropertyPhoto property={property} compact />
+                      </span>
+                    ) : null}
+                    {property?.title ?? q.propertyId}
                   </td>
                   <td>{q.bankName}</td>
                   <td className="data-table__numeric money">{formatPHP(q.listPrice)}</td>
+                  <td className="data-table__numeric money">{formatPHP(q.reservationFee)}</td>
                   <td className="data-table__numeric money">
                     {formatPHP(q.downpaymentAmount)} ({q.downpaymentPercent}%)
                   </td>
@@ -154,7 +173,8 @@ export function ManageLoanQuotations() {
                   <td className="data-table__numeric">{q.termMonths} mo.</td>
                   <td className="data-table__numeric money">{formatPHP(q.monthlyAmortization)}</td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -187,8 +207,24 @@ export function ManageLoanQuotations() {
               </select>
             </div>
 
+            {selectedProperty ? (
+              <div className="manage-loan-quotations-page__preview">
+                <span className="manage-loan-quotations-page__preview-photo">
+                  <PropertyPhoto property={selectedProperty} />
+                </span>
+                <div className="manage-loan-quotations-page__preview-details">
+                  <strong>{selectedProperty.title}</strong>
+                  <span>
+                    {selectedProperty.city}
+                    {selectedProperty.floorAreaSqm ? ` · ${selectedProperty.floorAreaSqm} sqm floor` : ""}
+                    {selectedProperty.lotAreaSqm ? ` · ${selectedProperty.lotAreaSqm} sqm lot` : ""}
+                  </span>
+                </div>
+              </div>
+            ) : null}
+
             <div className="admin-form__field">
-              <label>Property price</label>
+              <label>Property price (Total Contract Price)</label>
               <div className="manage-loan-quotations-page__readonly money">
                 {selectedProperty ? formatPHP(listPrice) : "—"}
               </div>
@@ -221,6 +257,17 @@ export function ManageLoanQuotations() {
 
             <div className="admin-form__row">
               <div className="admin-form__field">
+                <label htmlFor="quotReservationFee">Reservation fee (₱)</label>
+                <input
+                  id="quotReservationFee"
+                  type="number"
+                  min={0}
+                  required
+                  value={form.reservationFee}
+                  onChange={(e) => setForm({ ...form, reservationFee: e.target.value })}
+                />
+              </div>
+              <div className="admin-form__field">
                 <label htmlFor="quotDownpaymentPercent">Down payment %</label>
                 <input
                   id="quotDownpaymentPercent"
@@ -238,8 +285,28 @@ export function ManageLoanQuotations() {
                   {formatPHP(downpaymentAmount)}
                 </div>
               </div>
+            </div>
+
+            <div className="admin-form__row">
               <div className="admin-form__field">
-                <label htmlFor="quotTerm">Term (months)</label>
+                <label htmlFor="quotDownpaymentTerm">Downpayment term (months)</label>
+                <input
+                  id="quotDownpaymentTerm"
+                  type="number"
+                  min={1}
+                  required
+                  value={form.downpaymentTermMonths}
+                  onChange={(e) => setForm({ ...form, downpaymentTermMonths: e.target.value })}
+                />
+              </div>
+              <div className="admin-form__field">
+                <label>Monthly equity</label>
+                <div className="manage-loan-quotations-page__readonly money">
+                  {selectedProperty ? formatPHP(monthlyEquity) : "—"}
+                </div>
+              </div>
+              <div className="admin-form__field">
+                <label htmlFor="quotTerm">Bank loan term (months)</label>
                 <input
                   id="quotTerm"
                   type="number"
@@ -263,12 +330,19 @@ export function ManageLoanQuotations() {
                 />
               </div>
               <div className="admin-form__field">
-                <label>Monthly payment</label>
+                <label>Monthly amortization (at bank loan term)</label>
                 <div className="manage-loan-quotations-page__readonly manage-loan-quotations-page__readonly--highlight money">
                   {selectedProperty ? formatPHP(monthlyPayment) : "—"}
                 </div>
               </div>
             </div>
+
+            <p className="admin-form__hint">
+              Balance of downpayment after reservation fee:{" "}
+              <strong className="money">{formatPHP(downpaymentBalanceAfterReservation)}</strong>. The full
+              5/10/15/20-year amortization table is computed automatically and shown to buyers on the public
+              Loan Calculator.
+            </p>
 
             <div className="admin-form__field">
               <label htmlFor="quotBreakdown">Breakdown description</label>
