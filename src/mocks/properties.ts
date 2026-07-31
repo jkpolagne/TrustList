@@ -1,7 +1,19 @@
-import type { Property } from "../types";
+import type { NearbyEstablishment, Property, PropertyImage } from "../types";
 
 const HAZARD_DATA_SOURCE =
   "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data";
+
+function photo(url: string, label: string, room: PropertyImage["room"]): PropertyImage {
+  return { url, label, room };
+}
+
+const PILI_TOWN_ESTABLISHMENTS: NearbyEstablishment[] = [
+  { type: "market", name: "Pili Public Market", distanceKm: 1.8 },
+  { type: "hospital", name: "Camarines Sur Provincial Hospital", distanceKm: 3.4 },
+  { type: "school", name: "Pili Elementary School", distanceKm: 1.1 },
+  { type: "church", name: "St. Joseph Parish Church, Pili", distanceKm: 2.0 },
+  { type: "highway", name: "Maharlika Highway", distanceKm: 0.6 },
+];
 
 export const properties: Property[] = [
   {
@@ -36,9 +48,21 @@ export const properties: Property[] = [
       "Near Camarines Sur Polytechnic Colleges",
     ],
     images: [
-      "https://images.pexels.com/photos/37520984/pexels-photo-37520984.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/20074182/pexels-photo-20074182.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/9666115/pexels-photo-9666115.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/37520984/pexels-photo-37520984.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Front View of Lot",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/20074182/pexels-photo-20074182.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Street Access",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/9666115/pexels-photo-9666115.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Aerial View",
+        "Outdoor",
+      ),
     ],
     hazardInfo: {
       floodRisk: "Moderate",
@@ -47,6 +71,10 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Pili Municipal Gymnasium — 1.2 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-07-15",
+    visitedByConsultantName: "Denise Aguilar",
+    nearbyEstablishments: PILI_TOWN_ESTABLISHMENTS,
   },
   {
     id: "prop-riverside-4b",
@@ -87,10 +115,26 @@ export const properties: Property[] = [
       "10 mins to Naga City Airport",
     ],
     images: [
-      "https://images.pexels.com/photos/18093637/pexels-photo-18093637.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/6980724/pexels-photo-6980724.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/19836790/pexels-photo-19836790.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/31488380/pexels-photo-31488380.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/18093637/pexels-photo-18093637.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Facade",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/6980724/pexels-photo-6980724.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/19836790/pexels-photo-19836790.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Master Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/31488380/pexels-photo-31488380.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
     ],
     floorPlanImage: "https://images.pexels.com/photos/7937320/pexels-photo-7937320.jpeg?auto=compress&cs=tinysrgb&w=1200",
     hazardInfo: {
@@ -100,6 +144,16 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Naga City Coliseum — 2.1 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-06-20",
+    visitedByConsultantName: "Carlo Mendiola",
+    nearbyEstablishments: [
+      { type: "market", name: "Naga City Public Market", distanceKm: 2.5 },
+      { type: "hospital", name: "Bicol Medical Center", distanceKm: 3.0 },
+      { type: "school", name: "Naga City Science High School", distanceKm: 1.5 },
+      { type: "church", name: "Metropolitan Cathedral of Naga", distanceKm: 2.2 },
+      { type: "highway", name: "Naga-Legazpi Road (Maharlika Highway)", distanceKm: 1.4 },
+    ],
   },
   {
     id: "prop-casateresa",
@@ -137,11 +191,31 @@ export const properties: Property[] = [
     amenities: [],
     nearbyLandmarks: ["5 mins to Naga City Public Market", "10 mins to Naga City Centrale Mall"],
     images: [
-      "https://images.pexels.com/photos/7587880/pexels-photo-7587880.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/37175980/pexels-photo-37175980.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7546648/pexels-photo-7546648.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7045356/pexels-photo-7045356.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/6957081/pexels-photo-6957081.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/7587880/pexels-photo-7587880.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Facade",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/37175980/pexels-photo-37175980.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/7546648/pexels-photo-7546648.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
+      photo(
+        "https://images.pexels.com/photos/7045356/pexels-photo-7045356.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Master Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/6957081/pexels-photo-6957081.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Backyard",
+        "Outdoor",
+      ),
     ],
     // Deliberately unset — a resale, individually-owned listing like this often has no
     // professionally drafted floor plan on file, unlike a developer's standard house model.
@@ -152,6 +226,16 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Concepcion Pequeña Elementary School — 0.9 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-05-10",
+    visitedByConsultantName: "Ramon Bermudo",
+    nearbyEstablishments: [
+      { type: "market", name: "Naga City Public Market", distanceKm: 1.0 },
+      { type: "hospital", name: "Mother Seton Hospital", distanceKm: 2.2 },
+      { type: "school", name: "Universidad de Sta. Isabel", distanceKm: 1.5 },
+      { type: "church", name: "Metropolitan Cathedral of Naga", distanceKm: 2.8 },
+      { type: "highway", name: "Diversion Road", distanceKm: 1.2 },
+    ],
   },
   {
     id: "prop-sunrise-b7",
@@ -192,10 +276,26 @@ export const properties: Property[] = [
       "8 mins to Pili town plaza",
     ],
     images: [
-      "https://images.pexels.com/photos/30484316/pexels-photo-30484316.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/4469150/pexels-photo-4469150.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/29012619/pexels-photo-29012619.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7195739/pexels-photo-7195739.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/30484316/pexels-photo-30484316.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Facade",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/4469150/pexels-photo-4469150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/29012619/pexels-photo-29012619.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/7195739/pexels-photo-7195739.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
     ],
     floorPlanImage: "https://images.pexels.com/photos/8962803/pexels-photo-8962803.jpeg?auto=compress&cs=tinysrgb&w=1200",
     hazardInfo: {
@@ -205,6 +305,16 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Sta. Cruz Norte Covered Court — 1.0 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-07-01",
+    visitedByConsultantName: "Noel Vergara",
+    nearbyEstablishments: [
+      { type: "market", name: "Pili Public Market", distanceKm: 2.0 },
+      { type: "hospital", name: "Camarines Sur Provincial Hospital", distanceKm: 0.5 },
+      { type: "school", name: "Pili Elementary School", distanceKm: 1.2 },
+      { type: "church", name: "St. Joseph Parish Church, Pili", distanceKm: 1.8 },
+      { type: "highway", name: "Maharlika Highway", distanceKm: 1.0 },
+    ],
   },
   {
     id: "prop-emerald-lot22",
@@ -235,9 +345,21 @@ export const properties: Property[] = [
     amenities: [],
     nearbyLandmarks: ["Quiet residential street in Brgy. Pacol"],
     images: [
-      "https://images.pexels.com/photos/19335534/pexels-photo-19335534.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/16234528/pexels-photo-16234528.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/5211235/pexels-photo-5211235.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/19335534/pexels-photo-19335534.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Lot View",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/16234528/pexels-photo-16234528.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Mountain View",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/5211235/pexels-photo-5211235.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Street Frontage",
+        "Outdoor",
+      ),
     ],
     hazardInfo: {
       floodRisk: "Low",
@@ -246,6 +368,14 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Pacol Barangay Hall — 1.8 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: false,
+    nearbyEstablishments: [
+      { type: "market", name: "Naga City Public Market", distanceKm: 5.5 },
+      { type: "hospital", name: "Bicol Medical Center", distanceKm: 6.0 },
+      { type: "school", name: "Pacol Elementary School", distanceKm: 1.0 },
+      { type: "church", name: "Pacol Barangay Chapel", distanceKm: 0.8 },
+      { type: "highway", name: "Naga-Carolina Road", distanceKm: 2.0 },
+    ],
   },
   {
     id: "prop-villacorazon",
@@ -282,11 +412,31 @@ export const properties: Property[] = [
     amenities: ["Master-planned community", "Clubhouse", "Swimming pool", "24/7 security"],
     nearbyLandmarks: ["15 mins to Legazpi City Airport", "10 mins to Legazpi City proper"],
     images: [
-      "https://images.pexels.com/photos/8082328/pexels-photo-8082328.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/18280833/pexels-photo-18280833.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/33537442/pexels-photo-33537442.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7166645/pexels-photo-7166645.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/36099150/pexels-photo-36099150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/8082328/pexels-photo-8082328.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Facade",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/18280833/pexels-photo-18280833.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/33537442/pexels-photo-33537442.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Master Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/7166645/pexels-photo-7166645.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
+      photo(
+        "https://images.pexels.com/photos/36099150/pexels-photo-36099150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Backyard",
+        "Outdoor",
+      ),
     ],
     floorPlanImage: "https://images.pexels.com/photos/271667/pexels-photo-271667.jpeg?auto=compress&cs=tinysrgb&w=1200",
     hazardInfo: {
@@ -296,6 +446,16 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Bogtong Evacuation Center — 1.4 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-06-25",
+    visitedByConsultantName: "Aira Buenaventura",
+    nearbyEstablishments: [
+      { type: "market", name: "Legazpi City Public Market", distanceKm: 4.0 },
+      { type: "hospital", name: "Bicol Regional Training and Teaching Hospital", distanceKm: 4.5 },
+      { type: "school", name: "Bogtong Elementary School", distanceKm: 1.0 },
+      { type: "church", name: "Legazpi Cathedral (St. Gregory the Great)", distanceKm: 5.0 },
+      { type: "highway", name: "Maharlika Highway (Legazpi-Sorsogon Road)", distanceKm: 1.5 },
+    ],
   },
   {
     id: "prop-palm-12a",
@@ -328,10 +488,26 @@ export const properties: Property[] = [
     amenities: ["Shared swimming pool", "Fitness gym", "24-hour security"],
     nearbyLandmarks: ["5 mins to Legazpi Port"],
     images: [
-      "https://images.pexels.com/photos/129494/pexels-photo-129494.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/36817987/pexels-photo-36817987.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/8089172/pexels-photo-8089172.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/6908565/pexels-photo-6908565.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/129494/pexels-photo-129494.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/36817987/pexels-photo-36817987.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/8089172/pexels-photo-8089172.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
+      photo(
+        "https://images.pexels.com/photos/6908565/pexels-photo-6908565.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Balcony View",
+        "Outdoor",
+      ),
     ],
     floorPlanImage: "https://images.pexels.com/photos/4458205/pexels-photo-4458205.jpeg?auto=compress&cs=tinysrgb&w=1200",
     hazardInfo: {
@@ -341,6 +517,14 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Rawis Elementary School — 0.7 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: false,
+    nearbyEstablishments: [
+      { type: "market", name: "Legazpi City Public Market", distanceKm: 2.0 },
+      { type: "hospital", name: "Bicol Regional Training and Teaching Hospital", distanceKm: 3.0 },
+      { type: "school", name: "Rawis Elementary School", distanceKm: 0.7 },
+      { type: "church", name: "Legazpi Cathedral (St. Gregory the Great)", distanceKm: 3.5 },
+      { type: "highway", name: "Legazpi Port Access Road", distanceKm: 0.5 },
+    ],
   },
   {
     id: "prop-hillside-lot5",
@@ -370,8 +554,16 @@ export const properties: Property[] = [
     amenities: ["Gated subdivision"],
     nearbyLandmarks: ["15 mins to Pili town proper"],
     images: [
-      "https://images.pexels.com/photos/17862876/pexels-photo-17862876.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/17602526/pexels-photo-17602526.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/17862876/pexels-photo-17862876.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Lot View",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/17602526/pexels-photo-17602526.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "View from Gate",
+        "Outdoor",
+      ),
     ],
     hazardInfo: {
       floodRisk: "Low",
@@ -380,6 +572,14 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Cadlan Barangay Gymnasium — 1.6 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: false,
+    nearbyEstablishments: [
+      { type: "market", name: "Pili Public Market", distanceKm: 3.5 },
+      { type: "hospital", name: "Camarines Sur Provincial Hospital", distanceKm: 4.0 },
+      { type: "school", name: "Cadlan Elementary School", distanceKm: 1.0 },
+      { type: "church", name: "St. Joseph Parish Church, Pili", distanceKm: 3.8 },
+      { type: "highway", name: "Pili-Ocampo Road", distanceKm: 1.5 },
+    ],
   },
   {
     id: "prop-brookside-lot9",
@@ -409,7 +609,11 @@ export const properties: Property[] = [
     amenities: ["Perimeter fence", "Basketball court"],
     nearbyLandmarks: ["10 mins to Pili town proper"],
     images: [
-      "https://images.pexels.com/photos/2119713/pexels-photo-2119713.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/2119713/pexels-photo-2119713.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Lot View",
+        "Outdoor",
+      ),
     ],
     hazardInfo: {
       floodRisk: "High",
@@ -418,6 +622,16 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Anayan Elementary School — 1.3 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: true,
+    lastVisitedDate: "2026-07-08",
+    visitedByConsultantName: "Rolando Cruz Mercado",
+    nearbyEstablishments: [
+      { type: "market", name: "Pili Public Market", distanceKm: 2.8 },
+      { type: "hospital", name: "Camarines Sur Provincial Hospital", distanceKm: 3.2 },
+      { type: "school", name: "Anayan Elementary School", distanceKm: 1.0 },
+      { type: "church", name: "St. Joseph Parish Church, Pili", distanceKm: 2.5 },
+      { type: "highway", name: "Maharlika Highway", distanceKm: 1.8 },
+    ],
   },
   {
     id: "prop-centralpark-5d",
@@ -453,11 +667,31 @@ export const properties: Property[] = [
       "10 mins to Naga City Airport",
     ],
     images: [
-      "https://images.pexels.com/photos/7735233/pexels-photo-7735233.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/6367711/pexels-photo-6367711.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/8089155/pexels-photo-8089155.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/18033166/pexels-photo-18033166.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/6903210/pexels-photo-6903210.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      photo(
+        "https://images.pexels.com/photos/7735233/pexels-photo-7735233.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Living Room",
+        "Living Areas",
+      ),
+      photo(
+        "https://images.pexels.com/photos/6367711/pexels-photo-6367711.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Master Bedroom",
+        "Bedrooms",
+      ),
+      photo(
+        "https://images.pexels.com/photos/8089155/pexels-photo-8089155.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Kitchen",
+        "Kitchen",
+      ),
+      photo(
+        "https://images.pexels.com/photos/18033166/pexels-photo-18033166.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Balcony View",
+        "Outdoor",
+      ),
+      photo(
+        "https://images.pexels.com/photos/6903210/pexels-photo-6903210.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "Building Facade",
+        "Outdoor",
+      ),
     ],
     floorPlanImage: "https://images.pexels.com/photos/4792501/pexels-photo-4792501.jpeg?auto=compress&cs=tinysrgb&w=1200",
     hazardInfo: {
@@ -467,5 +701,13 @@ export const properties: Property[] = [
       nearestEvacuationCenter: "Naga City Coliseum — 1.8 km",
       dataSource: HAZARD_DATA_SOURCE,
     },
+    consultantVisited: false,
+    nearbyEstablishments: [
+      { type: "market", name: "Naga City Public Market", distanceKm: 2.0 },
+      { type: "hospital", name: "Bicol Medical Center", distanceKm: 1.8 },
+      { type: "school", name: "Naga City Science High School", distanceKm: 1.5 },
+      { type: "church", name: "Metropolitan Cathedral of Naga", distanceKm: 1.6 },
+      { type: "highway", name: "Diversion Road", distanceKm: 0.8 },
+    ],
   },
 ];

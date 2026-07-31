@@ -134,6 +134,100 @@
   color: var(--color-ink);
 }
 
+.manage-properties-page__photo-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.manage-properties-page__photo-input input,
+.manage-properties-page__photo-input select {
+  flex: 1;
+  min-width: 140px;
+  padding: 9px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.manage-properties-page__photo-input button {
+  flex: none;
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.manage-properties-page__photo-input button:hover {
+  border-color: var(--color-gold);
+}
+
+.manage-properties-page__photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.manage-properties-page__photo-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+}
+
+.manage-properties-page__photo-tag img {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: cover;
+  flex: none;
+}
+
+.manage-properties-page__photo-tag-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 12px;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.manage-properties-page__photo-tag-text small {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.manage-properties-page__photo-tag button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  flex: none;
+}
+
+.manage-properties-page__photo-tag button:hover {
+  background: var(--color-border);
+  color: var(--color-ink);
+}
+
 .manage-properties-page__verification {
   border-left: 3px solid var(--color-amber);
   background: var(--color-paper);

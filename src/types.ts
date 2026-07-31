@@ -138,11 +138,33 @@ export interface Property {
    * kept separate from unit `features` since they describe different things. */
   amenities: string[];
   nearbyLandmarks: string[];
-  /** Mock filenames standing in for uploaded listing photos. */
-  images: string[];
+  images: PropertyImage[];
   /** Single floor-plan diagram image, when the firm has one on file. */
   floorPlanImage?: string;
   hazardInfo: HazardInfo;
+  /** Whether the assigned consultant has physically visited and vouches for this
+   * listing — a trust signal distinct from PRC/Ownership/DHSUD, which are all about
+   * paperwork rather than someone actually having set foot on the property. */
+  consultantVisited: boolean;
+  lastVisitedDate?: string;
+  visitedByConsultantName?: string;
+  nearbyEstablishments: NearbyEstablishment[];
+}
+
+export type PhotoRoomCategory = "Living Areas" | "Bedrooms" | "Kitchen" | "Outdoor" | "Other";
+
+export interface PropertyImage {
+  url: string;
+  label: string;
+  room: PhotoRoomCategory;
+}
+
+export type NearbyEstablishmentType = "market" | "hospital" | "school" | "church" | "highway";
+
+export interface NearbyEstablishment {
+  type: NearbyEstablishmentType;
+  name: string;
+  distanceKm: number;
 }
 
 export type RiskLevel = "Low" | "Moderate" | "High";

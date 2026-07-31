@@ -12,7 +12,6 @@ import {
   Ruler,
   ScrollText,
   SearchX,
-  ShieldAlert,
   Sofa,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -20,7 +19,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConsultantCard } from "../components/ConsultantCard";
 import { DeveloperInfoCard } from "../components/DeveloperInfoCard";
 import { EmptyState } from "../components/EmptyState";
-import { HazardInfoCard } from "../components/HazardInfoCard";
+import { NeighborhoodPanel } from "../components/NeighborhoodPanel";
 import { PropertyCard } from "../components/PropertyCard";
 import { PropertyGallery } from "../components/PropertyGallery";
 import { PropertyMap } from "../components/PropertyMap";
@@ -381,17 +380,19 @@ export function PropertyDetails() {
           ) : null}
 
           <section className="property-details__section">
+            <h3>Neighborhood</h3>
+            <NeighborhoodPanel
+              establishments={property.nearbyEstablishments}
+              zonalValuePerSqm={zonalValuePerSqm}
+              hazardInfo={property.hazardInfo}
+            />
+          </section>
+
+          <section className="property-details__section">
             <h3>Location</h3>
             <div className="property-details__map">
               <PropertyMap properties={[property]} onMarkerClick={() => {}} />
             </div>
-          </section>
-
-          <section className="property-details__section">
-            <h3>
-              <ShieldAlert size={16} strokeWidth={2} aria-hidden="true" /> Location Hazard Info
-            </h3>
-            <HazardInfoCard hazardInfo={property.hazardInfo} />
           </section>
 
           {showConsultantCard && consultant ? (
@@ -445,6 +446,17 @@ export function PropertyDetails() {
                 </div>
               ) : null}
             </dl>
+            {property.consultantVisited && property.visitedByConsultantName && property.lastVisitedDate ? (
+              <div className="property-details__consultant-visited">
+                <VerificationBadge
+                  type="consultant"
+                  status="verified"
+                  label={`Personally visited by ${property.visitedByConsultantName} on ${new Date(
+                    property.lastVisitedDate,
+                  ).toLocaleDateString("en-PH", { year: "numeric", month: "long", day: "numeric" })}`}
+                />
+              </div>
+            ) : null}
             <Link to={`/properties/${property.id}/visit`} className="property-details__visit-btn">
               Schedule Visit
             </Link>

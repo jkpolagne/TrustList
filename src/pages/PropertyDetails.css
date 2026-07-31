@@ -193,6 +193,23 @@
   font-size: 13.5px;
 }
 
+.property-details__consultant-visited {
+  padding-top: 4px;
+}
+
+.property-details__consultant-visited .verification-badge {
+  display: inline-flex;
+  align-items: flex-start;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.property-details__consultant-visited .verification-badge svg {
+  flex: none;
+  margin-top: 2px;
+}
+
 .property-details__visit-btn {
   display: flex;
   align-items: center;

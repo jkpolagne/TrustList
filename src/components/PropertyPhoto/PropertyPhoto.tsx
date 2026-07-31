@@ -12,7 +12,7 @@ interface PropertyPhotoProps {
  * icon placeholder for listings without a photo yet (e.g. a freshly converted
  * seller inquiry, before the firm uploads real photos). */
 export function PropertyPhoto({ property, className, compact }: PropertyPhotoProps) {
-  const src = property.images[0];
+  const src = property.images[0]?.url;
 
   if (!src) {
     return (

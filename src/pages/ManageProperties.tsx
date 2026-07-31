@@ -1,4 +1,4 @@
-import { Home, Pencil, Plus, Search, ShieldQuestion, X } from "lucide-react";
+import { Home, MapPin, Pencil, Plus, Search, ShieldQuestion, X } from "lucide-react";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
@@ -23,7 +23,10 @@ import type {
   ListingSource,
   LoanQuotation,
   LocationZonalValue,
+  NearbyEstablishmentType,
+  PhotoRoomCategory,
   Property,
+  PropertyImage,
   PropertyStatus,
   PropertyType,
   RiskLevel,
@@ -51,6 +54,42 @@ const RISK_LEVELS: RiskLevel[] = ["Low", "Moderate", "High"];
 const RISK_LEVELS_OR_NA: RiskLevelOrNA[] = ["Low", "Moderate", "High", "Not Applicable"];
 const HAZARD_DATA_SOURCE =
   "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data";
+
+const OTHER_LABEL = "Other";
+const PREDEFINED_PHOTO_LABELS: { label: string; room: PhotoRoomCategory }[] = [
+  { label: "Facade", room: "Outdoor" },
+  { label: "Living Room", room: "Living Areas" },
+  { label: "Dining Room", room: "Living Areas" },
+  { label: "Master Bedroom", room: "Bedrooms" },
+  { label: "Bedroom", room: "Bedrooms" },
+  { label: "Kitchen", room: "Kitchen" },
+  { label: "Comfort Room", room: "Other" },
+  { label: "Backyard", room: "Outdoor" },
+  { label: "Balcony View", room: "Outdoor" },
+  { label: "View from Gate", room: "Outdoor" },
+  { label: "Lot View", room: "Outdoor" },
+];
+
+const ESTABLISHMENT_ROWS: { type: NearbyEstablishmentType; label: string; placeholder: string }[] = [
+  { type: "market", label: "Nearest public market", placeholder: "e.g. Pili Public Market" },
+  { type: "hospital", label: "Nearest hospital", placeholder: "e.g. Camarines Sur Provincial Hospital" },
+  { type: "school", label: "Nearest school", placeholder: "e.g. Pili Elementary School" },
+  { type: "church", label: "Nearest church", placeholder: "e.g. St. Joseph Parish Church, Pili" },
+  { type: "highway", label: "Nearest highway / main road", placeholder: "e.g. Maharlika Highway" },
+];
+
+interface EstablishmentFormState {
+  name: string;
+  distanceKm: string;
+}
+
+const EMPTY_ESTABLISHMENTS: Record<NearbyEstablishmentType, EstablishmentFormState> = {
+  market: { name: "", distanceKm: "" },
+  hospital: { name: "", distanceKm: "" },
+  school: { name: "", distanceKm: "" },
+  church: { name: "", distanceKm: "" },
+  highway: { name: "", distanceKm: "" },
+};
 
 interface PropertyFormState {
   title: string;
@@ -87,6 +126,10 @@ interface PropertyFormState {
   stormSurgeRisk: RiskLevelOrNA;
   landslideRisk: RiskLevelOrNA;
   nearestEvacuationCenter: string;
+  consultantVisited: boolean;
+  lastVisitedDate: string;
+  visitedByConsultantName: string;
+  establishments: Record<NearbyEstablishmentType, EstablishmentFormState>;
 }
 
 const EMPTY_FORM: PropertyFormState = {
@@ -124,6 +167,10 @@ const EMPTY_FORM: PropertyFormState = {
   stormSurgeRisk: "Not Applicable",
   landslideRisk: "Low",
   nearestEvacuationCenter: "",
+  consultantVisited: false,
+  lastVisitedDate: "",
+  visitedByConsultantName: "",
+  establishments: EMPTY_ESTABLISHMENTS,
 };
 
 function propertyToForm(p: Property): PropertyFormState {
@@ -162,6 +209,19 @@ function propertyToForm(p: Property): PropertyFormState {
     stormSurgeRisk: p.hazardInfo.stormSurgeRisk,
     landslideRisk: p.hazardInfo.landslideRisk,
     nearestEvacuationCenter: p.hazardInfo.nearestEvacuationCenter,
+    consultantVisited: p.consultantVisited,
+    lastVisitedDate: p.lastVisitedDate ?? "",
+    visitedByConsultantName: p.visitedByConsultantName ?? "",
+    establishments: ESTABLISHMENT_ROWS.reduce(
+      (acc, row) => {
+        const match = p.nearbyEstablishments.find((e) => e.type === row.type);
+        acc[row.type] = match
+          ? { name: match.name, distanceKm: String(match.distanceKm) }
+          : { name: "", distanceKm: "" };
+        return acc;
+      },
+      { ...EMPTY_ESTABLISHMENTS },
+    ),
   };
 }
 
@@ -186,8 +246,10 @@ export function ManageProperties() {
   const [amenityInput, setAmenityInput] = useState("");
   const [nearbyLandmarks, setNearbyLandmarks] = useState<string[]>([]);
   const [landmarkInput, setLandmarkInput] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [imageInput, setImageInput] = useState("");
+  const [images, setImages] = useState<PropertyImage[]>([]);
+  const [imageUrlInput, setImageUrlInput] = useState("");
+  const [imageLabelSelect, setImageLabelSelect] = useState(PREDEFINED_PHOTO_LABELS[0].label);
+  const [imageCustomLabelInput, setImageCustomLabelInput] = useState("");
   const [saving, setSaving] = useState(false);
   const [locations, setLocations] = useState<LocationZonalValue[]>([]);
   const [editingLoanQuotation, setEditingLoanQuotation] = useState<LoanQuotation>();
@@ -241,6 +303,9 @@ export function ManageProperties() {
     setAmenities([]);
     setNearbyLandmarks([]);
     setImages([]);
+    setImageUrlInput("");
+    setImageLabelSelect(PREDEFINED_PHOTO_LABELS[0].label);
+    setImageCustomLabelInput("");
     setEditingLoanQuotation(undefined);
     setModalOpen(true);
   }
@@ -252,6 +317,9 @@ export function ManageProperties() {
     setAmenities(p.amenities);
     setNearbyLandmarks(p.nearbyLandmarks);
     setImages(p.images);
+    setImageUrlInput("");
+    setImageLabelSelect(PREDEFINED_PHOTO_LABELS[0].label);
+    setImageCustomLabelInput("");
     setEditingLoanQuotation(undefined);
     getLoanQuotationByProperty(p.id).then(setEditingLoanQuotation);
     setModalOpen(true);
@@ -281,9 +349,19 @@ export function ManageProperties() {
   }
 
   function addImage() {
-    const value = imageInput.trim();
-    if (value && !images.includes(value)) setImages([...images, value]);
-    setImageInput("");
+    const url = imageUrlInput.trim();
+    if (!url) return;
+
+    const isOther = imageLabelSelect === OTHER_LABEL;
+    const label = isOther ? imageCustomLabelInput.trim() : imageLabelSelect;
+    if (!label) return;
+    const room: PhotoRoomCategory = isOther
+      ? "Other"
+      : (PREDEFINED_PHOTO_LABELS.find((p) => p.label === imageLabelSelect)?.room ?? "Other");
+
+    setImages([...images, { url, label, room }]);
+    setImageUrlInput("");
+    setImageCustomLabelInput("");
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -354,6 +432,16 @@ export function ManageProperties() {
         nearestEvacuationCenter: form.nearestEvacuationCenter,
         dataSource: HAZARD_DATA_SOURCE,
       },
+      consultantVisited: form.consultantVisited,
+      lastVisitedDate: form.consultantVisited ? form.lastVisitedDate || undefined : undefined,
+      visitedByConsultantName: form.consultantVisited ? form.visitedByConsultantName || undefined : undefined,
+      nearbyEstablishments: ESTABLISHMENT_ROWS.filter(
+        (row) => form.establishments[row.type].name.trim().length > 0,
+      ).map((row) => ({
+        type: row.type,
+        name: form.establishments[row.type].name.trim(),
+        distanceKm: Number(form.establishments[row.type].distanceKm) || 0,
+      })),
     };
 
     if (editingId) {
@@ -896,7 +984,100 @@ export function ManageProperties() {
           </div>
 
           <div className="admin-form__section">
-            <span className="admin-form__section-title">Location Hazard Info</span>
+            <span className="admin-form__section-title">Consultant Verification</span>
+            <div className="admin-form__field admin-form__field--checkbox">
+              <label htmlFor="propConsultantVisited">
+                <input
+                  id="propConsultantVisited"
+                  type="checkbox"
+                  checked={form.consultantVisited}
+                  onChange={(e) => setForm({ ...form, consultantVisited: e.target.checked })}
+                />
+                Mark as consultant-visited
+              </label>
+            </div>
+            {form.consultantVisited ? (
+              <div className="admin-form__row">
+                <div className="admin-form__field">
+                  <label htmlFor="propVisitedBy">Visited by (consultant name)</label>
+                  <input
+                    id="propVisitedBy"
+                    type="text"
+                    required
+                    placeholder="e.g. Denise Aguilar"
+                    value={form.visitedByConsultantName}
+                    onChange={(e) => setForm({ ...form, visitedByConsultantName: e.target.value })}
+                  />
+                </div>
+                <div className="admin-form__field">
+                  <label htmlFor="propVisitedDate">Date visited</label>
+                  <input
+                    id="propVisitedDate"
+                    type="date"
+                    required
+                    value={form.lastVisitedDate}
+                    onChange={(e) => setForm({ ...form, lastVisitedDate: e.target.value })}
+                  />
+                </div>
+              </div>
+            ) : (
+              <p className="admin-form__hint">
+                Unchecked means no badge is shown on the listing — absence of the badge is enough,
+                so leave this off until a consultant has actually been there in person.
+              </p>
+            )}
+          </div>
+
+          <div className="admin-form__section">
+            <span className="admin-form__section-title">
+              <MapPin size={13} strokeWidth={2} aria-hidden="true" /> Neighborhood — What's Nearby
+            </span>
+            {ESTABLISHMENT_ROWS.map((row) => (
+              <div className="admin-form__row" key={row.type}>
+                <div className="admin-form__field admin-form__field--wide">
+                  <label htmlFor={`estName-${row.type}`}>{row.label}</label>
+                  <input
+                    id={`estName-${row.type}`}
+                    type="text"
+                    placeholder={row.placeholder}
+                    value={form.establishments[row.type].name}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        establishments: {
+                          ...form.establishments,
+                          [row.type]: { ...form.establishments[row.type], name: e.target.value },
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="admin-form__field">
+                  <label htmlFor={`estDistance-${row.type}`}>Distance (km)</label>
+                  <input
+                    id={`estDistance-${row.type}`}
+                    type="number"
+                    min={0}
+                    step="0.1"
+                    value={form.establishments[row.type].distanceKm}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        establishments: {
+                          ...form.establishments,
+                          [row.type]: { ...form.establishments[row.type], distanceKm: e.target.value },
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            ))}
+            <p className="admin-form__hint">Leave a row blank if there is no nearby establishment of that type.</p>
+          </div>
+
+          <div className="admin-form__section">
+            <span className="admin-form__section-title">Neighborhood — Location Hazard Info</span>
             <div className="admin-form__row">
               <div className="admin-form__field">
                 <label htmlFor="propFloodRisk">Flood risk</label>
@@ -1073,31 +1254,46 @@ export function ManageProperties() {
 
           <div className="admin-form__field">
             <label>Photos</label>
-            <div className="manage-properties-page__tag-input">
+            <div className="manage-properties-page__photo-input">
               <input
                 type="text"
-                value={imageInput}
-                onChange={(e) => setImageInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addImage();
-                  }
-                }}
+                value={imageUrlInput}
+                onChange={(e) => setImageUrlInput(e.target.value)}
                 placeholder="Paste a photo URL"
               />
+              <select value={imageLabelSelect} onChange={(e) => setImageLabelSelect(e.target.value)}>
+                {PREDEFINED_PHOTO_LABELS.map((p) => (
+                  <option key={p.label} value={p.label}>
+                    {p.label}
+                  </option>
+                ))}
+                <option value={OTHER_LABEL}>Other…</option>
+              </select>
+              {imageLabelSelect === OTHER_LABEL ? (
+                <input
+                  type="text"
+                  value={imageCustomLabelInput}
+                  onChange={(e) => setImageCustomLabelInput(e.target.value)}
+                  placeholder="Custom label"
+                />
+              ) : null}
               <button type="button" onClick={addImage}>
                 Add
               </button>
             </div>
             <p className="admin-form__hint">
-              The first photo added is used as the listing's cover image.
+              Every photo needs a label — buyers see this as a caption, and it's what powers the
+              room-category tabs on the listing page. The first photo added is used as the cover image.
             </p>
-            <div className="manage-properties-page__tags">
-              {images.map((img) => (
-                <span key={img} className="manage-properties-page__tag">
-                  {img}
-                  <button type="button" onClick={() => setImages(images.filter((x) => x !== img))}>
+            <div className="manage-properties-page__photo-list">
+              {images.map((img, index) => (
+                <span key={`${img.url}-${index}`} className="manage-properties-page__photo-tag">
+                  <img src={img.url} alt="" />
+                  <span className="manage-properties-page__photo-tag-text">
+                    {img.label}
+                    <small>{img.room}</small>
+                  </span>
+                  <button type="button" onClick={() => setImages(images.filter((_, i) => i !== index))}>
                     <X size={11} strokeWidth={2} aria-hidden="true" />
                   </button>
                 </span>

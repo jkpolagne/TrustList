@@ -1,5 +1,5 @@
 import { properties as seedProperties } from "../mocks";
-import type { HazardInfo, ListingDraft, Property } from "../types";
+import type { HazardInfo, ListingDraft, Property, PropertyImage } from "../types";
 import { withDelay } from "./delay";
 import { loadPersisted, savePersisted } from "./persist";
 
@@ -15,6 +15,16 @@ const UNASSESSED_HAZARD_INFO: HazardInfo = {
   dataSource: "Based on PHIVOLCS and PAGASA hazard maps — verify with local government for updated data",
 };
 
+/** A stale localStorage record from before the labeled-gallery change stores `images`
+ * as plain URL strings — wrap those into the new shape instead of letting `.url` /
+ * `.label` reads on a raw string blank the page. */
+function normalizeImage(image: PropertyImage | string): PropertyImage {
+  if (typeof image === "string") {
+    return { url: image, label: "", room: "Other" };
+  }
+  return image;
+}
+
 /** Backfills fields added to the Property model after a browser may have already cached
  * older records in localStorage — without this, a stale cached property missing e.g.
  * `amenities` crashes any component that calls `.length` on it (no error boundary exists,
@@ -26,8 +36,10 @@ function normalizeProperty(p: Property): Property {
     features: p.features ?? [],
     amenities: p.amenities ?? [],
     nearbyLandmarks: p.nearbyLandmarks ?? [],
-    images: p.images ?? [],
+    images: (p.images ?? []).map(normalizeImage),
     hazardInfo: p.hazardInfo ?? UNASSESSED_HAZARD_INFO,
+    consultantVisited: p.consultantVisited ?? false,
+    nearbyEstablishments: p.nearbyEstablishments ?? [],
   };
 }
 
@@ -142,6 +154,8 @@ export function createListingFromInquiry(
     nearbyLandmarks: [],
     images: [],
     hazardInfo: UNASSESSED_HAZARD_INFO,
+    consultantVisited: false,
+    nearbyEstablishments: [],
   };
   properties.push(property);
   persist();
