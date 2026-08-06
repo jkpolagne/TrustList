@@ -1,7 +1,7 @@
-import { MapPin, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
+import { Award, MapPin, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 import "./VerificationBadge.css";
 
-export type VerificationBadgeType = "prc" | "ownership" | "dhsud" | "consultant";
+export type VerificationBadgeType = "prc" | "ownership" | "dhsud" | "dhsud-registration" | "consultant";
 export type VerificationBadgeStatus = "verified" | "pending" | "expired";
 
 export interface VerificationBadgeProps {
@@ -21,7 +21,14 @@ const LABELS: Record<VerificationBadgeType, Record<VerificationBadgeStatus, stri
     pending: "Ownership Pending Review",
     expired: "Ownership Rejected",
   },
+  // Developer's License to Sell — distinct from an individual consultant's DHSUD
+  // registration below, even though both are DHSUD credentials.
   dhsud: { verified: "DHSUD Licensed", pending: "License Unverified", expired: "License Expired" },
+  "dhsud-registration": {
+    verified: "DHSUD Registered",
+    pending: "DHSUD Pending",
+    expired: "DHSUD Registered",
+  },
   consultant: { verified: "Consultant Verified", pending: "Consultant Verified", expired: "Consultant Verified" },
 };
 
@@ -32,6 +39,8 @@ export function VerificationBadge({ type, status, licenseNumber, label: labelOve
     <span className={`verification-badge verification-badge--${status}`}>
       {type === "consultant" ? (
         <MapPin size={14} strokeWidth={2} aria-hidden="true" />
+      ) : type === "dhsud" || type === "dhsud-registration" ? (
+        <Award size={14} strokeWidth={2} aria-hidden="true" />
       ) : status === "verified" ? (
         <ShieldCheck size={14} strokeWidth={2} aria-hidden="true" />
       ) : status === "expired" ? (

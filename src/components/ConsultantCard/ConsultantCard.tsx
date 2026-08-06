@@ -16,13 +16,21 @@ export function ConsultantCard({ consultant }: ConsultantCardProps) {
       <div className="consultant-card__body">
         <div className="consultant-card__top">
           <h4>{consultant.name}</h4>
-          {consultant.prcLicenseStatus !== "Unverified" ? (
-            <VerificationBadge
-              type="prc"
-              status={consultant.prcLicenseStatus === "Verified" ? "verified" : "pending"}
-              licenseNumber={consultant.prcLicenseNumber}
-            />
-          ) : null}
+          <span className="verification-badge-group">
+            {consultant.prcLicenseStatus !== "Unverified" ? (
+              <VerificationBadge
+                type="prc"
+                status={consultant.prcLicenseStatus === "Verified" ? "verified" : "pending"}
+                licenseNumber={consultant.prcLicenseNumber}
+              />
+            ) : null}
+            {consultant.dhsudRegistrationStatus !== "Not Registered" ? (
+              <VerificationBadge
+                type="dhsud-registration"
+                status={consultant.dhsudRegistrationStatus === "Registered" ? "verified" : "pending"}
+              />
+            ) : null}
+          </span>
         </div>
         <span className="consultant-card__role">{consultant.role}</span>
         <div className="consultant-card__contact">

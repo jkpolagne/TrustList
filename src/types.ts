@@ -185,6 +185,8 @@ export type ConsultantRole = "Broker" | "Sales Manager" | "Sales Person";
 export type ConsultantAccountStatus = "Active" | "Inactive";
 export type ConsultantLinkStatus = "Active" | "Inactive";
 
+export type DhsudRegistrationStatus = "Registered" | "Pending" | "Not Registered";
+
 export interface Consultant {
   id: string;
   companyId: string;
@@ -198,6 +200,11 @@ export interface Consultant {
   reportsTo?: string;
   prcLicenseNumber: string;
   prcLicenseStatus: PrcLicenseStatus;
+  /** Under PD 957, DHSUD registration is required separately from the PRC
+   * license before a broker/salesperson may legally sell subdivision lots or
+   * condominium units — PRC alone is not sufficient. */
+  dhsudRegistrationNumber: string;
+  dhsudRegistrationStatus: DhsudRegistrationStatus;
   /** Mock only — a real backend would never store this in plain text. */
   password: string;
   accountStatus: ConsultantAccountStatus;

@@ -4,10 +4,28 @@ import { EmptyState } from "../components/EmptyState";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
 import { getConsultantLinksByFirm } from "../services";
-import type { Consultant, ConsultantLinkStatus, ConsultantRole } from "../types";
+import type {
+  Consultant,
+  ConsultantLinkStatus,
+  ConsultantRole,
+  DhsudRegistrationStatus,
+  PrcLicenseStatus,
+} from "../types";
 import "./ConsultantLinks.css";
 
 const ROLE_FILTERS: Array<"All" | ConsultantRole> = ["All", "Sales Manager", "Sales Person"];
+
+function prcPillClass(status: PrcLicenseStatus): string {
+  if (status === "Verified") return "status-pill--positive";
+  if (status === "Pending") return "status-pill--pending";
+  return "status-pill--negative";
+}
+
+function dhsudPillClass(status: DhsudRegistrationStatus): string {
+  if (status === "Registered") return "status-pill--positive";
+  if (status === "Pending") return "status-pill--pending";
+  return "status-pill--negative";
+}
 
 export function ConsultantLinks() {
   const { session } = useAuth();
@@ -96,6 +114,8 @@ export function ConsultantLinks() {
                 <th>Consultant</th>
                 <th>Role</th>
                 <th>Link</th>
+                <th>PRC Status</th>
+                <th>DHSUD Status</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -118,6 +138,16 @@ export function ConsultantLinks() {
                           {copiedId === c.id ? "Copied" : "Copy"}
                         </button>
                       </div>
+                    </td>
+                    <td>
+                      <span className={`status-pill ${prcPillClass(c.prcLicenseStatus)}`}>
+                        {c.prcLicenseStatus}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`status-pill ${dhsudPillClass(c.dhsudRegistrationStatus)}`}>
+                        {c.dhsudRegistrationStatus}
+                      </span>
                     </td>
                     <td>
                       <span

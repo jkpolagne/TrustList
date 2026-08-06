@@ -9,6 +9,7 @@ import type {
   Consultant,
   ConsultantAccountStatus,
   ConsultantRole,
+  DhsudRegistrationStatus,
   PrcLicenseStatus,
 } from "../types";
 import "./ConsultantAccounts.css";
@@ -22,6 +23,8 @@ interface ConsultantFormState {
   password: string;
   prcLicenseNumber: string;
   prcLicenseStatus: PrcLicenseStatus;
+  dhsudRegistrationNumber: string;
+  dhsudRegistrationStatus: DhsudRegistrationStatus;
   role: ConsultantRole;
   reportsTo: string;
   accountStatus: ConsultantAccountStatus;
@@ -36,6 +39,8 @@ const EMPTY_FORM: ConsultantFormState = {
   password: "",
   prcLicenseNumber: "",
   prcLicenseStatus: "Pending",
+  dhsudRegistrationNumber: "",
+  dhsudRegistrationStatus: "Pending",
   role: "Sales Person",
   reportsTo: "",
   accountStatus: "Active",
@@ -51,6 +56,8 @@ function consultantToForm(c: Consultant): ConsultantFormState {
     password: c.password,
     prcLicenseNumber: c.prcLicenseNumber,
     prcLicenseStatus: c.prcLicenseStatus,
+    dhsudRegistrationNumber: c.dhsudRegistrationNumber,
+    dhsudRegistrationStatus: c.dhsudRegistrationStatus,
     role: c.role,
     reportsTo: c.reportsTo ?? "",
     accountStatus: c.accountStatus,
@@ -144,6 +151,8 @@ export function ConsultantAccounts() {
       password: form.password,
       prcLicenseNumber: form.prcLicenseNumber,
       prcLicenseStatus: form.prcLicenseStatus,
+      dhsudRegistrationNumber: form.dhsudRegistrationNumber,
+      dhsudRegistrationStatus: form.dhsudRegistrationStatus,
       role: form.role,
       reportsTo: form.role === "Broker" ? undefined : form.reportsTo || undefined,
       accountStatus: form.accountStatus,
@@ -391,36 +400,77 @@ export function ConsultantAccounts() {
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
               </div>
-              <div className="admin-form__row">
-                <div className="admin-form__field">
-                  <label htmlFor="prcNumber">PRC license number</label>
-                  <input
-                    id="prcNumber"
-                    type="text"
-                    required
-                    value={form.prcLicenseNumber}
-                    onChange={(e) => setForm({ ...form, prcLicenseNumber: e.target.value })}
-                  />
+              <div className="admin-form__credentials-group">
+                <span className="admin-form__credentials-label">PRC License</span>
+                <div className="admin-form__row">
+                  <div className="admin-form__field">
+                    <label htmlFor="prcNumber">PRC license number</label>
+                    <input
+                      id="prcNumber"
+                      type="text"
+                      required
+                      value={form.prcLicenseNumber}
+                      onChange={(e) => setForm({ ...form, prcLicenseNumber: e.target.value })}
+                    />
+                  </div>
+                  <div className="admin-form__field">
+                    <label htmlFor="prcStatus">PRC license status</label>
+                    <select
+                      id="prcStatus"
+                      value={form.prcLicenseStatus}
+                      onChange={(e) =>
+                        setForm({ ...form, prcLicenseStatus: e.target.value as PrcLicenseStatus })
+                      }
+                    >
+                      <option value="Verified">Verified</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Unverified">Unverified</option>
+                    </select>
+                  </div>
                 </div>
-                <div className="admin-form__field">
-                  <label htmlFor="prcStatus">PRC license status</label>
-                  <select
-                    id="prcStatus"
-                    value={form.prcLicenseStatus}
-                    onChange={(e) =>
-                      setForm({ ...form, prcLicenseStatus: e.target.value as PrcLicenseStatus })
-                    }
-                  >
-                    <option value="Verified">Verified</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Unverified">Unverified</option>
-                  </select>
-                </div>
+                <p className="admin-form__hint">
+                  Drives the public "PRC Verified" trust badge — only Verified shows the green
+                  badge; Unverified shows none.
+                </p>
               </div>
-              <p className="admin-form__hint">
-                This drives the public "PRC Verified" trust badge shown on listings this
-                consultant refers — only Verified shows the green badge; Unverified shows none.
-              </p>
+
+              <div className="admin-form__credentials-group">
+                <span className="admin-form__credentials-label">DHSUD Registration</span>
+                <div className="admin-form__row">
+                  <div className="admin-form__field">
+                    <label htmlFor="dhsudNumber">DHSUD registration number</label>
+                    <input
+                      id="dhsudNumber"
+                      type="text"
+                      placeholder="e.g. DHSUD-V-2024-0847"
+                      value={form.dhsudRegistrationNumber}
+                      onChange={(e) => setForm({ ...form, dhsudRegistrationNumber: e.target.value })}
+                    />
+                  </div>
+                  <div className="admin-form__field">
+                    <label htmlFor="dhsudStatus">DHSUD registration status</label>
+                    <select
+                      id="dhsudStatus"
+                      value={form.dhsudRegistrationStatus}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          dhsudRegistrationStatus: e.target.value as DhsudRegistrationStatus,
+                        })
+                      }
+                    >
+                      <option value="Registered">Registered</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Not Registered">Not Registered</option>
+                    </select>
+                  </div>
+                </div>
+                <p className="admin-form__hint">
+                  Under PD 957, DHSUD registration is required separately from the PRC license
+                  before this consultant may legally sell subdivision lots or condo units — PRC
+                  alone isn't enough. Drives the "DHSUD Registered" badge shown alongside PRC.
+                </p>
+              </div>
             </div>
 
             <div className="admin-form__section admin-form__section--role">

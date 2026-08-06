@@ -30,3 +30,12 @@
   font-weight: 500;
   opacity: 0.85;
 }
+
+/* Groups a PRC badge with its DHSUD counterpart so the pair reads as one unit
+   rather than two loose elements — a 4px gap, tighter than the usual 8px. */
+.verification-badge-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}

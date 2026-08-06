@@ -120,10 +120,24 @@
 }
 
 .property-card__firm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin-top: 6px;
   padding-top: 8px;
   border-top: 1px solid var(--color-border);
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-muted);
+}
+
+.property-card__firm .verification-badge {
+  padding: 2px 7px;
+  font-size: 10.5px;
+  gap: 3px;
+}
+
+.property-card__firm .verification-badge svg {
+  width: 11px;
+  height: 11px;
 }

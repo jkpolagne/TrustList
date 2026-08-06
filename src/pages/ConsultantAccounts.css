@@ -47,6 +47,28 @@
   border-left: 3px solid var(--color-gold);
 }
 
+/* PRC and DHSUD read as related-but-distinct sub-groups under the shared
+   "Credentials" heading — a divider between them, not two separate sections. */
+.admin-form__credentials-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-form__credentials-group:not(:first-child) {
+  padding-top: 14px;
+  margin-top: 2px;
+  border-top: 1px dashed var(--color-border);
+}
+
+.admin-form__credentials-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
 .consultant-accounts-page__link-success {
   display: flex;
   flex-direction: column;

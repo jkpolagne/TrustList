@@ -1,7 +1,7 @@
 import { Bath, BedDouble, MapPin, Ruler } from "lucide-react";
 import { PropertyPhoto } from "../PropertyPhoto";
 import { VerificationBadge } from "../VerificationBadge";
-import type { Property } from "../../types";
+import type { Consultant, Property } from "../../types";
 import { formatPHP } from "../../utils/finance";
 import "./PropertyCard.css";
 
@@ -10,6 +10,10 @@ interface PropertyCardProps {
   firmName: string;
   active?: boolean;
   onSelect: (id: string) => void;
+  /** The consultant the current browsing session is attributed to, when their
+   * firm matches this listing's firm — shows their credential badges so the
+   * referral's trust signal follows the buyer across every matching card. */
+  referringConsultant?: Consultant;
 }
 
 const STATUS_CLASS: Record<Property["status"], string> = {
@@ -18,7 +22,7 @@ const STATUS_CLASS: Record<Property["status"], string> = {
   Sold: "property-card__status--sold",
 };
 
-export function PropertyCard({ property, firmName, active, onSelect }: PropertyCardProps) {
+export function PropertyCard({ property, firmName, active, onSelect, referringConsultant }: PropertyCardProps) {
   const area = property.isLotOnly ? property.lotAreaSqm : property.floorAreaSqm;
 
   return (
@@ -73,7 +77,25 @@ export function PropertyCard({ property, firmName, active, onSelect }: PropertyC
           ) : null}
         </div>
 
-        <div className="property-card__firm">{firmName}</div>
+        <div className="property-card__firm">
+          <span>{firmName}</span>
+          {referringConsultant ? (
+            <span className="verification-badge-group">
+              {referringConsultant.prcLicenseStatus !== "Unverified" ? (
+                <VerificationBadge
+                  type="prc"
+                  status={referringConsultant.prcLicenseStatus === "Verified" ? "verified" : "pending"}
+                />
+              ) : null}
+              {referringConsultant.dhsudRegistrationStatus !== "Not Registered" ? (
+                <VerificationBadge
+                  type="dhsud-registration"
+                  status={referringConsultant.dhsudRegistrationStatus === "Registered" ? "verified" : "pending"}
+                />
+              ) : null}
+            </span>
+          ) : null}
+        </div>
       </div>
     </button>
   );

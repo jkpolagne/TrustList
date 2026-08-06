@@ -6,6 +6,7 @@ import { PropertyMap } from "../components/PropertyMap";
 import { EmptyState } from "../components/EmptyState";
 import { Skeleton } from "../components/Skeleton";
 import { useCompare } from "../context/CompareContext";
+import { useReferral } from "../context/ReferralContext";
 import { getDevelopers, getFirms, getPublicProperties } from "../services";
 import type { Developer, Firm, Property, PropertyType } from "../types";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +38,7 @@ const DEFAULT_FILTERS: Filters = {
 export function Browse() {
   const navigate = useNavigate();
   const { compareIds, isComparing, isFull, addToCompare } = useCompare();
+  const { consultant: referringConsultant } = useReferral();
 
   const [firms, setFirms] = useState<Firm[]>([]);
   const [developers, setDevelopers] = useState<Developer[]>([]);
@@ -300,6 +302,11 @@ export function Browse() {
                     firmName={firmsById.get(property.companyId)?.name ?? ""}
                     active={property.id === selectedId}
                     onSelect={setSelectedId}
+                    referringConsultant={
+                      referringConsultant && referringConsultant.companyId === property.companyId
+                        ? referringConsultant
+                        : undefined
+                    }
                   />
                 ))}
               </div>

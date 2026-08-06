@@ -6,7 +6,18 @@ import { loadPersisted, savePersisted } from "./persist";
 
 const STORAGE_KEY = "trustlist.consultants";
 
-const consultants: Consultant[] = loadPersisted(STORAGE_KEY, seedConsultants);
+/** Backfills fields added to the Consultant model after a browser may have already
+ * cached older records in localStorage — same defensive pattern used elsewhere in
+ * this service layer, so a stale cached consultant never renders a broken badge. */
+function normalizeConsultant(c: Consultant): Consultant {
+  return {
+    ...c,
+    dhsudRegistrationNumber: c.dhsudRegistrationNumber ?? "",
+    dhsudRegistrationStatus: c.dhsudRegistrationStatus ?? "Not Registered",
+  };
+}
+
+const consultants: Consultant[] = loadPersisted(STORAGE_KEY, seedConsultants).map(normalizeConsultant);
 
 function persist(): void {
   savePersisted(STORAGE_KEY, consultants);
