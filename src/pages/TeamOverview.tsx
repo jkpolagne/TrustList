@@ -115,6 +115,7 @@ export function TeamOverview() {
                 <tr>
                   <th>Consultant</th>
                   <th>PRC License</th>
+                  <th>DHSUD</th>
                   <th className="data-table__numeric">Clients</th>
                   <th className="data-table__numeric">Active</th>
                   <th className="data-table__numeric">Sales Total</th>
@@ -138,6 +139,16 @@ export function TeamOverview() {
                         />
                       ) : (
                         <span className="status-pill status-pill--negative">Unverified</span>
+                      )}
+                    </td>
+                    <td>
+                      {row.consultant.dhsudRegistrationStatus !== "Not Registered" ? (
+                        <VerificationBadge
+                          type="dhsud-registration"
+                          status={row.consultant.dhsudRegistrationStatus === "Registered" ? "verified" : "pending"}
+                        />
+                      ) : (
+                        <span className="status-pill status-pill--negative">Not Registered</span>
                       )}
                     </td>
                     <td className="data-table__numeric">{row.clientCount}</td>

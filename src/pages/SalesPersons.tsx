@@ -87,6 +87,7 @@ export function SalesPersons() {
                 <tr>
                   <th>Sales Person</th>
                   <th>PRC License</th>
+                  <th>DHSUD</th>
                   <th className="data-table__numeric">Total Clients</th>
                   <th className="data-table__numeric">Active Clients</th>
                   <th className="data-table__numeric">Sales Total</th>
@@ -106,6 +107,16 @@ export function SalesPersons() {
                         />
                       ) : (
                         <span className="status-pill status-pill--negative">Unverified</span>
+                      )}
+                    </td>
+                    <td>
+                      {sp.dhsudRegistrationStatus !== "Not Registered" ? (
+                        <VerificationBadge
+                          type="dhsud-registration"
+                          status={sp.dhsudRegistrationStatus === "Registered" ? "verified" : "pending"}
+                        />
+                      ) : (
+                        <span className="status-pill status-pill--negative">Not Registered</span>
                       )}
                     </td>
                     <td className="data-table__numeric">{totalClients}</td>

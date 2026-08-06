@@ -72,6 +72,12 @@ function prcPillClass(status: PrcLicenseStatus): string {
   return "status-pill--negative";
 }
 
+function dhsudPillClass(status: DhsudRegistrationStatus): string {
+  if (status === "Registered") return "status-pill--positive";
+  if (status === "Pending") return "status-pill--pending";
+  return "status-pill--negative";
+}
+
 export function ConsultantAccounts() {
   const { session } = useAuth();
   const [consultants, setConsultants] = useState<Consultant[]>([]);
@@ -248,6 +254,7 @@ export function ConsultantAccounts() {
                 <th>Email</th>
                 <th>Contact</th>
                 <th>PRC License</th>
+                <th>DHSUD</th>
                 <th>Reports To</th>
                 <th>Account</th>
                 <th />
@@ -265,6 +272,14 @@ export function ConsultantAccounts() {
                       <span>{c.prcLicenseNumber}</span>
                       <span className={`status-pill ${prcPillClass(c.prcLicenseStatus)}`}>
                         {c.prcLicenseStatus}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="consultant-accounts-page__prc">
+                      <span>{c.dhsudRegistrationNumber || "—"}</span>
+                      <span className={`status-pill ${dhsudPillClass(c.dhsudRegistrationStatus)}`}>
+                        {c.dhsudRegistrationStatus}
                       </span>
                     </div>
                   </td>
