@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
-import { getEligibleCommissionRequests, type EligibleCommissionRequest } from "../services";
+import {
+  getBlockedCommissionRequests,
+  getEligibleCommissionRequests,
+  type BlockedCommissionRequest,
+  type EligibleCommissionRequest,
+} from "../services";
 import { daysSince, getPayoutAgingTier } from "../utils/milestones";
 import { formatPHP } from "../utils/finance";
 import "./ExpectedPayouts.css";
@@ -20,15 +25,28 @@ const TIER_PILL: Record<string, string> = {
   red: "status-pill--negative",
 };
 
+type Row =
+  | { kind: "eligible"; request: EligibleCommissionRequest }
+  | { kind: "blocked"; request: BlockedCommissionRequest };
+
 export function ExpectedPayouts() {
   const { session } = useAuth();
-  const [requests, setRequests] = useState<EligibleCommissionRequest[]>([]);
+  const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!session?.firmId) return;
-    getEligibleCommissionRequests(session.firmId).then((data) => {
-      setRequests(data.sort((a, b) => new Date(a.detectedDate).getTime() - new Date(b.detectedDate).getTime()));
+    Promise.all([
+      getEligibleCommissionRequests(session.firmId),
+      getBlockedCommissionRequests(session.firmId),
+    ]).then(([eligible, blocked]) => {
+      const combined: Row[] = [
+        ...eligible.map((request): Row => ({ kind: "eligible", request })),
+        ...blocked.map((request): Row => ({ kind: "blocked", request })),
+      ].sort(
+        (a, b) => new Date(a.request.detectedDate).getTime() - new Date(b.request.detectedDate).getTime(),
+      );
+      setRows(combined);
       setLoading(false);
     });
   }, [session?.firmId]);
@@ -39,13 +57,15 @@ export function ExpectedPayouts() {
         <h1>Expected Developer Payout</h1>
         <p>
           Every tranche reached firm-wide with no voucher created yet — the anti-"walang
-          transmittal" list. Aging turns amber past 7 days, red past 14.
+          transmittal" list. Aging turns amber past 7 days, red past 14. Bank-financing tranches
+          held up by an incomplete requirements checklist stay listed as "Awaiting Documents"
+          instead of disappearing, so nothing owed goes unseen.
         </p>
       </header>
 
       {loading ? (
         <Skeleton height={360} />
-      ) : requests.length === 0 ? (
+      ) : rows.length === 0 ? (
         <EmptyState
           icon={Clock3}
           title="Nothing awaiting payout"
@@ -63,12 +83,13 @@ export function ExpectedPayouts() {
                 <th>Recipient</th>
                 <th className="data-table__numeric">Expected Amount</th>
                 <th>Expected Since</th>
-                <th>Aging</th>
+                <th>Status</th>
                 <th />
               </tr>
             </thead>
             <tbody>
-              {requests.map((r) => {
+              {rows.map((row) => {
+                const r = row.request;
                 const tier = getPayoutAgingTier(r.detectedDate);
                 const days = daysSince(r.detectedDate);
                 return (
@@ -85,17 +106,32 @@ export function ExpectedPayouts() {
                     </td>
                     <td>{formatDate(r.detectedDate)}</td>
                     <td>
-                      <span className={`status-pill ${TIER_PILL[tier]}`}>
-                        {TIER_LABEL[tier]} · {days}d
-                      </span>
+                      {row.kind === "blocked" ? (
+                        <span className="status-pill status-pill--negative">
+                          Awaiting Documents · {row.request.requirementsState}
+                        </span>
+                      ) : (
+                        <span className={`status-pill ${TIER_PILL[tier]}`}>
+                          {TIER_LABEL[tier]} · {days}d
+                        </span>
+                      )}
                     </td>
                     <td>
-                      <Link
-                        to={`/app/vouchers/new?client=${r.client.id}&tranche=${r.trancheNumber}&role=${encodeURIComponent(r.breakdown.role)}`}
-                        className="expected-payouts-page__create-link"
-                      >
-                        Create Voucher
-                      </Link>
+                      {row.kind === "blocked" ? (
+                        <Link
+                          to={`/app/clients/${r.client.id}`}
+                          className="expected-payouts-page__create-link"
+                        >
+                          Complete Checklist
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`/app/vouchers/new?client=${r.client.id}&tranche=${r.trancheNumber}&role=${encodeURIComponent(r.breakdown.role)}`}
+                          className="expected-payouts-page__create-link"
+                        >
+                          Create Voucher
+                        </Link>
+                      )}
                     </td>
                   </tr>
                 );

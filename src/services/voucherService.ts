@@ -7,6 +7,7 @@ import {
   round2,
   type TrancheBreakdown,
 } from "../utils/commissionEngine";
+import { getRequirementsState, type RequirementsState } from "../utils/requirements";
 import { getClientsByFirm } from "./clientService";
 import { getConsultantsByFirm } from "./consultantService";
 import { withDelay } from "./delay";
@@ -47,10 +48,17 @@ export interface EligibleCommissionRequest {
   consultantName: string;
 }
 
-/** The single source of truth for "money owed but not yet paperworked": every entitled
- * role/tranche combo with a milestone reached and no voucher record yet. Feeds the broker's
- * eligible-requests count, the Create Voucher picker, and the Expected Developer Payout view. */
-export async function getEligibleCommissionRequests(companyId: string): Promise<EligibleCommissionRequest[]> {
+/** A tranche that was reached but can't be actioned yet because the Bank client's
+ * requirements checklist isn't at the phase this tranche needs. Surfaced separately from
+ * `EligibleCommissionRequest` so it stays visible to the broker instead of silently vanishing —
+ * the whole point of Expected Developer Payout is that nothing owed goes unseen. */
+export interface BlockedCommissionRequest extends EligibleCommissionRequest {
+  requirementsState: RequirementsState;
+}
+
+async function buildCommissionCandidates(
+  companyId: string,
+): Promise<{ eligible: EligibleCommissionRequest[]; blocked: BlockedCommissionRequest[] }> {
   const [milestones, clients, consultants, developers, properties, firmVouchers] = await Promise.all([
     getMilestoneEventsByFirm(companyId),
     getClientsByFirm(companyId),
@@ -65,7 +73,8 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
   const developersById = new Map(developers.map((d) => [d.id, d]));
   const consultantsById = new Map(consultants.map((c) => [c.id, c]));
 
-  const results: EligibleCommissionRequest[] = [];
+  const eligible: EligibleCommissionRequest[] = [];
+  const blocked: BlockedCommissionRequest[] = [];
 
   for (const milestone of milestones) {
     const client = clientsById.get(milestone.clientId);
@@ -74,9 +83,7 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
     const developer = property?.developerId ? developersById.get(property.developerId) : undefined;
     if (!property || !developer) continue;
 
-    // A tranche whose requirements checklist isn't where it needs to be yet is not
-    // "eligible" at all — the broker shouldn't even see it as owed, let alone action it.
-    if (isTrancheReleaseBlocked(client, milestone.trancheNumber)) continue;
+    const isBlocked = isTrancheReleaseBlocked(client, milestone.trancheNumber);
 
     const breakdowns = computeTrancheBreakdown(client, developer, consultants, milestone.trancheNumber);
     for (const breakdown of breakdowns) {
@@ -88,7 +95,7 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
       );
       if (alreadyVouchered) continue;
 
-      results.push({
+      const entry: EligibleCommissionRequest = {
         milestoneEventId: milestone.id,
         client,
         developer,
@@ -98,11 +105,34 @@ export async function getEligibleCommissionRequests(companyId: string): Promise<
         detectedDate: milestone.detectedDate,
         breakdown,
         consultantName: consultantsById.get(breakdown.consultantId)?.name ?? "—",
-      });
+      };
+
+      if (isBlocked) {
+        blocked.push({ ...entry, requirementsState: getRequirementsState(client) });
+      } else {
+        eligible.push(entry);
+      }
     }
   }
 
-  return results.sort((a, b) => new Date(a.detectedDate).getTime() - new Date(b.detectedDate).getTime());
+  return { eligible, blocked };
+}
+
+/** The single source of truth for "money owed and ready to paperwork": every entitled
+ * role/tranche combo with a milestone reached, no voucher record yet, and (for Bank clients)
+ * the required requirements-checklist phase already complete. Feeds the broker's
+ * eligible-requests count, the Create Voucher picker, and the Expected Developer Payout view. */
+export async function getEligibleCommissionRequests(companyId: string): Promise<EligibleCommissionRequest[]> {
+  const { eligible } = await buildCommissionCandidates(companyId);
+  return eligible.sort((a, b) => new Date(a.detectedDate).getTime() - new Date(b.detectedDate).getTime());
+}
+
+/** Tranches reached but held back solely because the Bank client's requirements checklist
+ * isn't at the needed phase yet — shown on Expected Developer Payout as "Awaiting Documents"
+ * so the broker knows money is owed and why it isn't payable, rather than seeing nothing. */
+export async function getBlockedCommissionRequests(companyId: string): Promise<BlockedCommissionRequest[]> {
+  const { blocked } = await buildCommissionCandidates(companyId);
+  return blocked.sort((a, b) => new Date(a.detectedDate).getTime() - new Date(b.detectedDate).getTime());
 }
 
 export interface CreateVoucherInput {

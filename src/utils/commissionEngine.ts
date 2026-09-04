@@ -1,5 +1,5 @@
 import type { Client, ConsultantRole, Consultant, Developer } from "../types";
-import { getRequirementsState } from "./requirements";
+import { getRequirementsState, type RequirementsState } from "./requirements";
 
 export function round2(amount: number): number {
   return Math.round(amount * 100) / 100;
@@ -82,12 +82,19 @@ export function formatReleaseNumber(trancheNumber: number, totalTranches: number
   return `${trancheNumber} of ${totalTranches}`;
 }
 
-/** Bank Financing gates the final RELEASE step only — tranche 1 needs the Basic phase
- * complete, later tranches need the full Complete phase. Cash and In-House are never gated.
- * Vouchers can still be created/signed while blocked; only the check-release action is held. */
+/** Bank Financing gates the whole tranche, not just the final check — tranche 1 needs the
+ * Basic phase complete, later tranches need the full Complete phase. Cash and In-House are
+ * never gated. A blocked tranche never becomes an eligible commission request at all, so no
+ * voucher can be created for it until the required documents are checked off. */
 export function isTrancheReleaseBlocked(client: Client, trancheNumber: number): boolean {
   if (client.paymentMethod !== "Bank Financing") return false;
   const state = getRequirementsState(client);
   if (trancheNumber <= 1) return state === "Incomplete";
   return state !== "Complete";
+}
+
+/** What a blocked tranche is actually waiting on, for display next to the aging indicator. */
+export function trancheRequirementsGate(client: Client, trancheNumber: number): RequirementsState | null {
+  if (!isTrancheReleaseBlocked(client, trancheNumber)) return null;
+  return getRequirementsState(client);
 }
