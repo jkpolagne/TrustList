@@ -6,15 +6,17 @@ import { Modal } from "../components/Modal";
 import { Skeleton } from "../components/Skeleton";
 import { useAuth } from "../context/AuthContext";
 import { createDeveloper, getDevelopersByFirm, updateDeveloper } from "../services";
-import type { Developer, DeveloperStatus, DhsudLicenseStatus } from "../types";
+import type { Developer, DeveloperStatus, DhsudLicenseStatus, EwtRate } from "../types";
 import "./ManageDevelopers.css";
 
 const DHSUD_LICENSE_STATUSES: DhsudLicenseStatus[] = ["Active", "Expired", "Not Available"];
+const EWT_RATES: EwtRate[] = [10, 15];
 
 interface DeveloperFormState {
   name: string;
   status: DeveloperStatus;
   totalCutPercent: string;
+  ewtRate: string;
   directBroker: string;
   directSalesManager: string;
   referredBroker: string;
@@ -34,6 +36,7 @@ const EMPTY_FORM: DeveloperFormState = {
   name: "",
   status: "Active",
   totalCutPercent: "8",
+  ewtRate: "10",
   directBroker: "2",
   directSalesManager: "6",
   referredBroker: "2",
@@ -54,6 +57,7 @@ function developerToForm(dev: Developer): DeveloperFormState {
     name: dev.name,
     status: dev.status,
     totalCutPercent: String(dev.totalCutPercent),
+    ewtRate: String(dev.ewtRate),
     directBroker: String(dev.commissionRates.direct.broker),
     directSalesManager: String(dev.commissionRates.direct.salesManager),
     referredBroker: String(dev.commissionRates.referred.broker),
@@ -124,6 +128,7 @@ export function ManageDevelopers() {
       name: form.name,
       status: form.status,
       totalCutPercent: Number(form.totalCutPercent),
+      ewtRate: Number(form.ewtRate) as EwtRate,
       commissionRates: {
         direct: {
           broker: Number(form.directBroker),
@@ -209,6 +214,7 @@ export function ManageDevelopers() {
               <tr>
                 <th>Developer</th>
                 <th className="data-table__numeric">Total Cut</th>
+                <th className="data-table__numeric">EWT</th>
                 <th>Direct (Broker / SM)</th>
                 <th>Referred (Broker / SM / SP)</th>
                 <th>Milestone (Cash / In-House / Bank)</th>
@@ -221,6 +227,7 @@ export function ManageDevelopers() {
                 <tr key={dev.id}>
                   <td className="manage-developers-page__name">{dev.name}</td>
                   <td className="data-table__numeric money">{dev.totalCutPercent}%</td>
+                  <td className="data-table__numeric">{dev.ewtRate}%</td>
                   <td>
                     {dev.commissionRates.direct.broker}% / {dev.commissionRates.direct.salesManager}%
                   </td>
@@ -296,6 +303,20 @@ export function ManageDevelopers() {
               >
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+            <div className="admin-form__field">
+              <label htmlFor="devEwtRate">EWT rate</label>
+              <select
+                id="devEwtRate"
+                value={form.ewtRate}
+                onChange={(e) => setForm({ ...form, ewtRate: e.target.value })}
+              >
+                {EWT_RATES.map((rate) => (
+                  <option key={rate} value={rate}>
+                    {rate}%
+                  </option>
+                ))}
               </select>
             </div>
           </div>

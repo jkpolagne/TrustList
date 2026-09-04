@@ -16,6 +16,7 @@ function normalizeDeveloper(d: Developer): Developer {
     dhsudLicenseStatus: d.dhsudLicenseStatus ?? "Not Available",
     totalProjectsCompleted: d.totalProjectsCompleted ?? 0,
     about: d.about ?? "",
+    ewtRate: d.ewtRate ?? 10,
   };
 }
 

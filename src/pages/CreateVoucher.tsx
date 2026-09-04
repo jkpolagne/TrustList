@@ -187,7 +187,7 @@ export function CreateVoucher() {
                     <dd className="money">{formatPHP(selected.breakdown.grossCommission)}</dd>
                   </div>
                   <div>
-                    <dt>Less EWT (10%)</dt>
+                    <dt>Less EWT ({selected.developer.ewtRate}%)</dt>
                     <dd className="money">{formatPHP(selected.breakdown.lessEwt)}</dd>
                   </div>
                 </dl>

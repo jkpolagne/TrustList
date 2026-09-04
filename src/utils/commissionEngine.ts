@@ -63,7 +63,7 @@ export function computeTrancheBreakdown(
   return getEntitledRoles(client, developer, allConsultants).map((entitlement) => {
     const totalCommissionForRole = round2(client.contractPrice * (entitlement.ratePercent / 100));
     const grossCommission = round2(totalCommissionForRole / client.totalTranches);
-    const lessEwt = round2(grossCommission * 0.1);
+    const lessEwt = round2(grossCommission * (developer.ewtRate / 100));
     const totalCommissionDue = round2(grossCommission - lessEwt);
     return {
       ...entitlement,

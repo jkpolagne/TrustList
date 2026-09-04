@@ -43,6 +43,10 @@ export interface CommissionSplit {
 
 export type DeveloperStatus = "Active" | "Inactive";
 export type DhsudLicenseStatus = "Active" | "Expired" | "Not Available";
+/** Expanded Withholding Tax rate applied to this developer's commission vouchers —
+ * negotiated per developer, not a system-wide constant. 10% is the standard BIR rate;
+ * 15% applies to developers withheld against under the higher individual-payee bracket. */
+export type EwtRate = 10 | 15;
 
 export interface RequiredMilestonePercents {
   cash: number;
@@ -62,6 +66,7 @@ export interface Developer {
   };
   /** Minimum % of contract price paid before the first commission tranche is due, per method. */
   requiredMilestonePercent: RequiredMilestonePercents;
+  ewtRate: EwtRate;
   establishedYear: number;
   dhsudLicenseNumber: string;
   dhsudLicenseStatus: DhsudLicenseStatus;

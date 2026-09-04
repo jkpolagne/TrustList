@@ -90,6 +90,13 @@ Sale type is determined by the consultant link: a buyer who arrived
 through a Sales Person's unique link = Referred Sale; otherwise Direct.
 Stored as an explicit sale_type field, never inferred at display time.
 
+EWT (Expanded Withholding Tax) is also negotiated PER DEVELOPER, not a
+flat system-wide 10% — confirmed against real 2022 commission records
+from Advench Realty. Developer.ewt_rate is 10 or 15 (percent), defaulting
+to 10, set on the same Add Developer form as the commission split rates.
+The commission engine reads the sale's developer's ewt_rate when
+computing a voucher's "less EWT" line — never hardcode 10%.
+
 Payment methods and tranche release:
 - Cash: 1 tranche, 100% of commission on full payment
 - In-House financing: 4 tranches at 25%/50%/75%/100% of contract price
@@ -105,10 +112,10 @@ Signature) → consultant reviews → signs (or disputes back to broker) →
 broker preps check (check no., bank, date) → Check Ready → Released →
 receipt. Voucher fields: developer, date disbursed, paid to, buyer, RS
 date, NTCP, release number (e.g. 2 of 4), rate %, block/lot, check
-number, bank, gross commission, less EWT (10%), less ADCOM, total
-commission due, less misc tax, net commission receivable, other
-deductions, approved by (broker + e-signature), received by (consultant
-+ e-signature).
+number, bank, gross commission, less EWT (per the developer's ewt_rate
+— 10% or 15%, see Commission logic), less ADCOM, total commission due,
+less misc tax, net commission receivable, other deductions, approved by
+(broker + e-signature), received by (consultant + e-signature).
 
 ## Requirements checklist (gates Bank-financing tranches)
 Client has employment_status: OFW | Locally Employed | Self-Employed.
@@ -146,8 +153,9 @@ Firms (3 minimum):
 - Bicol Homes Realty — Naga City
 - Coastline Properties — Legazpi City
 Developers: Golden Horizon Developers (8% total cut, Direct 2%/6%,
-Referred 2%/2%/4%), plus one more developer with slightly different
-rates to prove rates are per-developer.
+Referred 2%/2%/4%, EWT 10%), plus three more developers with slightly
+different commission and EWT rates (10% or 15%) to prove both are
+negotiated per-developer, not system-wide.
 Properties: Lot 14 Greenview Estates (₱1,500,000, Pili, developer-sourced,
 available), Unit 4B Riverside Homes (₱2,300,000, Naga, reserved), plus
 4–6 more across the 3 firms, different price points and bedroom counts,

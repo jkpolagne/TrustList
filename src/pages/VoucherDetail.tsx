@@ -246,7 +246,13 @@ export function VoucherDetail() {
               <dd className="money">{formatPHP(voucher.grossCommission)}</dd>
             </div>
             <div>
-              <dt>Less EWT (10%)</dt>
+              <dt>
+                Less EWT (
+                {voucher.grossCommission
+                  ? Math.round((voucher.lessEwt / voucher.grossCommission) * 100)
+                  : 0}
+                %)
+              </dt>
               <dd className="money">{formatPHP(voucher.lessEwt)}</dd>
             </div>
             <div>
